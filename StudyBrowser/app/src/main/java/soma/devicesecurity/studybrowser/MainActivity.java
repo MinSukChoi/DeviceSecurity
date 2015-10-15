@@ -42,33 +42,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
     class WebClient extends WebViewClient {
-        private int delay = 1000;
-        private boolean isRedirected;
+        private int delay = 0;
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
             view.loadUrl(url);
-            isRedirected = true;
             return true;
         }
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
 
-            if (!isRedirected) {
+            if (imageView_block.getVisibility() == View.INVISIBLE) {
                 imageView_block.setVisibility(View.VISIBLE);
                 Log.v("TEST", "HEHE");
+                delay += 1000;
             }
 
-            isRedirected = false;
+            //isRedirected = false;
         }
         public void onPageFinished(WebView view, String url) {
-            if(!isRedirected) {
+            if(imageView_block.getVisibility() == View.VISIBLE) {
                 final Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         imageView_block.setVisibility(View.INVISIBLE);
                     }
-                }, 1000);
-            delay *= 2;
+                }, delay);
             Log.v("TEST", ""+delay);
             }
         }
