@@ -67,9 +67,7 @@
         </receiver>
         <receiver android:name=".AlarmReceiver" />
 
-        <activity android:name=".Activities.KeyChangeActivity" >
-        </activity>
-        <activity android:name=".Activities.CheckPasswordActivity" >
+        <activity android:name=".Activities.PasswordActivity" >
         </activity>
     </application>
 

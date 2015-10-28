@@ -6,7 +6,7 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.SwitchPreference;
 
-import com.example.park.myapplication.Activities.KeyChangeActivity;
+import com.example.park.myapplication.Activities.PasswordActivity;
 
 /**
  * Created by PARK on 15. 10. 20..
@@ -47,7 +47,7 @@ public class SettingActivity extends PreferenceActivity implements Preference.On
     public boolean onPreferenceClick(Preference preference)
     {
         if(preference.getKey().equals("keychangepassword")) {
-            Intent intent = new Intent(this, KeyChangeActivity.class);
+            Intent intent = new Intent(this, PasswordActivity.class);
             startActivityForResult(intent, 0);
         } else if(preference.getKey().equals("keyfindpassword")) {
 
