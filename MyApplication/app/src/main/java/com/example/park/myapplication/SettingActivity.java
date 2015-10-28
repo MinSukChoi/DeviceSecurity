@@ -10,7 +10,7 @@ import android.preference.SwitchPreference;
  * Created by PARK on 15. 10. 20..
  */
 public class SettingActivity extends PreferenceActivity implements Preference.OnPreferenceClickListener {
-
+    private static final String TAG = "Setting";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +44,6 @@ public class SettingActivity extends PreferenceActivity implements Preference.On
     @Override
     public boolean onPreferenceClick(Preference preference)
     {
-        // 도움말 선택시
         if(preference.getKey().equals("keychangepassword")) {
 
 
@@ -52,11 +51,11 @@ public class SettingActivity extends PreferenceActivity implements Preference.On
 
 
         } else if(preference.getKey().equals("keylock")) {
-            Intent intent = new Intent(this, LockReservActivity.class);
-            startActivityForResult(intent, 0);
+            Intent intent = new Intent(this, ReservActivity.class);
+            startActivity(intent);
         } else if(preference.getKey().equals("keyemergency")) {
-
-
+            Intent intent = new Intent(this, SettingAlertActivity.class);
+            startActivity(intent);
         } else if(preference.getKey().equals("keybreak")) {
 
 
@@ -68,9 +67,7 @@ public class SettingActivity extends PreferenceActivity implements Preference.On
 
         } else if(preference.getKey().equals("keycontact")) {
 
-
         }
-
 
         return false;
     }

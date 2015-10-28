@@ -1,16 +1,22 @@
 package com.example.park.myapplication;
 
+import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.KeyguardManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.PixelFormat;
 import android.os.Handler;
 import android.os.IBinder;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,20 +32,24 @@ import java.util.TimerTask;
  * Created by PARK on 15. 10. 1..
  */
 public class ScreenService extends Service {
-//    BroadcastReceiver mReceiver;
-    private ScreenReceiver mReceiver = null;
-//    NotificationManager notiManager;
-//    Notification noti;
+    private static final String TAG = "Service";
+    private BootReceiver mReceiver = null;
     public static View view;
     private static WindowManager mWindowManager;
-    private static final String TAG = "Service";
-
-    public boolean reservState = false;
-
     private TimerTask mTask;
-    private TimerTask mTask2;
     private Timer mTimer;
     private Handler mHandler;
+    private KeyguardManager km = null;
+    private KeyguardManager.KeyguardLock keyLock = null;
+    private TelephonyManager telephonyManager = null;
+    private boolean isPhoneIdle = true;
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
+    LockScreenActivity lockScreenActivity;
+    public static boolean reservState = false;
+
+//    NotificationManager notiManager;
+//    Notification noti;
 
 //    PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
 //    boolean isScreenOn = pm.isScreenOn();
@@ -52,7 +62,9 @@ public class ScreenService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        //Toast.makeText(this, "onCreate", Toast.LENGTH_SHORT).show();
+
+        lockScreenActivity = new LockScreenActivity();
+        pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
 
         LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         view = (View) inflater.inflate(R.layout.lockscreen, null);
@@ -60,7 +72,7 @@ public class ScreenService extends Service {
         WindowManager.LayoutParams params = new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.TYPE_PHONE,  //항상 최 상위. 터치 이벤트 받을 수 있음.
+                WindowManager.LayoutParams.TYPE_PHONE,  //항상 최 상위. 터치 이벤트 받을 수 있음
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,  //포커스를 가지지 않음
                 PixelFormat.TRANSLUCENT);   //투명
         try {
@@ -68,21 +80,32 @@ public class ScreenService extends Service {
             // 이 부분이 try-catch 구문이 없을 때, 킷캣 이상의 폰에서 강제 종료되는 경우가 있습니다.
             // 제 폰이 롤리팝이 올라간 넥서스 5인데, try-catch 구문이 없으면 앱이 강제 종료됩니다;;
             mWindowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
-            mWindowManager.addView(view, params);   //윈도우에 뷰 넣기. permission 필요.
-        }
-        catch(Exception e) {
+            mWindowManager.addView(view, params);   //윈도우에 뷰 넣기. permission 필요
+        } catch(Exception e) {
             e.printStackTrace();
             Log.d(TAG, "Exception message : " + e.getLocalizedMessage());
         }
 
-        //setAlarm(this, 60000);
+        if(reservState == true){
+            mReceiver = new BootReceiver();
+            IntentFilter filter = new IntentFilter(Intent.ACTION_BOOT_COMPLETED);
+            registerReceiver(mReceiver, filter);
+        }
 
-        mReceiver = new ScreenReceiver();
-        IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_OFF);
-        filter.addAction(Intent.ACTION_SCREEN_ON);
-        registerReceiver(mReceiver, filter);
+        if (km == null) {
+            km = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
+        }
 
-        mHandler = new Handler();
+        if (keyLock == null) {
+            keyLock = km.newKeyguardLock("IN");
+        }
+
+        if (telephonyManager == null) {
+            telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+            telephonyManager.listen(phoneListener, PhoneStateListener.LISTEN_CALL_STATE);
+        }
+
+        // mHandler = new Handler();
         mTask = new TimerTask() {
             @Override
             public void run() {
@@ -97,6 +120,7 @@ public class ScreenService extends Service {
                         isServiceRunningCheck().contains("calculator") |
                         isServiceRunningCheck().contains("clock") |
                         isServiceRunningCheck().contains("calendar"))) {
+                    Log.d(TAG, isServiceRunningCheck());
                     Intent intent1 = new Intent(getApplicationContext(), ScreenService.class);
                     startService(intent1);
                     Intent intent2 = new Intent(getApplicationContext(), LockScreenActivity.class);
@@ -106,11 +130,33 @@ public class ScreenService extends Service {
             }
         };
 
-        mTimer = new Timer(false);
+        mTimer = new Timer();
         if(reservState) {
-            mTimer.schedule(mTask, 1000, 5000);
+            mTimer.schedule(mTask, 1000, 3000);
         }
     }
+
+    private PhoneStateListener phoneListener = new PhoneStateListener() {
+        @Override
+        public void onCallStateChanged(int state, String incomingNumber) {
+            switch (state) {
+                case TelephonyManager.CALL_STATE_IDLE:
+                    isPhoneIdle = true; //정상상태
+                    Log.d(TAG, "CALL_STATE_IDLE");
+                    break;
+                case TelephonyManager.CALL_STATE_RINGING:
+                    isPhoneIdle = false;
+                    view.setVisibility(View.INVISIBLE);
+                    Log.d(TAG, "CALL_STATE_RINGING");
+                    break;
+                case TelephonyManager.CALL_STATE_OFFHOOK:
+                    isPhoneIdle = false;
+                    view.setVisibility(View.INVISIBLE);
+                    Log.d(TAG, "CALL_STATE_OFFHOOK");
+                    break;
+            }
+        }
+    };
 
     // 앱 리스트
     public void showApps(View v) {
@@ -123,20 +169,35 @@ public class ScreenService extends Service {
     // 스터디 모드 종료
     public void nomalModeLauncher(View v) {
         if(reservState == false) {
-            mTimer.cancel();
             Intent intent = new Intent(this, ScreenService.class);
             stopService(intent);
         } else {
-            Toast.makeText(this, "예약 잠금 시간입니다.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "예약 잠금 시간입니다", Toast.LENGTH_SHORT).show();
         }
     }
 
     // 긴급 모드
     public void goAlertMode(View v) {
-        view.setVisibility(View.INVISIBLE);
-        Intent intent = new Intent(this, AlertModeActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);  //activity에서 startActivity하는게 아니기 때문에 넣어줘야 함
-        startActivity(intent);
+        if(reservState == true) {
+            if(pref.getInt("alert", 0) == 0) {
+                Toast.makeText(v.getContext(), "긴급모드를 모두 사용했습니다", Toast.LENGTH_SHORT).show();
+                // 일단!! 긴급모드 모두 사용하면 다시 1로
+                editor = pref.edit();
+                editor.putInt("alert", 1);
+                editor.commit();
+            } else {
+                view.setVisibility(View.INVISIBLE);
+                Intent popupIntent = new Intent(getApplicationContext(), AlertModeActivity.class);
+                PendingIntent pie = PendingIntent.getActivity(getApplicationContext(), 0, popupIntent, PendingIntent.FLAG_ONE_SHOT);
+                try {
+                    pie.send();
+                } catch (PendingIntent.CanceledException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+            Toast.makeText(v.getContext(), "지금은 긴급 모드를 사용할 수 없습니다", Toast.LENGTH_SHORT).show();
+        }
     }
 
     // 설정
@@ -247,36 +308,20 @@ public class ScreenService extends Service {
         this.startActivity(app);
     }
 
-    // 알람 등록
-//    private void setAlarm(Context context, long second) {
-//        AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-//        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + second, second, pendingIntent());
-//    }
-//
-//    private PendingIntent pendingIntent() {
-//        Intent intent = new Intent(getApplicationContext(), LockScreenActivity.class);
-//        PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
-//        return pIntent;
-//    }
-
-
-
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
-        Toast.makeText(this, "onStartCommand", Toast.LENGTH_SHORT).show();
-
         view.setVisibility(View.VISIBLE);
 
-        if(intent != null){
-            if(intent.getAction() == null){
-                if(mReceiver == null){
-                    mReceiver = new ScreenReceiver();
-                    IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_OFF);
-                    registerReceiver(mReceiver, filter);
-                }
-            }
-        }
+//        if(intent != null){
+//            if(intent.getAction() == null){
+//                if(mReceiver == null){
+//                    mReceiver = new ScreenReceiver();
+//                    IntentFilter filter = new IntentFilter(Intent.ACTION_SCREEN_OFF);
+//                    registerReceiver(mReceiver, filter);
+//                }
+//            }
+//        }
 
         //startForeground(int id, Notification notification);   //id: Noti~의 id
         //noti~: 서비스가 foreground로 실행되는 동안 나타날 Noti~
@@ -303,7 +348,7 @@ public class ScreenService extends Service {
 //
 //        startForeground(1, notification);
 
-        return START_STICKY;
+        return START_NOT_STICKY;
         // START_STICKY와
         // START_REDELIVER_INTENT
         // START_STICKY와 마찬가지로 Service가 종료되었을 경우 시스템이 다시 Service를 재시작
@@ -317,14 +362,17 @@ public class ScreenService extends Service {
         List<ActivityManager.RunningTaskInfo> Info = am.getRunningTasks(1);
         ComponentName topActivity = Info.get(0).topActivity;
         String topactivityname = topActivity.getPackageName();
-        Log.d(TAG, topactivityname);
         return topactivityname;
     }
-
 
     @Override
     public void onDestroy() {
         Toast.makeText(this, "onDestroy", Toast.LENGTH_SHORT).show();
+        mTimer.cancel();
+
+        if (mReceiver != null) {
+            unregisterReceiver(mReceiver);
+        }
 
         if(mWindowManager != null) {
             if(view != null) {
@@ -332,12 +380,10 @@ public class ScreenService extends Service {
                 mWindowManager = null;
             }
         }
-//          notiManager.cancel(11);
-//        mReceiver.reenableKeyguard();
-        if (mReceiver != null) {
-            unregisterReceiver(mReceiver);
-        }
-        super.onDestroy();
+//      notiManager.cancel(11);
+//      mReceiver.reenableKeyguard();
+        lockScreenActivity.state = true;
 
+        super.onDestroy();
     }
 }

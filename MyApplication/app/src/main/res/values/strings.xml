@@ -4,11 +4,4 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
-    <string name="title_activity_main">LockScreen</string>
-    <string name="uninstall">ScreenLock Uninstaller</string>
-    <string name="tryAdminInactive">Trying to disable device admin.."</string>
-    <string name="failActivation">Fail to enable DeviceAdmin activation </string>
-    <string name="deviceAdminEnabled">ScreenLock DeviceAdmin has been Enabled.</string>
-    <string name="disableDeviceAdmin">ScreenLock DeviceAdmin has Disabled.</string>
-    <string name="devicePolicyManagerMessage">This ScreenLock app needs to active DeviceAdmin. This app uses only [Force Lock] function. If you want to remove it, you must use Uninstaller that is installed with it. </string>
 </resources>

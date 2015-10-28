@@ -14,14 +14,15 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.Light.NoTitleBar" >
-        <!--android:theme="@style/AppTheme"-->
+        android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
+
+        <activity android:name=".Splash"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
 
         <activity
             android:name=".LockScreenActivity"
             android:label="@string/app_name"
-            android:launchMode="singleTask"
-            android:stateNotNeeded="true" >
+            android:launchMode="singleTask" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.HOME" />
@@ -35,40 +36,44 @@
         </activity>
 
         <activity
-            android:name=".SettingActivity" >
+            android:name=".SettingActivity"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
         </activity>
 
         <activity
-            android:name=".LockReservActivity" >
+            android:name=".SettingAlertActivity"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
         </activity>
 
         <activity
-            android:name=".AlertModeActivity" >
+            android:name=".ReservActivity" >
+        </activity>
+
+        <activity
+            android:name=".ReservAddActivity" >
+        </activity>
+
+        <activity
+            android:name=".AlertModeActivity"
+            android:theme="@android:style/Theme.Dialog">
         </activity>
 
         <service
-            android:name=".ScreenService"
-            android:permission="android.permission.SYSTEM_ALERT_WINDOW" >
+            android:name=".ScreenService" >
         </service>
 
         <receiver
-            android:name=".ScreenReceiver"
-            android:enabled="true"
-            android:exported="false" >
-            <intent-filter>
-                <action android:name="android.intent.action.SCREEN_ON" />
-                <action android:name="android.intent.action.SCREEN_OFF" />
-            </intent-filter>
-        </receiver>
-
-        <receiver
             android:name=".BootReceiver"
-            android:enabled="true"
             android:exported="false" >
+            <!--android:enabled="true"-->
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
+        <receiver android:name=".AlarmStartReceiver" />
+        <receiver android:name=".AlarmStopReceiver" />
+        <receiver android:name=".AlertAlarmReceiver" />
 
     </application>
 

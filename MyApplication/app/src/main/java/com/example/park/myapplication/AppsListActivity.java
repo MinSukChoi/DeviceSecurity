@@ -20,12 +20,10 @@ import java.util.List;
  * Created by PARK on 15. 10. 10..
  */
 public class AppsListActivity extends Activity {
-
+    private static final String TAG = "AppList";
     private PackageManager manager;
     private List<AppDetail> apps;
     private ListView list;
-//    private boolean flag = true;
-    private static final String TAG = "AppList";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +43,7 @@ public class AppsListActivity extends Activity {
         i.addCategory(Intent.CATEGORY_LAUNCHER);
 
         List<ResolveInfo> availableActivities = manager.queryIntentActivities(i, 0);
-        for(ResolveInfo ri:availableActivities){
+        for(ResolveInfo ri:availableActivities) {
             AppDetail app = new AppDetail();
             app.label = ri.loadLabel(manager);
             app.name = ri.activityInfo.packageName;
@@ -84,7 +82,6 @@ public class AppsListActivity extends Activity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> av, View v, int pos, long id) {
-                //flag = false;
                 Intent i = manager.getLaunchIntentForPackage(apps.get(pos).name.toString());
                 AppsListActivity.this.startActivity(i);
             }
