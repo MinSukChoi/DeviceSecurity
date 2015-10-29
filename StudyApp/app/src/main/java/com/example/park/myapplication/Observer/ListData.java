@@ -1,5 +1,6 @@
 package com.example.park.myapplication.Observer;
 
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 
 import java.text.Collator;
@@ -16,6 +17,8 @@ public class ListData {
 
     // 날짜
     public String mDate;
+
+    public int mColor;
 
     /**
      * 알파벳 이름으로 정렬

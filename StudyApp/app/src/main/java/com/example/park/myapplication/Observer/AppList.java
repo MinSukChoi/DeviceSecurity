@@ -1,14 +1,20 @@
 package com.example.park.myapplication.Observer;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Debug;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,6 +30,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.park.myapplication.AppDetail;
 import com.example.park.myapplication.R;
 
 import org.json.JSONArray;
@@ -40,38 +47,133 @@ import java.net.ProtocolException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by prena on 15. 10. 9..
  */
-public class AppList extends AppCompatActivity {
+public class AppList extends Activity {
 
     private ListView mListView = null;
     private ListViewAdapter mAdapter = null;
     String availList = "";
+
+    public class AppInfo{
+        public String appTitle;
+        public Drawable appIcon;
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.app_list);
 
+        final Handler mHandler = new Handler();
+
+/*
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+*/
         mListView = (ListView) findViewById(R.id.listView);
 
         mAdapter = new ListViewAdapter(this);
         mListView.setAdapter(mAdapter);
+        Intent i = new Intent(Intent.ACTION_MAIN, null);
+        i.addCategory(Intent.CATEGORY_LAUNCHER);
 
-        mAdapter.addItem(null,
-                "어플 1",
-                "교육");
+        PackageManager manager;
+        manager = getPackageManager();
+        List<ResolveInfo> availableActivities = manager.queryIntentActivities(i, 0);
 
-        mAdapter.addItem(null,
-                "어플 2",
-                "게임");
+        final JSONArray jsonArray = new JSONArray();
 
-        mAdapter.addItem(null,
-                "어플 3",
-                "헬스");
+        final Map<String, AppInfo> dictionary = new HashMap<String, AppInfo>();
+
+        for(ResolveInfo ri:availableActivities){
+            AppDetail app = new AppDetail();
+            jsonArray.put(ri.activityInfo.packageName);
+            AppInfo appInfo = new AppInfo();
+            appInfo.appTitle = ri.loadLabel(manager).toString();
+            appInfo.appIcon = ri.activityInfo.loadIcon(manager);
+            dictionary.put(ri.activityInfo.packageName, appInfo);
+        }
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                HttpURLConnection conn    = null;
+
+                OutputStream os   = null;
+                InputStream is   = null;
+                ByteArrayOutputStream baos = null;
+
+                try {
+                    URL url = new URL("http://getdatafor.appspot.com/data");
+                    conn = (HttpURLConnection)url.openConnection();
+                    conn.setConnectTimeout(0);
+                    conn.setReadTimeout(0);
+                    conn.setRequestMethod("POST");
+                    conn.setRequestProperty("Cache-Control", "no-cache");
+                    conn.setRequestProperty("Content-Type", "application/json");
+                    conn.setRequestProperty("Accept", "application/json");
+                    conn.setDoOutput(true);
+                    conn.setDoInput(true);
+
+                    JSONObject job = new JSONObject();
+                    job.put("packages", jsonArray);
+
+                    os = conn.getOutputStream();
+                    os.write(job.toString().getBytes());
+                    os.flush();
+
+                    String response;
+
+                    int responseCode = conn.getResponseCode();
+
+                    if(responseCode == HttpURLConnection.HTTP_OK) {
+
+                        is = conn.getInputStream();
+                        baos = new ByteArrayOutputStream();
+                        byte[] byteBuffer = new byte[1024];
+                        byte[] byteData = null;
+                        int nLength = 0;
+                        while((nLength = is.read(byteBuffer, 0, byteBuffer.length)) != -1) {
+                            baos.write(byteBuffer, 0, nLength);
+                        }
+                        byteData = baos.toByteArray();
+
+                        response = new String(byteData);
+
+                        JSONObject responseJSON = new JSONObject(response);
+                        JSONArray appList = responseJSON.getJSONArray("apps");
+                        for(int idx=0;idx<appList.length();idx++){
+                            final AppInfo appInfo = dictionary.get(appList.getJSONObject(idx).get("package").toString());
+                            final String category = appList.getJSONObject(idx).get("category").toString();
+                            mHandler.post(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mAdapter.addItem(appInfo.appIcon, appInfo.appTitle, category);
+                                    mAdapter.notifyDataSetChanged();
+                                }
+                            });
+                        }
+
+                        Log.d("Test", "End");
+                    }
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (ProtocolException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
 
         mListView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         mListView.setItemsCanFocus(false);
@@ -81,13 +183,33 @@ public class AppList extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 ListData mData = mAdapter.mListData.get(position);
+
                 if (availList.contains("'" + mData.mTitle + "'")) {
                     availList = availList.replaceAll("'" + mData.mTitle + "'", "");
+                    mData.mColor = Color.rgb(255,255,255);
                     ((ViewHolder)v.getTag()).mLayout.setBackgroundColor(0xFFFFFFFF);
+                    SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putString("appList", availList);
+                    editor.commit();
                 }else{
-                    availList += "'"+mData.mTitle+"'";
-                    ((ViewHolder)v.getTag()).mLayout.setBackgroundColor(0xFF00FF00);
+                    Log.d("Test", mData.mDate);
+                    if(mData.mDate.contains("Adventure")){
+                        availList += "'"+mData.mTitle+"'";
+                        mData.mColor = Color.rgb(0,255,0);
+                        ((ViewHolder)v.getTag()).mLayout.setBackgroundColor(0xFF00FF00);
+                    }else{
+                        mData.mColor = Color.rgb(255,0,0);
+                        ((ViewHolder)v.getTag()).mLayout.setBackgroundColor(0xFFFF0000);
+                    }
+                    SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putString("appList", availList);
+                    editor.commit();
                 }
+
+                // preference save with encrypt
+
                 //Toast.makeText(AppList.this, mData.mTitle, Toast.LENGTH_SHORT).show();
             }
         });
@@ -141,6 +263,7 @@ public class AppList extends AppCompatActivity {
             addInfo.mIcon = icon;
             addInfo.mTitle = mTitle;
             addInfo.mDate = mDate;
+            addInfo.mColor = Color.rgb(255,255,255);
 
             mListData.add(addInfo);
         }
@@ -194,6 +317,7 @@ public class AppList extends AppCompatActivity {
 
             holder.mText.setText(mData.mTitle);
             holder.mDate.setText(mData.mDate);
+            holder.mLayout.setBackgroundColor(mData.mColor);
 
             return convertView;
         }
