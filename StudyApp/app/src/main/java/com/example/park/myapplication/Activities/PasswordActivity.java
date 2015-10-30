@@ -1,6 +1,7 @@
 package com.example.park.myapplication.Activities;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -131,7 +132,15 @@ public class PasswordActivity extends Activity {
                 break;
             case 2:
                 /* 비밀번호 확인 */
-                passwordAlert.setText("비밀번호를 입력하세요.");
+                Intent intent = getIntent();
+                intent.putExtra("validation", referenceMonitor.checkPassword(pref.getString("hash",""),password)?1:0);
+                setResult(RESULT_OK, intent);
+                finish();
+                /*
+                if(referenceMonitor.checkPassword(pref.getString("hash",""),password)) {
+                    referenceMonitor.setPermission();
+                }else referenceMonitor.unsetPermission();
+                */
                 break;
             default:
                 break;
