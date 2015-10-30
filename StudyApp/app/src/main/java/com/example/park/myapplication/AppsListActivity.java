@@ -2,6 +2,7 @@ package com.example.park.myapplication;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Bundle;
@@ -42,13 +43,20 @@ public class AppsListActivity extends Activity {
         Intent i = new Intent(Intent.ACTION_MAIN, null);
         i.addCategory(Intent.CATEGORY_LAUNCHER);
 
+        // list from preference
+
+        SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
+        String availList = pref.getString("appList", "");
+
         List<ResolveInfo> availableActivities = manager.queryIntentActivities(i, 0);
         for(ResolveInfo ri:availableActivities){
             AppDetail app = new AppDetail();
             app.label = ri.loadLabel(manager);
             app.name = ri.activityInfo.packageName;
             app.icon = ri.activityInfo.loadIcon(manager);
-            apps.add(app);
+            if(availList.contains("'" + app.label + "'")){
+                apps.add(app);
+            }
         }
     }
 

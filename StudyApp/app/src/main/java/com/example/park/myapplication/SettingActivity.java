@@ -7,6 +7,7 @@ import android.preference.PreferenceActivity;
 import android.preference.SwitchPreference;
 
 import com.example.park.myapplication.Activities.PasswordActivity;
+import com.example.park.myapplication.Observer.AppList;
 
 /**
  * Created by PARK on 15. 10. 20..
@@ -63,6 +64,8 @@ public class SettingActivity extends PreferenceActivity implements Preference.On
 
         } else if(preference.getKey().equals("keyapplist")) {
 
+            Intent intent = new Intent(this, AppList.class);
+            startActivityForResult(intent, 0);
 
         } else if(preference.getKey().equals("keyhelp")) {
 
