@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.example.park.myapplication.Elements.ReferenceMonitor;
 import com.example.park.myapplication.R;
 
 import butterknife.Bind;
@@ -12,6 +13,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class PasswordActivity extends Activity {
+    ReferenceMonitor referenceMonitor = ReferenceMonitor.getInstance();
     private int CURSOR=0;
     private String password="";
 
@@ -61,7 +63,7 @@ public class PasswordActivity extends Activity {
         }else if(action<10) {
             /* number selected */
 
-            //passwordBoxes[CURSOR++].setImageResource();
+            passwordBoxes[CURSOR++].setImageResource(R.drawable.icon_secret);
             password += action;
             if(CURSOR==3) {
                 /* checking password */
@@ -69,12 +71,12 @@ public class PasswordActivity extends Activity {
         }else if(action==10) {
             CURSOR=0;
             for(int i=0 ; i<4 ; i++) {
-                //passwordBoxes[i].setImageResource();
+                passwordBoxes[i].setImageResource(R.drawable.icon_none);
             }
 
         }else if(action==11) {
             if(CURSOR>0){
-                //passwordBoxes[--CURSOR].setImageResource();
+                passwordBoxes[--CURSOR].setImageResource(R.drawable.icon_none);
             }
         }
     }
