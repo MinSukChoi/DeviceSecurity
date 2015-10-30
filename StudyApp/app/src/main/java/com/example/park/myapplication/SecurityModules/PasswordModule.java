@@ -22,11 +22,11 @@ public class PasswordModule implements ValidationModule {
         return passwordModule;
     }
 
-    protected static void registerKey(String password) throws InvalidKeySpecException, NoSuchAlgorithmException {
+    public static void registerKey(String password) throws InvalidKeySpecException, NoSuchAlgorithmException {
         String generatedSecuredPasswordHash = generateStorngPasswordHash(password);
     }
 
-    protected static boolean matchPassword(String passwordHash, String passwordInput) throws InvalidKeySpecException, NoSuchAlgorithmException {
+    public static boolean matchPassword(String passwordHash, String passwordInput) throws InvalidKeySpecException, NoSuchAlgorithmException {
         boolean matched = validatePassword(passwordInput,passwordHash);
         return matched;
     }

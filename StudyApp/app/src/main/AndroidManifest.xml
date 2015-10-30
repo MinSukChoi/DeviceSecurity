@@ -6,16 +6,16 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
-    <uses-permission android:name="android.permission.GET_TASKS"/>
-
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Light.NoTitleBar" >
-        <!--android:theme="@style/AppTheme"-->
+
+        <!-- android:theme="@style/AppTheme" -->
 
         <activity
             android:name=".LockScreenActivity"
@@ -24,31 +24,23 @@
             android:stateNotNeeded="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.HOME" />
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name=".AppsListActivity" >
+        <activity android:name=".AppsListActivity" >
         </activity>
-
         <activity
             android:name=".SettingActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
         </activity>
-
-        <activity
-            android:name=".LockReservActivity" >
+        <activity android:name=".LockReservActivity" >
         </activity>
-
-        <activity
-            android:name=".AddReservActivity" >
+        <activity android:name=".AddReservActivity" >
         </activity>
-
-        <activity
-            android:name=".AlertModeActivity" >
+        <activity android:name=".AlertModeActivity" >
         </activity>
 
         <service
@@ -65,7 +57,6 @@
                 <action android:name="android.intent.action.SCREEN_OFF" />
             </intent-filter>
         </receiver>
-
         <receiver
             android:name=".BootReceiver"
             android:enabled="true"
@@ -74,9 +65,10 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-
         <receiver android:name=".AlarmReceiver" />
 
+        <activity android:name=".Activities.PasswordActivity" >
+        </activity>
     </application>
 
 </manifest>
