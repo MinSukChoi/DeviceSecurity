@@ -2,28 +2,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:text="예약 잠금"
-        android:textSize="25dp"
+        android:text=" 예약 잠금"
         android:id="@+id/lock_title"
         android:textStyle="bold"
         android:textIsSelectable="false"
+        android:background="#008fff"
         android:gravity="center_vertical"
-        android:textColor="#cacdc3"
-        android:background="@android:color/black" />
+        android:textSize="20dp"
+        android:textColor="@android:color/background_light" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
+        android:orientation="vertical">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="제목"
+            android:text=" 제목"
             android:id="@+id/lock_textview1"
             android:layout_marginTop="30dp" />
 
@@ -31,6 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/lock_edit"
+            android:hint="제목을 입력하세요"
             android:layout_marginBottom="20dp" />
     </LinearLayout>
 
@@ -41,39 +42,40 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="시간 설정"
-            android:id="@+id/lock_textview2" />
+            android:text=" 시간 설정"
+            android:id="@+id/lock_textview2"
+            android:layout_marginTop="30dp" />
 
         <Button
-            android:id="@+id/lock_start"
+            android:id="@+id/lock_start_btn"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="시작 시간" />
 
         <Button
-            android:id="@+id/lock_end"
+            android:id="@+id/lock_end_btn"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="종료 시간"
-            android:layout_marginBottom="20dp" />
+            android:text="종료 시간" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="요일 반복"
+            android:text=" 요일 반복"
             android:id="@+id/lock_textview3"
             android:layout_weight="1" />
 
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="매주 반복"
+            android:text=" 매주 반복"
             android:id="@+id/lock_checkBox"
             android:layout_weight="1" />
     </LinearLayout>
@@ -151,7 +153,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="확인"
-        android:id="@+id/lock_btn"
-        android:layout_marginTop="20dp" />
+        android:id="@+id/lock_ok_btn"
+        android:layout_marginTop="30dp" />
 
 </LinearLayout>
