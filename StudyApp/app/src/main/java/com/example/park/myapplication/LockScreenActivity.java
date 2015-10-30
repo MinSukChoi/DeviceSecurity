@@ -40,10 +40,9 @@ public class LockScreenActivity extends Activity {
             }, 3000);
         }
 
-        Log.v("TEST","HERE?");
-        if(pref.getInt("Agree", 0) == 1) {
-            setContentView(R.layout.activity_lockscreen);
-        }
+        //if(pref.getInt("Agree", 0) == 1) {
+        //    setContentView(R.layout.activity_lockscreen);
+        //}
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
                 WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         //FLAG_SHOW_WHEN_LOCKED: 기본 잠금화면 보다 위에 activity를 띄워라
@@ -62,7 +61,7 @@ public class LockScreenActivity extends Activity {
             startService(intent);
         }
 
-        if(pref.getInt("Agree", 0) == 1) {
+        //if(pref.getInt("Agree", 0) == 1) {
             setContentView(R.layout.activity_lockscreen);
 
             Button settingButton = (Button) findViewById(R.id.setting_button);
@@ -86,7 +85,7 @@ public class LockScreenActivity extends Activity {
                     startService(intent);
                 }
             });
-        }
+        //}
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -103,10 +102,6 @@ public class LockScreenActivity extends Activity {
                         Intent newintent = new Intent(LockScreenActivity.this, PasswordActivity.class);
                         newintent.putExtra("state",0);
                         startActivity(newintent);
-                        editor = pref.edit();
-                        //editor.putInt("Agree", 1);
-                        //editor.putInt("First", 1);
-                        editor.commit();
                     }
                 }
                 break;

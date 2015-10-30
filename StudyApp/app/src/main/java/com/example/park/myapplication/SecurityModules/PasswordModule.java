@@ -13,7 +13,7 @@ import javax.crypto.spec.PBEKeySpec;
 /**
  * Created by minseock on 2015-10-07.
  */
-public class PasswordModule implements ValidationModule {
+public class PasswordModule {
     private static PasswordModule passwordModule = new PasswordModule();
 
     private PasswordModule () {}
@@ -22,8 +22,9 @@ public class PasswordModule implements ValidationModule {
         return passwordModule;
     }
 
-    public static void registerKey(String password) throws InvalidKeySpecException, NoSuchAlgorithmException {
-        String generatedSecuredPasswordHash = generateStorngPasswordHash(password);
+    public static String registerKey(String password) throws InvalidKeySpecException, NoSuchAlgorithmException {
+        return generateStorngPasswordHash(password);
+
     }
 
     public static boolean matchPassword(String passwordHash, String passwordInput) throws InvalidKeySpecException, NoSuchAlgorithmException {
@@ -90,15 +91,5 @@ public class PasswordModule implements ValidationModule {
             bytes[i] = (byte)Integer.parseInt(hex.substring(2 * i, 2 * i + 2), 16);
         }
         return bytes;
-    }
-
-    @Override
-    public void registerKey() {
-
-    }
-
-    @Override
-    public boolean validateKey() {
-        return false;
     }
 }

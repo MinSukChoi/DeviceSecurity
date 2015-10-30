@@ -24,6 +24,9 @@ public class AccessTerms extends Activity {
         agreeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                editor = pref.edit();
+                editor.putInt("agree", 1);
+                editor.commit();
                 Intent intent = getIntent();
                 intent.putExtra("agree", 1);
                 setResult(RESULT_OK, intent);

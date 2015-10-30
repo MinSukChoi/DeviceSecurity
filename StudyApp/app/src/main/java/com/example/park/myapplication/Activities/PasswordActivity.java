@@ -1,26 +1,35 @@
 package com.example.park.myapplication.Activities;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.park.myapplication.Elements.ReferenceMonitor;
 import com.example.park.myapplication.R;
+
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class PasswordActivity extends Activity {
-    ReferenceMonitor referenceMonitor = ReferenceMonitor.getInstance();
+    private ReferenceMonitor referenceMonitor = ReferenceMonitor.getInstance();
+    private SharedPreferences pref;
+    private SharedPreferences.Editor editor;
     private int CURSOR=0;
     private String password="";
     private int STATE;
     private final static int RESET=0;
     private final static int RECHECK=1;
     private final static int CHECK=2;
+    private String checkedPassword="";
 
 
     @Bind({R.id.imageView_passwordBox1,R.id.imageView_passwordBox2,R.id.imageView_passwordBox3,R.id.imageView_passwordBox4}) ImageView[] passwordBoxes;
@@ -72,22 +81,68 @@ public class PasswordActivity extends Activity {
 
             passwordBoxes[CURSOR++].setImageResource(R.drawable.icon_secret);
             password += action;
-            if(CURSOR==3) {
-                /* checking password */
+            if(CURSOR==4) {
+                try {
+                    inputCompleted();
+                } catch (InvalidKeySpecException e) {
+                    e.printStackTrace();
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                }
             }
         }else if(action==10) {
             CURSOR=0;
             for(int i=0 ; i<4 ; i++) {
                 passwordBoxes[i].setImageResource(R.drawable.icon_none);
             }
+            password="";
 
         }else if(action==11) {
             if(CURSOR>0){
                 passwordBoxes[--CURSOR].setImageResource(R.drawable.icon_none);
+                password = password.substring(0,CURSOR);
             }
         }
     }
+    private void inputCompleted() throws InvalidKeySpecException, NoSuchAlgorithmException {
+        switch(STATE) {
+            case 0:
+                checkedPassword = password;
+                Log.v("PASSWORD_ACTIVITY", "checkedPassword="+checkedPassword);
+                STATE=1;
+                init();
+                break;
+            case 1:
+                Log.v("PASSWORD_ACTIVITY", "password="+password);
+                if(checkedPassword.equals(password)) {
+                    Toast.makeText(PasswordActivity.this, "비밀번호가 설정되었습니다.", Toast.LENGTH_SHORT);
+                    editor = pref.edit();
+                    editor.putString("hash", referenceMonitor.setPassword(password));
+                    editor.putInt("First", 1);
+                    editor.commit();
+                    finish();
+
+                }else {
+                    Toast.makeText(PasswordActivity.this,"비밀번호가 일치하지 않습니다.",Toast.LENGTH_SHORT);
+                    Log.v("PASSWORD_ACTIVITY", "NO");
+                    STATE=0;
+                    init();
+                }
+                break;
+            case 2:
+                /* 비밀번호 확인 */
+                passwordAlert.setText("비밀번호를 입력하세요.");
+                break;
+            default:
+                break;
+        }
+    }
     private void init() {
+        CURSOR=0;
+        for(int i=0 ; i<4 ; i++) {
+            passwordBoxes[i].setImageResource(R.drawable.icon_none);
+        }
+        password="";
         switch(STATE) {
             case 0:
                 /* 처음으로 패스워드를 설정할 때 */
@@ -113,6 +168,7 @@ public class PasswordActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_password);
         ButterKnife.bind(this);
+        pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
         STATE = getIntent().getExtras().getInt("state");
         init();
     }
