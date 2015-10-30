@@ -13,21 +13,18 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/lock_icon"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
 
-        <activity android:name=".Splash"
-            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
+        <activity android:name=".Splash" />
 
-        <activity android:name=".AccessTerms"
-            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" />
+        <activity android:name=".AccessTerms" />
 
         <activity
             android:name=".LockScreenActivity"
             android:label="@string/app_name"
-            android:launchMode="singleTask"
-            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
+            android:launchMode="singleTask" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.HOME" />
@@ -41,18 +38,15 @@
         </activity>
 
         <activity
-            android:name=".SettingActivity"
-            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
+            android:name=".SettingActivity" >
         </activity>
 
         <activity
-            android:name=".SettingAlertActivity"
-            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
+            android:name=".SettingAlertActivity" >
         </activity>
 
         <activity
-            android:name=".SettingBreakActivity"
-            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
+            android:name=".SettingBreakActivity" >
         </activity>
 
         <activity
@@ -72,11 +66,9 @@
             android:name=".Observer.AppList" >
         </activity>
 
-
         <service
             android:name=".ScreenService" >
         </service>
-
 
         <receiver
             android:name=".BootReceiver"
@@ -88,8 +80,11 @@
 
         <receiver android:name=".AlarmStartReceiver" />
         <receiver android:name=".AlarmStopReceiver" />
+
         <receiver android:name=".AlertAlarmReceiver" />
+
         <receiver android:name=".BreakAlarmReceiver" />
+        <receiver android:name=".StudyAlarmReceiver" />
 
     </application>
 

@@ -24,7 +24,6 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Created by PARK on 15. 10. 25..
@@ -59,7 +58,7 @@ public class ReservActivity extends Activity {
         mListView.setAdapter(mAdapter);
         reservAddActivity = new ReservAddActivity();
 
-        //초기에 아이템 추가
+        // 초기에 아이템 추가
         initialReserv();
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -73,6 +72,7 @@ public class ReservActivity extends Activity {
             }
         });
 
+        // 아이템 삭제
         mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View v, final int position, long id) {
@@ -84,6 +84,10 @@ public class ReservActivity extends Activity {
                         .setPositiveButton("네", new DialogInterface.OnClickListener() {
                             // 확인 버튼 클릭시 설정
                             public void onClick(DialogInterface dialog, int whichButton) {
+                                if(pref.getBoolean("checkValue"+(position+1), false)) {
+                                    Toast.makeText(getApplicationContext(), "해당 알람이 삭제됩니다", Toast.LENGTH_SHORT).show();
+                                    onUnregist(position + 1);   //알람 삭제
+                                }
                                 mAdapter.remove(position);
                                 prefremove(position + 1);
                                 dialog.dismiss();  // AlertDialog를 닫는다.
@@ -131,16 +135,16 @@ public class ReservActivity extends Activity {
             for(int j=1; j<=size; j++) {
                 Log.d(TAG, "initialReserv");
                 String title = pref.getString("title" + j, null);
-                String week;
-                if (pref.getBoolean("checkweek" + j, false)) {
-                    week = "매주 반복";
-                    editor.putString("week" + j, week);
-                } else {
-                    week = "반복 없음";
-                    editor.putString("week" + j, week);
-                }
+                String week = pref.getString("week" + j, null);
+
+//                if (pref.getBoolean("checkweek" + j, false)) {
+//                    week = "매주 반복";
+//                    editor.putString("week" + j, week);
+//                } else {
+//                    week = "반복 없음";
+//                    editor.putString("week" + j, week);
+//                }
                 mAdapter.addItem(title, week);
-                editor.commit();
                 mAdapter.dataChange();
             }
         }
@@ -161,7 +165,6 @@ public class ReservActivity extends Activity {
             }
             mAdapter.addItem(title, week);
             editor.putInt("size", mAdapter.getCount());
-            Log.d(TAG, String.valueOf(mAdapter.getCount()));
             editor.commit();
             mAdapter.dataChange();
         }
@@ -185,7 +188,6 @@ public class ReservActivity extends Activity {
                 editor.putString("week" + pos, week);
             }
             mAdapter.modify(pos, title, week);
-            Log.d(TAG, String.valueOf(mAdapter.getCount()));
             editor.commit();
             mAdapter.dataChange();
         }
@@ -312,21 +314,15 @@ public class ReservActivity extends Activity {
             Log.d(TAG, "getView");
             ListData mData = mListData.get(position);
 
-            editor = pref.edit();
-
             holder.mTitle.setText(mData.mTitle);
             holder.mWeek.setText(mData.mWeek);
-            holder.mCheck.setChecked(pref.getBoolean("checkValue" + (position + 1), false));
-
-            if(pref.getBoolean("checkValue" + (position + 1), false)) {
-                onRegist(position + 1);
-            }
-
             holder.mCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    editor = pref.edit();
                     editor.putBoolean("checkValue" + (position + 1), isChecked);
                     editor.commit();
+                    Log.d(TAG, "isChecked: " + String.valueOf(isChecked));
                     if (isChecked) {
                         onRegist(position + 1);
                     } else {
@@ -335,8 +331,87 @@ public class ReservActivity extends Activity {
                 }
             });
 
+            holder.mCheck.setChecked(pref.getBoolean("checkValue" + (position + 1), false));
+
+//            holder.mCheck.setChecked(pref.getBoolean("checkValue" + (position + 1), false));
+//            Log.d(TAG, "position: " + String.valueOf(position));
+//            Log.d(TAG, "pref_position: " + String.valueOf(position+1));
+//
+//
+//            holder.mCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//                @Override
+//                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                    editor = pref.edit();
+//                    editor.putBoolean("checkValue" + (position + 1), isChecked);
+//                    editor.commit();
+//                    Log.d(TAG, "isChecked: " + String.valueOf(isChecked));
+//                    if (isChecked) {
+//                        onRegist(position + 1);
+//                    } else {
+//                        onUnregist(position + 1);
+//                    }
+//                }
+//            });
+
             return convertView;
         }
+    }
+
+    private void onRegist(int position)
+    {
+        boolean[] week = { false, pref.getBoolean("sun"+position, false), pref.getBoolean("mon"+position, false),
+                pref.getBoolean("tue" + position, false), pref.getBoolean("wed" + position, false),
+                pref.getBoolean("thu" + position, false), pref.getBoolean("fri" + position, false),
+                pref.getBoolean("sat" + position, false) };    // sunday=1 이라서 0의 자리에는 아무 값이나 넣었음
+        boolean checkweek = pref.getBoolean("checkweek"+position, false);
+        long oneday = 24 * 60 * 60 * 1000;  // 24시간
+
+        Log.d(TAG, "position: " + String.valueOf(position-1));
+        Log.d(TAG, "pref_position: " + String.valueOf(position));
+
+        Intent intent1 = new Intent(this, AlarmStartReceiver.class);
+        intent1.putExtra("weekday", week);
+        intent1.putExtra("checkweek", checkweek);
+
+        Calendar calendar1 = Calendar.getInstance();
+        //calendar1.setTimeInMillis(System.currentTimeMillis());
+        calendar1.set(Calendar.HOUR_OF_DAY, pref.getInt("startHour" + position, 0));
+        calendar1.set(Calendar.MINUTE, pref.getInt("startMin" + position, 0));
+        calendar1.set(Calendar.SECOND, 0);
+        Log.d(TAG, String.valueOf(calendar1.getTime()));
+
+        // 만약 트리거 타임이 과거로 설정되어있다면, 알람은 즉시 트리거된다.
+        // 알람이 트리거 될 때 펜딩 인텐트가 작동된다.
+        // 같은 펜딩 인텐트를 사용하는 두 번째 알람을 셋팅하면, 그것은 첫번째 알람을 대체하게 된다.
+
+        PendingIntent pIntent1 = PendingIntent.getBroadcast(this, position, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar1.getTimeInMillis(), oneday, pIntent1);
+
+        Intent intent2 = new Intent(this, AlarmStopReceiver.class);
+        intent2.putExtra("weekday", week);
+        intent2.putExtra("checkweek", checkweek);
+        intent2.putExtra("position", position);
+
+        Calendar calendar2 = Calendar.getInstance();
+        //calendar2.setTimeInMillis(System.currentTimeMillis());
+        calendar2.set(Calendar.HOUR_OF_DAY, pref.getInt("endHour" + position, 0));
+        calendar2.set(Calendar.MINUTE, pref.getInt("endMin" + position, 0));
+        calendar2.set(Calendar.SECOND, 0);
+        Log.d(TAG, String.valueOf(calendar2.getTime()));
+
+        PendingIntent pIntent2 = PendingIntent.getBroadcast(this, position, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(), oneday, pIntent2);
+    }
+
+    private void onUnregist(int position)
+    {
+        Log.d(TAG, String.valueOf(position-1)+"번째 예약 해제");
+        Intent intent = new Intent(this, AlarmStartReceiver.class);
+        Intent intent1 = new Intent(this, AlarmStopReceiver.class);
+        PendingIntent pIntent1 = PendingIntent.getBroadcast(this, position, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pIntent2 = PendingIntent.getBroadcast(this, position, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmManager.cancel(pIntent1);
+        alarmManager.cancel(pIntent2);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -358,66 +433,5 @@ public class ReservActivity extends Activity {
                 }
                 break;
         }
-    }
-
-    private void onRegist(int position)
-    {
-        boolean[] week = { false, pref.getBoolean("sun"+position, false), pref.getBoolean("mon"+position, false),
-                pref.getBoolean("tue" + position, false), pref.getBoolean("wed" + position, false),
-                pref.getBoolean("thu" + position, false), pref.getBoolean("fri" + position, false),
-                pref.getBoolean("sat" + position, false) };    // sunday=1 이라서 0의 자리에는 아무 값이나 넣었음
-        boolean checkweek = pref.getBoolean("checkweek"+position, false);
-
-        long oneday = 24 * 60 * 60 * 1000;  // 24시간
-        int dayNum = 0;
-
-        //매주 반복이 아닌 경우
-        for(int i=0; i<=7; i++) {
-            if(week[i]) {
-                dayNum++;
-            }
-        }
-        Log.d("선택된 요일 수 : ", String.valueOf(dayNum));
-        Log.d("position : ", String.valueOf(position));
-
-        Intent intent = new Intent(this, AlarmStartReceiver.class);
-        intent.putExtra("weekday", week);
-        intent.putExtra("checkweek", checkweek);
-        intent.putExtra("daynum", dayNum);
-
-        Date date1 = new Date();
-        date1.setHours(pref.getInt("startHour" + position, 0));
-        date1.setMinutes(pref.getInt("startMin" + position, 0));
-        Calendar calendar1 = Calendar.getInstance();
-        calendar1.setTime(date1);
-        Log.d(TAG, String.valueOf(calendar1.getTime()));
-
-        PendingIntent pIntent1 = PendingIntent.getBroadcast(this, position, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar1.getTimeInMillis(), oneday, pIntent1);
-
-        Intent intent1 = new Intent(this, AlarmStopReceiver.class);
-        intent1.putExtra("weekday", week);
-        intent1.putExtra("checkweek", checkweek);
-
-        Date date2 = new Date();
-        date2.setHours(pref.getInt("endHour" + position, 0));
-        date2.setMinutes(pref.getInt("endMin" + position, 0));
-        Calendar calendar2 = Calendar.getInstance();
-        calendar2.setTime(date2);
-        Log.d(TAG, String.valueOf(calendar2.getTime()));
-
-        PendingIntent pIntent2 = PendingIntent.getBroadcast(this, position, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(), oneday, pIntent2);
-    }
-
-    private void onUnregist(int position)
-    {
-        Toast.makeText(this, String.valueOf(position)+"예약이 해제되었습니다.", Toast.LENGTH_SHORT);
-        Intent intent = new Intent(this, AlarmStartReceiver.class);
-        Intent intent1 = new Intent(this, AlarmStopReceiver.class);
-        PendingIntent pIntent1 = PendingIntent.getBroadcast(this, position, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        PendingIntent pIntent2 = PendingIntent.getBroadcast(this, position, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
-        alarmManager.cancel(pIntent1);
-        alarmManager.cancel(pIntent2);
     }
 }

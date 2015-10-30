@@ -20,19 +20,19 @@ import java.util.Calendar;
  */
 public class ReservAddActivity extends Activity {
     private static final String TAG = "Reservation_Add";
-    SharedPreferences.Editor editor;
-    SharedPreferences pref;
     private ToggleButton toggleSun, toggleMon, toggleTue, toggleWed, toggleThu, toggleFri, toggleSat;
-    Calendar calendar1 = Calendar.getInstance();
-    Calendar calendar2 = Calendar.getInstance();
     public static int i = 1;
     public boolean flag = true;
     private static int pos = 0;
+    private static int startHour;
+    private static int startMin;
+    private static int endHour;
+    private static int endMin;
+    Calendar calendar1 = Calendar.getInstance();
+    Calendar calendar2 = Calendar.getInstance();
+    SharedPreferences.Editor editor;
+    SharedPreferences pref;
     ReservActivity reservActivity;
-    static int startHour;
-    static int startMin;
-    static int endHour;
-    static int endMin;
 
     TimePickerDialog.OnTimeSetListener timeSetListener1 = new TimePickerDialog.OnTimeSetListener() {
         @Override
@@ -116,7 +116,6 @@ public class ReservAddActivity extends Activity {
         calendar2.set(Calendar.HOUR_OF_DAY, endh);
         calendar2.set(Calendar.MINUTE, endm);
 
-
         // 시작 시간 ~ 종료 시간 설정
         btnStartTime.setOnClickListener(new Button.OnClickListener() {
             @Override
@@ -167,7 +166,6 @@ public class ReservAddActivity extends Activity {
                 editor.putInt("endHour" + i, endHour);
                 editor.putInt("endMin" + i, endMin);
                 editor.commit();
-
 
                 Intent intent = getIntent();
                 if(flag) {

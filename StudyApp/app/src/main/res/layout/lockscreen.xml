@@ -8,27 +8,28 @@
         android:layout_height="match_parent"
         android:id="@+id/background"
         android:scaleType="fitXY"
-        android:src="#373737" />
+        android:src="@android:color/background_dark" />
 
-    <Button
-        android:id="@+id/apps_button"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginRight="20dp"
-        android:layout_marginBottom="20dp"
-        android:onClick="showApps"
-        android:background="@android:drawable/ic_menu_edit" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text=" STUDY MODE"
+        android:textSize="20dp"
+        android:id="@+id/app_title"
+        android:textStyle="bold"
+        android:background="#008fff"
+        android:gravity="center_vertical"
+        android:textColor="@android:color/background_light"
+        android:layout_marginBottom="20dp" />
 
     <Button
         android:id="@+id/back_button"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
         android:onClick="nomalModeLauncher"
         android:background="@android:drawable/ic_menu_close_clear_cancel" />
 
@@ -42,6 +43,17 @@
         android:onClick="goAlertMode"
         android:text="긴급 모드" />
 
+    <Button
+        android:id="@+id/apps_button"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:onClick="showApps"
+        android:background="@android:drawable/ic_menu_more" />
+
     <TableLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -51,7 +63,7 @@
         android:layout_alignParentStart="true"
         android:layout_marginTop="60dp"
         android:layout_marginBottom="60dp"
-        android:background="#ffffff" >
+        android:background="@android:color/background_light" >
 
         <TableRow android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -60,21 +72,21 @@
                 android:id="@+id/call_app"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:src="@drawable/call"
+                android:src="@android:drawable/ic_menu_call"
                 android:layout_weight="1"
                 android:onClick="executeApp" />
             <ImageView
                 android:id="@+id/msg_app"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:src="@drawable/msg"
+                android:src="@android:drawable/ic_menu_send"
                 android:layout_weight="1"
                 android:onClick="executeApp" />
             <ImageView
                 android:id="@+id/browser_app"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:src="@drawable/browser"
+                android:src="@android:drawable/ic_menu_search"
                 android:layout_weight="1"
                 android:onClick="executeApp" />
         </TableRow>
@@ -85,21 +97,21 @@
                 android:id="@+id/camera_app"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:src="@drawable/camera"
+                android:src="@android:drawable/ic_menu_camera"
                 android:layout_weight="1"
                 android:onClick="executeApp" />
             <ImageView
                 android:id="@+id/gallery_app"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:src="@drawable/gallery"
+                android:src="@android:drawable/ic_menu_gallery"
                 android:layout_weight="1"
                 android:onClick="executeApp" />
             <ImageView
                 android:id="@+id/memo_app"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:src="@drawable/memo"
+                android:src="@android:drawable/ic_menu_agenda"
                 android:layout_weight="1"
                 android:onClick="executeApp" />
         </TableRow>
@@ -110,21 +122,21 @@
                 android:id="@+id/calculator_app"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:src="@drawable/calculator"
+                android:src="@android:drawable/ic_menu_edit"
                 android:layout_weight="1"
                 android:onClick="executeApp" />
             <ImageView
                 android:id="@+id/alarm_app"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:src="@drawable/alarm"
+                android:src="@android:drawable/ic_menu_recent_history"
                 android:layout_weight="1"
                 android:onClick="executeApp" />
             <ImageView
                 android:id="@+id/calendar_app"
                 android:layout_width="60dp"
                 android:layout_height="60dp"
-                android:src="@drawable/calender"
+                android:src="@android:drawable/ic_menu_my_calendar"
                 android:layout_weight="1"
                 android:onClick="executeApp" />
         </TableRow>
