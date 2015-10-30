@@ -48,6 +48,7 @@ public class AppsListActivity extends Activity {
         SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
         String availList = pref.getString("appList", "");
 
+
         List<ResolveInfo> availableActivities = manager.queryIntentActivities(i, 0);
         for(ResolveInfo ri:availableActivities){
             AppDetail app = new AppDetail();
