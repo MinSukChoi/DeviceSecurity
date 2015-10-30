@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.park.myapplication.Elements.ReferenceMonitor;
 import com.example.park.myapplication.R;
@@ -16,8 +17,14 @@ public class PasswordActivity extends Activity {
     ReferenceMonitor referenceMonitor = ReferenceMonitor.getInstance();
     private int CURSOR=0;
     private String password="";
+    private int STATE;
+    private final static int RESET=0;
+    private final static int RECHECK=1;
+    private final static int CHECK=2;
+
 
     @Bind({R.id.imageView_passwordBox1,R.id.imageView_passwordBox2,R.id.imageView_passwordBox3,R.id.imageView_passwordBox4}) ImageView[] passwordBoxes;
+    @Bind(R.id.textVeiw_passwordAlert) TextView passwordAlert;
     @OnClick({R.id.imageView_passwordButton1,R.id.imageView_passwordButton2,R.id.imageView_passwordButton3,R.id.imageView_passwordButton4,R.id.imageView_passwordButton5,R.id.imageView_passwordButton6,R.id.imageView_passwordButton7,R.id.imageView_passwordButton8,R.id.imageView_passwordButton9,R.id.imageView_passwordButton10,R.id.imageView_passwordButton11,R.id.imageView_passwordButton12}) public void onPasswordButtonClicked(View view) {
         int action=-1;
         switch(view.getId()) {
@@ -80,11 +87,33 @@ public class PasswordActivity extends Activity {
             }
         }
     }
+    private void init() {
+        switch(STATE) {
+            case 0:
+                /* 처음으로 패스워드를 설정할 때 */
+                passwordAlert.setText("비밀번호를 설정하세요.");
+                break;
+            case 1:
+                /* 비밀번호 재확인 */
+                passwordAlert.setText("한번 더 입력해주세요.");
+                break;
+            case 2:
+                /* 비밀번호 확인 */
+                passwordAlert.setText("비밀번호를 입력하세요.");
+                break;
+            default:
+                break;
+        }
+
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_password);
         ButterKnife.bind(this);
+        STATE = getIntent().getExtras().getInt("state");
+        init();
     }
 }

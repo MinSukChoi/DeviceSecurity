@@ -11,6 +11,8 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.park.myapplication.Activities.PasswordActivity;
+
 public class LockScreenActivity extends Activity {
     private static final String TAG = "LockScreen";
     SharedPreferences pref;
@@ -38,8 +40,9 @@ public class LockScreenActivity extends Activity {
             }, 3000);
         }
 
+        Log.v("TEST","HERE?");
         if(pref.getInt("Agree", 0) == 1) {
-            setContentView(R.layout.activity_main);
+            setContentView(R.layout.activity_lockscreen);
         }
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
                 WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
@@ -96,8 +99,13 @@ public class LockScreenActivity extends Activity {
                         finish();
                     }
                     if(intent.getExtras().getInt("agree") == 1) {
+
+                        Intent newintent = new Intent(LockScreenActivity.this, PasswordActivity.class);
+                        newintent.putExtra("state",0);
+                        startActivity(newintent);
                         editor = pref.edit();
-                        editor.putInt("Agree", 1);
+                        //editor.putInt("Agree", 1);
+                        //editor.putInt("First", 1);
                         editor.commit();
                     }
                 }
