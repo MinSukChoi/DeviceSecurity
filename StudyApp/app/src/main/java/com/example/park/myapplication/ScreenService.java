@@ -134,8 +134,9 @@ public class ScreenService extends Service {
 
         mTimer = new Timer();
         if(reservState) {
-            mTimer.schedule(mTask, 1000, 3000);
+            mTimer.schedule(mTask, 1000, 2000);
         }
+
     }
 
     private PhoneStateListener phoneListener = new PhoneStateListener() {

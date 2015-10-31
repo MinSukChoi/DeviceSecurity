@@ -58,8 +58,8 @@ public class AlertModeActivity extends Activity {
                     // 취소 버튼 클릭시 설정
                     public void onClick(DialogInterface dialog, int whichButton) {
                         dialog.cancel();
-//                        Intent intent = new Intent(getApplicationContext(), ScreenService.class);
-//                        startService(intent);
+                        Intent intent = new Intent(getApplicationContext(), ScreenService.class);
+                        startService(intent);
                     }
                 });
         AlertDialog dialog = builder.create();    // 알림창 객체 생성

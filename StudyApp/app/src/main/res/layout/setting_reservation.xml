@@ -35,7 +35,7 @@
         android:id="@+id/reserv_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:divider="#ffcc22"
+        android:divider="#868787"
         android:dividerHeight="1.5dp"
         android:layout_below="@+id/reserv_clear_btn"
         android:layout_marginTop="10dp" />

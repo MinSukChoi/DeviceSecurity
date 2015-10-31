@@ -22,7 +22,13 @@ public class LockScreenActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        Toast.makeText(this, "onCreate", Toast.LENGTH_SHORT).show();
+        setContentView(R.layout.activity_lockscreen);
+        //Toast.makeText(this, "onCreate", Toast.LENGTH_SHORT).show();
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
+                WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+        //FLAG_SHOW_WHEN_LOCKED: 기본 잠금화면 보다 위에 activity를 띄워라
+        //FLAG_DISMISS_KEYGUARD: 기본 잠금화면을 없애라 -> KeyguardManager와 KeyguardLock 사용할 것
 
         startActivity(new Intent(this, Splash.class));
 
@@ -39,14 +45,6 @@ public class LockScreenActivity extends Activity {
                 }
             }, 3000);
         }
-
-        //if(pref.getInt("Agree", 0) == 1) {
-        //    setContentView(R.layout.activity_lockscreen);
-        //}
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
-                WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
-        //FLAG_SHOW_WHEN_LOCKED: 기본 잠금화면 보다 위에 activity를 띄워라
-        //FLAG_DISMISS_KEYGUARD: 기본 잠금화면을 없애라 -> KeyguardManager와 KeyguardLock 사용할 것
     }
 
     @Override
