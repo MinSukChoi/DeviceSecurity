@@ -28,11 +28,14 @@ public class AlarmStartReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         boolean[] week = intent.getBooleanArrayExtra("weekday");
         boolean checkweek = intent.getBooleanExtra("checkweek", false); //매주 반복
+        int position = intent.getIntExtra("position", 0);
+        int oneDay = 0;
 
         alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         pref = context.getSharedPreferences("pref", Activity.MODE_PRIVATE);
         editor = pref.edit();
         editor.putBoolean("alarmstate", true);
+        editor.putInt("state", 1);
         editor.putInt("alert", 1);
         editor.putInt("alertNum", pref.getInt("alertInitialNum", 1));
         editor.putInt("alertTime", pref.getInt("alertInitialTime", 1));
@@ -56,24 +59,34 @@ public class AlarmStartReceiver extends BroadcastReceiver {
         Log.i(TAG, "|매주 반복 : " + checkweek);
         Log.i(TAG, "|오늘 요일 : " + cal.get(Calendar.DAY_OF_WEEK));
 
+        // 요일 체크 안했을 경우 당일만 알람 실행
+        for(int i=0; i<=7; i++) {
+            if(!week[i]) {
+                oneDay++;
+            }
+        }
+        if(oneDay == 8) {
+            week[cal.get(Calendar.DAY_OF_WEEK)] = true;
+            oneDay = 0;
+        }
+
         // 오늘 요일이 아닐 때
         if (!week[cal.get(Calendar.DAY_OF_WEEK)]) {
             return;
         } else {
             // 오늘 요일의 알람이 true이면 서비스 실행
-            onRegist(context);
+            int time = pref.getInt("studyTime", 1);
+            Intent intent1 = new Intent(context, BreakAlarmReceiver.class);
+            intent.putExtra("position", position);
+            PendingIntent pIntent = PendingIntent.getBroadcast(context, 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+            alarmManager.setExact(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + TimeUnit.MINUTES.toMillis(time), pIntent);
+
             mService.reservState = true;
             Intent i = new Intent(context, ScreenService.class);
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startService(i);
+
             Toast.makeText(context, "공부 시간이 시작되었습니다 화이팅!", Toast.LENGTH_LONG).show();
         }
-    }
-
-    private void onRegist(Context context) {
-        int time = pref.getInt("studyTime", 60);
-        Intent intent = new Intent(context, BreakAlarmReceiver.class);
-        PendingIntent pIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + TimeUnit.MINUTES.toMillis(time), pIntent);
     }
 }

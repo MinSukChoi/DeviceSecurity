@@ -123,20 +123,19 @@ public class ScreenService extends Service {
                         isServiceRunningCheck().contains("clock") |
                         isServiceRunningCheck().contains("calendar"))) {
                     Log.d(TAG, isServiceRunningCheck());
-                    Intent intent1 = new Intent(getApplicationContext(), ScreenService.class);
-                    startService(intent1);
-                    Intent intent2 = new Intent(getApplicationContext(), LockScreenActivity.class);
-                    intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent2);
+                    if(reservState) {
+                        Intent intent1 = new Intent(getApplicationContext(), ScreenService.class);
+                        startService(intent1);
+                        Intent intent2 = new Intent(getApplicationContext(), LockScreenActivity.class);
+                        intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent2);
+                    }
                 }
             }
         };
 
         mTimer = new Timer();
-        if(reservState) {
-            mTimer.schedule(mTask, 1000, 2000);
-        }
-
+        mTimer.schedule(mTask, 1000, 2000);
     }
 
     private PhoneStateListener phoneListener = new PhoneStateListener() {
@@ -171,20 +170,16 @@ public class ScreenService extends Service {
 
     // 스터디 모드 종료
     public void nomalModeLauncher(View v) {
-        view.setVisibility(View.INVISIBLE);
-        Intent newintent = new Intent(getApplicationContext(), PasswordActivity.class);
-        newintent.putExtra("state", 2);
-        newintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(newintent);
-        Log.v("TAG","After");
-        /*
         if(reservState == false) {
-            Intent intent = new Intent(this, ScreenService.class);
-            stopService(intent);
+            view.setVisibility(View.INVISIBLE);
+            Intent newintent = new Intent(getApplicationContext(), PasswordActivity.class);
+            newintent.putExtra("state", 2);
+            newintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(newintent);
+            Log.v("TAG", "After");
         } else {
             Toast.makeText(this, "예약 잠금 시간입니다", Toast.LENGTH_SHORT).show();
         }
-        */
     }
 
     // 긴급 모드
@@ -226,7 +221,7 @@ public class ScreenService extends Service {
         switch (v.getId()) {
             case R.id.call_app:
                 for(Object object : appNames) {
-                    if(object.toString().contains("contact")) {
+                    if(object.toString().contains("contact") && object.toString().contains("android")) {
                         startActivityForPackageName(object.toString());
                         break;
                     }
@@ -234,7 +229,7 @@ public class ScreenService extends Service {
                 break;
             case R.id.msg_app:
                 for(Object object : appNames) {
-                    if(object.toString().contains("mms")) {
+                    if(object.toString().contains("mms") && object.toString().contains("android")) {
                         startActivityForPackageName(object.toString());
                         break;
                     }
@@ -242,7 +237,7 @@ public class ScreenService extends Service {
                 break;
             case R.id.browser_app:
                 for(Object object : appNames) {
-                    if(object.toString().contains("browser")) {
+                    if(object.toString().contains("browser") && object.toString().contains("android")) {
                         startActivityForPackageName(object.toString());
                         break;
                     }
@@ -258,7 +253,7 @@ public class ScreenService extends Service {
                 break;
             case R.id.gallery_app:
                 for(Object object : appNames) {
-                    if(object.toString().contains("gallery")) {
+                    if(object.toString().contains("gallery") && object.toString().contains("android")) {
                         startActivityForPackageName(object.toString());
                         break;
                     }
@@ -274,7 +269,7 @@ public class ScreenService extends Service {
                 break;
             case R.id.calculator_app:
                 for(Object object : appNames) {
-                    if(object.toString().contains("calculator")) {
+                    if(object.toString().contains("calculator") && object.toString().contains("android")) {
                         startActivityForPackageName(object.toString());
                         break;
                     }
@@ -290,7 +285,7 @@ public class ScreenService extends Service {
                 break;
             case R.id.calendar_app:
                 for(Object object : appNames) {
-                    if(object.toString().contains("calendar")) {
+                    if(object.toString().contains("calendar") && object.toString().contains("android")) {
                         startActivityForPackageName(object.toString());
                         break;
                     }
@@ -347,7 +342,11 @@ public class ScreenService extends Service {
 //
 //        startForeground(1, notification);
 
-        return START_NOT_STICKY;
+        if(reservState) {
+            return START_REDELIVER_INTENT;
+        } else {
+            return START_NOT_STICKY;
+        }
         // START_STICKY와
         // START_REDELIVER_INTENT
         // START_STICKY와 마찬가지로 Service가 종료되었을 경우 시스템이 다시 Service를 재시작

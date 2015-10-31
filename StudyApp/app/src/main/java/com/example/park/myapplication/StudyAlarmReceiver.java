@@ -26,23 +26,27 @@ public class StudyAlarmReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         pref = context.getSharedPreferences("pref", Activity.MODE_PRIVATE);
-        editor = pref.edit();
-        editor.putInt("state", 1);  // 공부 모드 1
-        editor.commit();
 
-        Log.d(TAG, "StudyAlarmReceiver !!");
-        Toast.makeText(context, "휴식모드가 종료되었습니다 " + pref.getInt("studyTime", 1)+"분 동안 공부모드를 실행합니다", Toast.LENGTH_LONG).show();
+        if (pref.getBoolean("alarmstate", false)) {
+            editor = pref.edit();
+            editor.putInt("state", 1);  // 공부 모드 1
+            editor.commit();
+            int position = intent.getIntExtra("position", 0);
 
-        ScreenService mService = new ScreenService();
-        mService.reservState = true;
+            Log.d(TAG, "StudyAlarmReceiver !!");
+            Toast.makeText(context, "휴식모드가 종료되었습니다 " + pref.getInt("studyTime", 1) + "분 동안 공부모드를 실행합니다", Toast.LENGTH_LONG).show();
 
-        Intent i = new Intent(context, ScreenService.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startService(i);
+            ScreenService mService = new ScreenService();
+            mService.reservState = true;
 
-        int time = pref.getInt("studyTime", 1);
-        Intent intentReceiver = new Intent(context, BreakAlarmReceiver.class);
-        PendingIntent pIntent = PendingIntent.getBroadcast(context, 1, intentReceiver, PendingIntent.FLAG_UPDATE_CURRENT);
-        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + TimeUnit.MINUTES.toMillis(time), pIntent);
+            Intent i = new Intent(context, ScreenService.class);
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startService(i);
+
+            int time = pref.getInt("studyTime", 1);
+            Intent intentReceiver = new Intent(context, BreakAlarmReceiver.class);
+            PendingIntent pIntent = PendingIntent.getBroadcast(context, position, intentReceiver, PendingIntent.FLAG_UPDATE_CURRENT);
+            alarmManager.setExact(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + TimeUnit.MINUTES.toMillis(time), pIntent);
+        }
     }
 }

@@ -23,6 +23,7 @@ public class AlarmStopReceiver extends BroadcastReceiver {
     private AlarmManager alarmManager;
     private int dayNum = 0;
     private int count = 0;
+    int oneDay = 0;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -47,10 +48,22 @@ public class AlarmStopReceiver extends BroadcastReceiver {
 
         mService = new ScreenService();
         Calendar cal = Calendar.getInstance();
-        Log.i(TAG, "|" + cal.get(Calendar.DAY_OF_WEEK) + "|");
+        Log.i(TAG, "|오늘 요일 : " + cal.get(Calendar.DAY_OF_WEEK) + "|");
+
+        // 요일 체크 안했을 경우 당일만 알람 실행
+        for(int i=0; i<=7; i++) {
+            if(!week[i]) {
+                oneDay++;
+            }
+        }
+        if(oneDay == 8) {
+            week[cal.get(Calendar.DAY_OF_WEEK)] = true;
+            oneDay = 0;
+        }
 
         if(checkweek) { // 매주 반복
             Log.i(TAG, "|반복 : " + checkweek);
+            Log.i(TAG, "|position : " + position);
             // 오늘 요일이 아닐 때
             if (!week[cal.get(Calendar.DAY_OF_WEEK)]) {
                 return;
@@ -59,10 +72,11 @@ public class AlarmStopReceiver extends BroadcastReceiver {
                 Toast.makeText(context, "공부 시간이 종료되었습니다^^", Toast.LENGTH_LONG).show();
 
                 Intent intent1 = new Intent(context, BreakAlarmReceiver.class);
-                PendingIntent pIntent1 = PendingIntent.getBroadcast(context, 1, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent pIntent1 = PendingIntent.getBroadcast(context, position, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
                 alarmManager.cancel(pIntent1);
+
                 Intent intent2 = new Intent(context, StudyAlarmReceiver.class);
-                PendingIntent pIntent2 = PendingIntent.getBroadcast(context, 1, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent pIntent2 = PendingIntent.getBroadcast(context, position, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
                 alarmManager.cancel(pIntent2);
 
                 mService.reservState = false;
@@ -77,7 +91,8 @@ public class AlarmStopReceiver extends BroadcastReceiver {
                 }
             }
             Log.i(TAG, "|반복 : " + checkweek);
-            Log.d("선택된 요일 수 : ", String.valueOf(dayNum));
+            Log.i(TAG, "|position : " + position);
+            Log.i(TAG, "|선택된 요일 수 : " + String.valueOf(dayNum));
 
             // 오늘 요일이 아닐 때
             if (!week[cal.get(Calendar.DAY_OF_WEEK)]) {
@@ -85,11 +100,13 @@ public class AlarmStopReceiver extends BroadcastReceiver {
             } else {
                 // 오늘 요일의 알람 재생이 true이면 서비스 정지
                 count++;
+
                 Intent intent1 = new Intent(context, BreakAlarmReceiver.class);
-                PendingIntent pIntent1 = PendingIntent.getBroadcast(context, 1, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent pIntent1 = PendingIntent.getBroadcast(context, position, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
                 alarmManager.cancel(pIntent1);
+
                 Intent intent2 = new Intent(context, StudyAlarmReceiver.class);
-                PendingIntent pIntent2 = PendingIntent.getBroadcast(context, 1, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent pIntent2 = PendingIntent.getBroadcast(context, position, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
                 alarmManager.cancel(pIntent2);
 
                 mService.reservState = false;
@@ -99,23 +116,18 @@ public class AlarmStopReceiver extends BroadcastReceiver {
                 Toast.makeText(context, "공부 시간이 종료되었습니다", Toast.LENGTH_LONG).show();
 
                 if(count == dayNum){
-                    onUnregist(context, position);
+                    onUnregist(position);
                     count = 0;
+                    dayNum = 0;
                 }
             }
         }
     }
-    private void onUnregist(Context context, int pos)
+    private void onUnregist(int pos)
     {
-        Log.d(TAG, String.valueOf(pos-1)+"번째 예약 끝");
+        Log.d(TAG, String.valueOf(pos)+"번째 예약 끝");
         editor = pref.edit();
         editor.putBoolean("checkValue"+pos, false);
         editor.commit();
-        Intent intent = new Intent(context, AlarmStartReceiver.class);
-        Intent intent1 = new Intent(context, AlarmStopReceiver.class);
-        PendingIntent pIntent1 = PendingIntent.getBroadcast(context, pos, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        PendingIntent pIntent2 = PendingIntent.getBroadcast(context, pos, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
-        alarmManager.cancel(pIntent1);
-        alarmManager.cancel(pIntent2);
     }
 }
