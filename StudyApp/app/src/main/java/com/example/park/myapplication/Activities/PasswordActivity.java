@@ -116,7 +116,7 @@ public class PasswordActivity extends Activity {
             case 1:
                 Log.v("PASSWORD_ACTIVITY", "password="+password);
                 if(checkedPassword.equals(password)) {
-                    Toast.makeText(PasswordActivity.this, "비밀번호가 설정되었습니다.", Toast.LENGTH_SHORT);
+                    Toast.makeText(PasswordActivity.this, "비밀번호가 설정되었습니다.", Toast.LENGTH_SHORT).show();
                     editor = pref.edit();
                     editor.putString("hash", referenceMonitor.setPassword(password));
                     editor.putInt("First", 1);
@@ -124,7 +124,7 @@ public class PasswordActivity extends Activity {
                     finish();
 
                 }else {
-                    Toast.makeText(PasswordActivity.this,"비밀번호가 일치하지 않습니다.",Toast.LENGTH_SHORT);
+                    Toast.makeText(PasswordActivity.this,"비밀번호가 일치하지 않습니다.",Toast.LENGTH_SHORT).show();
                     Log.v("PASSWORD_ACTIVITY", "NO");
                     STATE=0;
                     init();

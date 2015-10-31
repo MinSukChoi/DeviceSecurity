@@ -23,6 +23,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import com.example.park.myapplication.Activities.PasswordActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -168,12 +170,20 @@ public class ScreenService extends Service {
 
     // 스터디 모드 종료
     public void nomalModeLauncher(View v) {
+        view.setVisibility(View.INVISIBLE);
+        Intent newintent = new Intent(getApplicationContext(), PasswordActivity.class);
+        newintent.putExtra("state", 2);
+        newintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(newintent);
+        Log.v("TAG","After");
+        /*
         if(reservState == false) {
             Intent intent = new Intent(this, ScreenService.class);
             stopService(intent);
         } else {
             Toast.makeText(this, "예약 잠금 시간입니다", Toast.LENGTH_SHORT).show();
         }
+        */
     }
 
     // 긴급 모드

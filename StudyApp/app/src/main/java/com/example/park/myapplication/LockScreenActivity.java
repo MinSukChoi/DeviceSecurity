@@ -71,12 +71,9 @@ public class LockScreenActivity extends Activity {
                     if (pref.getBoolean("alarmstate", false)) {
                         Toast.makeText(LockScreenActivity.this, "예약 시간에는 설정할 수 없습니다.", Toast.LENGTH_LONG);
                     } else {
-
                         Intent newintent = new Intent(LockScreenActivity.this, PasswordActivity.class);
                         newintent.putExtra("state", 2);
                         startActivityForResult(newintent, 2);
-                        /*
-                        */
                     }
                 }
             });
@@ -112,7 +109,7 @@ public class LockScreenActivity extends Activity {
             case 2:
                 if(resultCode == RESULT_OK) {
                     if(intent.getExtras().getInt("validation") == 0) {
-                        Toast.makeText(this,"암호가 올바르지 않습니다.",Toast.LENGTH_SHORT);
+                        Toast.makeText(this,"암호가 올바르지 않습니다.",Toast.LENGTH_SHORT).show();
                     }
                     if(intent.getExtras().getInt("validation") == 1) {
                         Intent newintent = new Intent(LockScreenActivity.this, SettingActivity.class);
