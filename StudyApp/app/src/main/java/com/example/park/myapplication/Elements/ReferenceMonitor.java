@@ -14,15 +14,19 @@ import java.security.spec.InvalidKeySpecException;
  */
 public class ReferenceMonitor {
     private static int STATE;
-    public static final int STUDYMODE=0;
-    public static final int NORMALMODE=1;
+    public static final int NORMALMODE=0;
+    public static final int STUDYMODE=1;
     public static final int INVALIDMODE=2;
+    public static final int ALERTMODE=3;
+    public static final int BREAKTIMEMODE=4;
+
     private static boolean PERMISSION=true;
     private static PasswordModule passwordModule = PasswordModule.getInstance();
 
     private static ReferenceMonitor referenceMonitor = new ReferenceMonitor();
 
-    private ReferenceMonitor() {}
+    private ReferenceMonitor() {
+    }
 
     public static ReferenceMonitor getInstance() {
         return referenceMonitor;
@@ -54,4 +58,5 @@ public class ReferenceMonitor {
         STATE=NORMALMODE;
     }
     public static void setInvalidmode() { STATE=INVALIDMODE;}
+    public static void setAlertmode() { STATE=ALERTMODE; }
 }

@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.park.myapplication.Activities.PasswordActivity;
+import com.example.park.myapplication.Elements.ReferenceMonitor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,7 @@ import java.util.TimerTask;
  */
 public class ScreenService extends Service {
     private static final String TAG = "Service";
+    private ReferenceMonitor referenceMonitor = ReferenceMonitor.getInstance();
     private BootReceiver mReceiver = null;
     public static View view;
     private static WindowManager mWindowManager;
@@ -191,6 +193,7 @@ public class ScreenService extends Service {
             Toast.makeText(v.getContext(), "긴급모드를 모두 사용했습니다", Toast.LENGTH_SHORT).show();
         } else {
             //view.setVisibility(View.INVISIBLE);
+            referenceMonitor.setAlertmode();
             stopSelf();
             Intent popupIntent = new Intent(getApplicationContext(), AlertModeActivity.class);
             PendingIntent pie = PendingIntent.getActivity(getApplicationContext(), 0, popupIntent, PendingIntent.FLAG_ONE_SHOT);
