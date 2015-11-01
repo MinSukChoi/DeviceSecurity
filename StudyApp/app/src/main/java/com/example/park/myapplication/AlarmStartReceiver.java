@@ -11,6 +11,8 @@ import android.os.SystemClock;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.park.myapplication.Elements.ReferenceMonitor;
+
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
@@ -19,6 +21,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class AlarmStartReceiver extends BroadcastReceiver {
     private static final String TAG = "AlarmStartReceiver";
+    private ReferenceMonitor referenceMonitor = ReferenceMonitor.getInstance();
     ScreenService mService;
     SharedPreferences pref;
     SharedPreferences.Editor editor;
@@ -76,6 +79,7 @@ public class AlarmStartReceiver extends BroadcastReceiver {
             return;
         } else {
             // 오늘 요일의 알람이 true이면 서비스 실행
+            referenceMonitor.setStudymode();
             int time = pref.getInt("studyTime", 1);
             Intent intent1 = new Intent(context, BreakAlarmReceiver.class);
             intent.putExtra("position", position);

@@ -30,7 +30,7 @@ public class StudyBrowser extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.study_browser);
         ButterKnife.bind(this);
 
         webView.setWebViewClient(new WebClient());

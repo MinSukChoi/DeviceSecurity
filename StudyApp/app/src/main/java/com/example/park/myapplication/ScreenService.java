@@ -241,10 +241,17 @@ public class ScreenService extends Service {
                 }
                 break;
             case R.id.browser_app:
-                for(Object object : appNames) {
-                    if(object.toString().contains("browser") && object.toString().contains("android")) {
-                        startActivityForPackageName(object.toString());
-                        break;
+                if(pref.getBoolean("studybrowser",true)) {
+                    view.setVisibility(View.INVISIBLE);
+                    Intent intent = new Intent(getApplicationContext(),StudyBrowser.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }else {
+                    for (Object object : appNames) {
+                        if (object.toString().contains("browser") && object.toString().contains("android")) {
+                            startActivityForPackageName(object.toString());
+                            break;
+                        }
                     }
                 }
                 break;
@@ -274,7 +281,7 @@ public class ScreenService extends Service {
                 break;
             case R.id.calculator_app:
                 for(Object object : appNames) {
-                    if(object.toString().contains("calculator") && object.toString().contains("android")) {
+                    if(object.toString().contains("calculator") ) {
                         startActivityForPackageName(object.toString());
                         break;
                     }

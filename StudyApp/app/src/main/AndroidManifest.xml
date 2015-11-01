@@ -41,6 +41,8 @@
         <activity android:name=".ReservActivity" />
         <activity android:name=".ReservAddActivity" />
         <activity android:name=".Observer.AppList" />
+        <activity android:name=".StudyBrowser"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity
             android:name=".AlertModeActivity"
             android:theme="@android:style/Theme.Dialog">

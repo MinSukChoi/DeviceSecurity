@@ -30,22 +30,38 @@ public class SettingActivity extends PreferenceActivity implements Preference.On
         //getActionBar().setTitle("설정");
 
         Preference pChangePassword = (Preference)findPreference("keychangepassword");
-        Preference pFindPassword = (Preference)findPreference("keyfindpassword");
         Preference pLockReserv = (Preference)findPreference("keylock");
         Preference pEmergencyMode = (Preference)findPreference("keyemergency");
         Preference pBreakMode = (Preference)findPreference("keybreak");
         Preference pAppList = (Preference)findPreference("keyapplist");
-        SwitchPreference pBrowser = (SwitchPreference)findPreference("keyBrowser");
+        final SwitchPreference pBrowser = (SwitchPreference)findPreference("keybrowser");
         Preference pHelp = (Preference)findPreference("keyhelp");
         Preference pContact = (Preference)findPreference("keycontact");
 
         pChangePassword.setOnPreferenceClickListener(this);
-        pFindPassword.setOnPreferenceClickListener(this);
         pLockReserv.setOnPreferenceClickListener(this);
         pEmergencyMode.setOnPreferenceClickListener(this);
         pBreakMode.setOnPreferenceClickListener(this);
         pAppList.setOnPreferenceClickListener(this);
-        //pBrowser
+        pBrowser.setChecked(pref.getBoolean("studybrowser",true));
+        pBrowser.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                pBrowser.setChecked(!pBrowser.isChecked());
+                if (pBrowser.isChecked()) {
+                    editor = pref.edit();
+                    editor.putBoolean("studybrowser", true);
+                    editor.commit();
+
+                }else {
+                    editor = pref.edit();
+                    editor.putBoolean("studybrowser", false);
+                    editor.commit();
+
+                }
+                return false;
+            }
+        });
 
         pHelp.setOnPreferenceClickListener(this);
         pContact.setOnPreferenceClickListener(this);
@@ -59,10 +75,7 @@ public class SettingActivity extends PreferenceActivity implements Preference.On
             Intent intent = new Intent(this, PasswordActivity.class);
             intent.putExtra("state", 0);
             startActivityForResult(intent, 0);
-        } else if(preference.getKey().equals("keyfindpassword")) {
-
-
-        } else if(preference.getKey().equals("keylock")) {
+        }else if(preference.getKey().equals("keylock")) {
             Intent intent = new Intent(this, ReservActivity.class);
             startActivity(intent);
         } else if(preference.getKey().equals("keyemergency")) {
@@ -88,4 +101,5 @@ public class SettingActivity extends PreferenceActivity implements Preference.On
 
         return false;
     }
+
 }
