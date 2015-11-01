@@ -6,44 +6,53 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp">
+        android:layout_height="60dp"
+        android:gravity="center_vertical"
+        android:background="#008fff">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="한시간의 의지"
+            android:textSize="20dp"
+            android:id="@+id/app_title"
+            android:textStyle="bold"
+            android:textColor="@android:color/background_light"
+            android:gravity="center_vertical"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp" />
 
         <Button
             android:id="@+id/setting_button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentLeft="false"
-            android:layout_alignParentTop="false"
-            android:background="@drawable/abc_ic_menu_selectall_mtrl_alpha"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp" />
-
-        <TextClock
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textClock1"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="20dp" />
+            android:layout_marginRight="10dp"
+            android:background="@drawable/abc_ic_menu_moreoverflow_mtrl_alpha"
+            android:layout_centerVertical="true" />
+
     </RelativeLayout>
 
-    <Button
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:text="시작하기"
-        android:id="@+id/lock_btn"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp" />
+    <!--<Button-->
+        <!--android:id="@+id/lock_btn"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_marginBottom="20dp"-->
+        <!--android:text="시작하기" />-->
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="'한시간의 의지'를 시작하세요."
-        android:id="@+id/textView"
-        android:layout_centerInParent="true"
-        android:textStyle="bold" />
+        android:layout_height="100dp"
+        android:text="터치해서 시작하세요"
+        android:id="@+id/lock_textview"
+        android:textStyle="bold"
+        android:textSize="20dp"
+        android:textColor="@android:color/background_light"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true" />
 
 
 </RelativeLayout>

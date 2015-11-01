@@ -12,37 +12,28 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical">
+        android:layout_height="60dp"
+        android:gravity="center_vertical"
+        android:background="#008fff">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text=" STUDY MODE"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="STUDY MODE"
             android:textSize="20dp"
             android:id="@+id/app_title"
             android:textStyle="bold"
-            android:background="#008fff"
             android:textColor="@android:color/background_light"
-            android:gravity="center_vertical" />
-
-        <TextClock
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/textClock2"
-            android:layout_toLeftOf="@+id/back_button"
-            android:layout_alignParentRight="false"
+            android:gravity="center_vertical"
             android:layout_centerVertical="true"
-            android:layout_marginRight="20dp" />
+            android:layout_marginLeft="10dp" />
 
         <Button
             android:id="@+id/back_button"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
             android:onClick="nomalModeLauncher"
             android:background="@android:drawable/ic_menu_close_clear_cancel"
             android:layout_centerVertical="true" />
@@ -61,28 +52,33 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="제목"
-            android:textSize="20dp" />
+            android:textSize="20dp"
+            android:textColor="@android:color/background_light" />
 
         <TextView
             android:id="@+id/current_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="시간"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="10dp"
+            android:textColor="@android:color/darker_gray"
+            android:textSize="15dp" />
 
         <TextView
             android:id="@+id/current_alert"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="긴급 모드"
-            android:textSize="15dp" />
+            android:textSize="15dp"
+            android:textColor="@android:color/darker_gray" />
 
         <TextView
             android:id="@+id/current_break"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="휴식 모드"
-            android:textSize="15dp" />
+            android:textSize="15dp"
+            android:textColor="@android:color/darker_gray" />
     </LinearLayout>
 
     <Button
@@ -111,91 +107,231 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/apps_button"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:layout_alignParentStart="false"
         android:id="@+id/tableLayout"
-        android:background="@android:color/background_light"
         android:layout_marginBottom="50dp"
         android:layout_marginTop="250dp">
 
         <TableRow android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:gravity="center_vertical">
-            <ImageView
-                android:id="@+id/call_app"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@android:drawable/ic_menu_call"
+            android:layout_width="match_parent">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:onClick="executeApp" />
-            <ImageView
-                android:id="@+id/msg_app"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@android:drawable/ic_menu_send"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/call_app"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/contacts"
+                    android:onClick="executeApp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="전화"
+                    android:id="@+id/app_contacts" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:onClick="executeApp" />
-            <ImageView
-                android:id="@+id/browser_app"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@android:drawable/ic_menu_search"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/msg_app"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/mms"
+                    android:onClick="executeApp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="메시지"
+                    android:id="@+id/app_mms" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:onClick="executeApp" />
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/browser_app"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/browser"
+                    android:onClick="executeApp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="인터넷"
+                    android:id="@+id/app_browser" />
+            </LinearLayout>
+
         </TableRow>
 
         <TableRow android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:gravity="center_vertical">
-            <ImageView
-                android:id="@+id/camera_app"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@android:drawable/ic_menu_camera"
-                android:layout_weight="1"
-                android:onClick="executeApp" />
-            <ImageView
-                android:id="@+id/gallery_app"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@android:drawable/ic_menu_gallery"
-                android:layout_weight="1"
-                android:onClick="executeApp" />
-            <ImageView
-                android:id="@+id/memo_app"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@android:drawable/ic_menu_agenda"
-                android:layout_weight="1"
-                android:onClick="executeApp" />
+            android:layout_width="match_parent">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/camera_app"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/camera"
+                    android:layout_weight="1"
+                    android:onClick="executeApp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="카메라"
+                    android:id="@+id/app_camera" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/gallery_app"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/gallery"
+                    android:layout_weight="1"
+                    android:onClick="executeApp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="갤러리"
+                    android:id="@+id/app_gallery" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/memo_app"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/note"
+                    android:layout_weight="1"
+                    android:onClick="executeApp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="메모"
+                    android:id="@+id/app_memo" />
+            </LinearLayout>
+
         </TableRow>
 
         <TableRow android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_width="match_parent"
-            android:gravity="center_vertical">
-            <ImageView
-                android:id="@+id/calculator_app"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@android:drawable/ic_menu_edit"
+            android:layout_weight="1">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:id="@+id/calculator_app"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/calculator"
+                    android:layout_weight="1"
+                    android:onClick="executeApp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="계산기"
+                    android:id="@+id/textView2" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:onClick="executeApp" />
-            <ImageView
-                android:id="@+id/alarm_app"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@android:drawable/ic_menu_recent_history"
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/alarm_app"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/clock"
+                    android:layout_weight="1"
+                    android:onClick="executeApp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="알람/시계"
+                    android:id="@+id/textView3" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:onClick="executeApp" />
-            <ImageView
-                android:id="@+id/calendar_app"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@android:drawable/ic_menu_my_calendar"
-                android:layout_weight="1"
-                android:onClick="executeApp" />
+                android:gravity="center">
+
+                <ImageView
+                    android:id="@+id/calendar_app"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/calendar"
+                    android:layout_weight="1"
+                    android:onClick="executeApp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="캘린더"
+                    android:id="@+id/textView4" />
+            </LinearLayout>
+
         </TableRow>
 
     </TableLayout>

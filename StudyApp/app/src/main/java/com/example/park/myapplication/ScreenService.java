@@ -328,10 +328,10 @@ public class ScreenService extends Service {
         int studyTime = pref.getInt("studyTime", 1);
         int breakTime = pref.getInt("breakTime", 1);
 
-        ((TextView)view.findViewById(R.id.current_title)).setText(title);
-        ((TextView)view.findViewById(R.id.current_time)).setText(currentStart + " ~ " + currentEnd);
-        ((TextView)view.findViewById(R.id.current_alert)).setText("긴급모드 횟수  " + alertCount + "회,  긴급모드 시간  " + alertTime + "분");
-        ((TextView)view.findViewById(R.id.current_break)).setText("공부 시간  " + studyTime + "분,  휴식 시간  " + breakTime + "분");
+        ((TextView)view.findViewById(R.id.current_title)).setText("제목 : " + title);
+        ((TextView)view.findViewById(R.id.current_time)).setText("예약 잠금 시간 : " + currentStart + " ~ " + currentEnd);
+        ((TextView)view.findViewById(R.id.current_alert)).setText("남은 긴급모드 횟수 : " + alertCount + "회");
+        ((TextView)view.findViewById(R.id.current_break)).setText("공부 시간 : " + studyTime + "분 & 휴식 시간 : " + breakTime + "분");
 
         if(reservState) {
             if(intent != null){
