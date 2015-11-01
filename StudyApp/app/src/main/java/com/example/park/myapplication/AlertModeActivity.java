@@ -11,7 +11,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import java.util.concurrent.TimeUnit;
@@ -70,7 +69,7 @@ public class AlertModeActivity extends Activity {
     private void onRegist() {
         ScreenService mService = new ScreenService();
         mService.reservState = false;
-        mService.view.setVisibility(View.INVISIBLE);
+        //mService.view.setVisibility(View.INVISIBLE);
 
         editor = pref.edit();
         editor.putInt("alertNum", pref.getInt("alertNum", 1) - 1);
