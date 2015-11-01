@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.park.myapplication.Activities.PasswordActivity;
@@ -79,8 +80,8 @@ public class LockScreenActivity extends Activity {
                 }
             });
 
-            Button lockButton = (Button) findViewById(R.id.lock_btn);
-            lockButton.setOnClickListener(new View.OnClickListener() {
+            TextView lockText = (TextView) findViewById(R.id.lock_textview);
+            lockText.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     referenceMonitor.setStudymode();
