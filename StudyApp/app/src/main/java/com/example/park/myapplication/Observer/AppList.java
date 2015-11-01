@@ -63,7 +63,6 @@ public class AppList extends Activity {
     public class AppInfo{
         public String appTitle;
         public Drawable appIcon;
-
     }
 
     @Override
@@ -193,19 +192,18 @@ public class AppList extends Activity {
                     editor.putString("appList", availList);
                     editor.commit();
                 }else{
-                    Log.d("Test", mData.mDate);
                     if(mData.mDate.contains("Adventure")){
                         availList += "'"+mData.mTitle+"'";
                         mData.mColor = Color.rgb(0,255,0);
                         ((ViewHolder)v.getTag()).mLayout.setBackgroundColor(0xFF00FF00);
+                        SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = pref.edit();
+                        editor.putString("appList", availList);
+                        editor.commit();
                     }else{
-                        mData.mColor = Color.rgb(255,0,0);
-                        ((ViewHolder)v.getTag()).mLayout.setBackgroundColor(0xFFFF0000);
+                        //mData.mColor = Color.rgb(255,0,0);
+                        //((ViewHolder)v.getTag()).mLayout.setBackgroundColor(0xFFFF0000);
                     }
-                    SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = pref.edit();
-                    editor.putString("appList", availList);
-                    editor.commit();
                 }
 
                 // preference save with encrypt
@@ -224,11 +222,8 @@ public class AppList extends Activity {
 
     private class ViewHolder {
         public ImageView mIcon;
-
         public TextView mText;
-
         public TextView mDate;
-
         public RelativeLayout mLayout;
     }
 

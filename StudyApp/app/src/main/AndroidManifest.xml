@@ -10,11 +10,11 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.GET_TASKS"/>
 
-
     <application
         android:allowBackup="true"
         android:icon="@drawable/lock_icon"
         android:label="@string/app_name"
+        android:manageSpaceActivity=".LockScreenActivity"
         android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
 
         <activity android:name=".Splash" />
@@ -38,12 +38,7 @@
         </activity>
         <activity
             android:name=".Activities.PasswordActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.HOME" />
-                <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
+
         </activity>
 
         <activity
