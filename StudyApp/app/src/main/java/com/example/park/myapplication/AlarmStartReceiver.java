@@ -40,8 +40,8 @@ public class AlarmStartReceiver extends BroadcastReceiver {
         editor.putBoolean("alarmstate", true); // 잠금시간 true, 아니면 false
         editor.putInt("state", 1);  // 스터디모드 1, 휴식모드 0
         editor.putString("currentTitle", pref.getString("title"+position, ""));
-        String currentStart = String.valueOf(pref.getInt("startHour"+position, 0)+" : "+pref.getInt("startMin"+position, 0));
-        String currentEnd = String.valueOf(pref.getInt("endHour"+position, 0)+" : "+pref.getInt("endMin"+position, 0));
+        String currentStart = String.valueOf(pref.getInt("startHour"+position, 0)+":"+pref.getInt("startMin"+position, 0));
+        String currentEnd = String.valueOf(pref.getInt("endHour"+position, 0)+":"+pref.getInt("endMin"+position, 0));
         editor.putString("currentStart", currentStart);
         editor.putString("currentEnd", currentEnd);
         editor.commit();
@@ -49,10 +49,10 @@ public class AlarmStartReceiver extends BroadcastReceiver {
         mService = new ScreenService();
         Calendar cal = Calendar.getInstance();
 
-        Log.i(TAG, "|긴급모드 횟수 : " + pref.getInt("alertNum", 1));
-        Log.i(TAG, "|긴급모드 시간 : " + pref.getInt("alertTime", 1));
-        Log.i(TAG, "|휴식모드 공부 : " + pref.getInt("studyTime", 1));
-        Log.i(TAG, "|휴식모드 휴식 : " + pref.getInt("breakTime", 1));
+        Log.i(TAG, "|긴급모드 횟수 : " + pref.getInt("alertNum", 3));
+        Log.i(TAG, "|긴급모드 시간 : " + pref.getInt("alertTime", 15));
+        Log.i(TAG, "|휴식모드 공부 : " + pref.getInt("studyTime", 50));
+        Log.i(TAG, "|휴식모드 휴식 : " + pref.getInt("breakTime", 10));
         Log.i(TAG, "|일 : " + week[Calendar.SUNDAY]);
         Log.i(TAG, "|월 : " + week[Calendar.MONDAY]);
         Log.i(TAG, "|화 : " + week[Calendar.TUESDAY]);
@@ -80,7 +80,7 @@ public class AlarmStartReceiver extends BroadcastReceiver {
         } else {
             // 오늘 요일의 알람이 true이면 서비스 실행
             referenceMonitor.setStudymode();
-            int time = pref.getInt("studyTime", 1);
+            int time = pref.getInt("studyTime", 50);
             Intent intent1 = new Intent(context, BreakAlarmReceiver.class);
             intent.putExtra("position", position);
             PendingIntent pIntent = PendingIntent.getBroadcast(context, 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);

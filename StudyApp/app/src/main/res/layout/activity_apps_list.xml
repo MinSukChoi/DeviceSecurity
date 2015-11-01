@@ -4,12 +4,24 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text=" 앱 리스트"
+        android:textSize="20dp"
+        android:id="@+id/apps_title"
+        android:textStyle="bold"
+        android:background="#008fff"
+        android:gravity="center_vertical"
+        android:textColor="@android:color/background_light" />
+
     <ListView
         android:id="@+id/apps_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="#868787"
-        android:dividerHeight="1.5dp" >
+        android:dividerHeight="1.5dp"
+        android:layout_marginTop="30dp">
     </ListView>
 
 </LinearLayout>

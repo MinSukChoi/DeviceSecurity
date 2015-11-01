@@ -24,8 +24,8 @@ public class DeviceEventReceiver extends BroadcastReceiver {
         pref = context.getSharedPreferences("pref", Activity.MODE_PRIVATE);
         editor = pref.edit();
         editor.putInt("alert", 1);
-        editor.putInt("alertNum", pref.getInt("alertInitialNum", 1));
-        editor.putInt("alertTime", pref.getInt("alertInitialTime", 1));
+        editor.putInt("alertNum", pref.getInt("alertInitialNum", 3));
+        editor.putInt("alertTime", pref.getInt("alertInitialTime", 15));
         editor.commit();
 
         Log.d(TAG, "00:00 초기화");

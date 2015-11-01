@@ -35,15 +35,15 @@
             android:title="스터디 브라우저 사용" />
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:key="keycatehelp"
-        android:title="문의하기" >
-        <Preference
-            android:key="keyhelp"
-            android:title="도움말" />
-        <Preference
-            android:key="keycontact"
-            android:title="고객센터" />
-    </PreferenceCategory>
+    <!--<PreferenceCategory-->
+        <!--android:key="keycatehelp"-->
+        <!--android:title="문의하기" >-->
+        <!--<Preference-->
+            <!--android:key="keyhelp"-->
+            <!--android:title="도움말" />-->
+        <!--<Preference-->
+            <!--android:key="keycontact"-->
+            <!--android:title="고객센터" />-->
+    <!--</PreferenceCategory>-->
 
 </PreferenceScreen>
