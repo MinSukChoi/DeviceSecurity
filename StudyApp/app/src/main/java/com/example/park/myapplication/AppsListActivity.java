@@ -55,7 +55,7 @@ public class AppsListActivity extends Activity {
             app.label = ri.loadLabel(manager);
             app.name = ri.activityInfo.packageName;
             app.icon = ri.activityInfo.loadIcon(manager);
-            if(availList.contains("'" + app.label + "'")){
+            if(availList.contains("'" + app.name + "'")){
                 apps.add(app);
             }
         }

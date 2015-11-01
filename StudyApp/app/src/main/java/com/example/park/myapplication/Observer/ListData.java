@@ -17,6 +17,7 @@ public class ListData {
 
     // 날짜
     public String mDate;
+    public String mPackage;
 
     public int mColor;
 
