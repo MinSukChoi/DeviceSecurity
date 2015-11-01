@@ -73,6 +73,9 @@ public class AppList extends Activity {
 
         final Handler mHandler = new Handler();
 
+        SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
+        availList = pref.getString("appList", "");
+
 /*
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -186,21 +189,18 @@ public class AppList extends Activity {
 
                 if (availList.contains("'" + mData.mTitle + "'")) {
                     availList = availList.replaceAll("'" + mData.mTitle + "'", "");
-                    mData.mColor = Color.rgb(255,255,255);
-                    ((ViewHolder)v.getTag()).mLayout.setBackgroundColor(0xFFFFFFFF);
+                    mData.mColor = Color.rgb(200,255,200);
+                    ((ViewHolder)v.getTag()).mLayout.setBackgroundColor(0xFFC8FFC8);
                     SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
                     SharedPreferences.Editor editor = pref.edit();
                     editor.putString("appList", availList);
                     editor.commit();
                 }else{
-                    Log.d("Test", mData.mDate);
-                    if(mData.mDate.contains("Adventure")){
+                    if(mData.mColor == Color.rgb(200,255,200)){
                         availList += "'"+mData.mTitle+"'";
                         mData.mColor = Color.rgb(0,255,0);
                         ((ViewHolder)v.getTag()).mLayout.setBackgroundColor(0xFF00FF00);
                     }else{
-                        mData.mColor = Color.rgb(255,0,0);
-                        ((ViewHolder)v.getTag()).mLayout.setBackgroundColor(0xFFFF0000);
                     }
                     SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
                     SharedPreferences.Editor editor = pref.edit();
@@ -263,7 +263,15 @@ public class AppList extends Activity {
             addInfo.mIcon = icon;
             addInfo.mTitle = mTitle;
             addInfo.mDate = mDate;
-            addInfo.mColor = Color.rgb(255,255,255);
+            if(mTitle.contains("한시간의 의지")){
+                addInfo.mColor = Color.rgb(200,255,200);
+            }else{
+                addInfo.mColor = Color.rgb(255,200,200);
+            }
+
+            if(availList.contains(mTitle)){
+                addInfo.mColor = Color.rgb(0,255,0);
+            }
 
             mListData.add(addInfo);
         }
@@ -284,7 +292,7 @@ public class AppList extends Activity {
 
         public void onItemClick(AdapterView<?> arg0, View v, int position,
                                 long id) {
-                v.setBackgroundColor(Color.BLUE);
+            v.setBackgroundColor(Color.BLUE);
         }
 
         @Override
