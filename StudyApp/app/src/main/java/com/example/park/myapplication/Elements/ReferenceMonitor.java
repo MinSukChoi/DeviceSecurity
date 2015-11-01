@@ -38,16 +38,6 @@ public class ReferenceMonitor {
     public static String setPassword(String password) throws InvalidKeySpecException, NoSuchAlgorithmException {
         return passwordModule.registerKey(password);
     }
-
-    public static boolean validate() {
-        return PERMISSION;
-    }
-    public static void setPermission() {
-        PERMISSION=true;
-    }
-    public static void unsetPermission() {
-        PERMISSION=false;
-    }
     public static int getSTATE(){
         return STATE;
     }
