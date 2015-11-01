@@ -101,7 +101,9 @@ public class AppList extends Activity {
             AppInfo appInfo = new AppInfo();
             appInfo.appTitle = ri.loadLabel(manager).toString();
             appInfo.appIcon = ri.activityInfo.loadIcon(manager);
-            dictionary.put(ri.activityInfo.packageName, appInfo);
+            if(!appInfo.appTitle.contains("한시간의 의지")){
+                dictionary.put(ri.activityInfo.packageName, appInfo);
+            }
         }
 
         new Thread(new Runnable() {
@@ -263,7 +265,7 @@ public class AppList extends Activity {
             addInfo.mIcon = icon;
             addInfo.mTitle = mTitle;
             addInfo.mDate = mDate;
-            if(mTitle.contains("한시간의 의지")){
+            if(mDate.contains("Health") || mDate.contains("Education")){
                 addInfo.mColor = Color.rgb(200,255,200);
             }else{
                 addInfo.mColor = Color.rgb(255,200,200);
