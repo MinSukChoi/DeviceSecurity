@@ -50,7 +50,7 @@ public class ReservActivity extends Activity {
 
         Button addButton = (Button) findViewById(R.id.reserv_add_btn);
         Button okButton = (Button) findViewById(R.id.reserv_ok_btn);
-        Button clearButton = (Button) findViewById(R.id.reserv_clear_btn);
+//        Button clearButton = (Button) findViewById(R.id.reserv_clear_btn);
 
         alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         mListView = (ListView) findViewById(R.id.reserv_list);
@@ -58,9 +58,10 @@ public class ReservActivity extends Activity {
         mListView.setAdapter(mAdapter);
         reservAddActivity = new ReservAddActivity();
 
-        // 초기에 아이템 추가
+        // 초기에 아이템 load
         initialReserv();
 
+        // 아이템 수정
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
@@ -78,13 +79,13 @@ public class ReservActivity extends Activity {
             public boolean onItemLongClick(AdapterView<?> parent, View v, final int position, long id) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                 // 여기서 부터는 알림창의 속성 설정
-                builder.setTitle(pref.getString("title"+(position+1), "")) // 제목 설정
+                builder.setTitle(pref.getString("title" + (position + 1), "")) // 제목 설정
                         .setMessage("예약을 삭제하시겠습니까?") // 메세지 설정
                         .setCancelable(false)   // 뒤로 버튼 클릭시 취소 가능 설정
                         .setPositiveButton("네", new DialogInterface.OnClickListener() {
                             // 확인 버튼 클릭시 설정
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                if(pref.getBoolean("checkValue"+(position+1), false)) {
+                                if (pref.getBoolean("checkValue" + (position + 1), false)) {
                                     Toast.makeText(getApplicationContext(), "해당 알람이 삭제됩니다", Toast.LENGTH_SHORT).show();
                                     onUnregist(position + 1);   //알람 삭제
                                 }
@@ -105,6 +106,7 @@ public class ReservActivity extends Activity {
             }
         });
 
+        // 아이템 추가
         addButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,13 +116,13 @@ public class ReservActivity extends Activity {
                 startActivityForResult(intent, 1);
             }
         });
-        clearButton.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editor.clear();
-                editor.commit();
-            }
-        });
+//        clearButton.setOnClickListener(new Button.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                editor.clear();
+//                editor.commit();
+//            }
+//        });
         okButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -452,7 +454,7 @@ public class ReservActivity extends Activity {
         }
     }
 
-    private void onRegist(int position)
+    public void onRegist(int position)
     {
         boolean[] week = { false, pref.getBoolean("sun"+position, false), pref.getBoolean("mon"+position, false),
                 pref.getBoolean("tue" + position, false), pref.getBoolean("wed" + position, false),
@@ -514,7 +516,7 @@ public class ReservActivity extends Activity {
         }
     }
 
-    private void onUnregist(int position)
+    public void onUnregist(int position)
     {
         Log.d(TAG, String.valueOf(position-1)+"번째 예약 해제");
         Intent intent1 = new Intent(this, AlarmStartReceiver.class);

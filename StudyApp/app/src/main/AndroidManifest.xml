@@ -18,13 +18,13 @@
         android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen" >
 
         <activity android:name=".Splash" />
-
         <activity android:name=".AccessTerms" />
 
         <activity
             android:name=".LockScreenActivity"
             android:label="@string/app_name"
-            android:launchMode="singleTask" >
+            android:launchMode="singleTask"
+            android:excludeFromRecents="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.HOME" />
@@ -33,51 +33,20 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".AppsListActivity" >
-        </activity>
-        <activity
-            android:name=".Activities.PasswordActivity" >
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-                <!--<category android:name="android.intent.category.HOME" />-->
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-                <!--<category android:name="android.intent.category.DEFAULT" />-->
-            <!--</intent-filter>-->
-        </activity>
-
-        <activity
-            android:name=".SettingActivity" >
-        </activity>
-
-        <activity
-            android:name=".SettingAlertActivity" >
-        </activity>
-
-        <activity
-            android:name=".SettingBreakActivity" >
-        </activity>
-
-        <activity
-            android:name=".ReservActivity" >
-        </activity>
-
-        <activity
-            android:name=".ReservAddActivity" >
-        </activity>
-
+        <activity android:name=".AppsListActivity" />
+        <activity android:name=".Activities.PasswordActivity" />
+        <activity android:name=".SettingActivity" />
+        <activity android:name=".SettingAlertActivity" />
+        <activity android:name=".SettingBreakActivity" />
+        <activity android:name=".ReservActivity" />
+        <activity android:name=".ReservAddActivity" />
+        <activity android:name=".Observer.AppList" />
         <activity
             android:name=".AlertModeActivity"
             android:theme="@android:style/Theme.Dialog">
         </activity>
 
-        <activity
-            android:name=".Observer.AppList" >
-        </activity>
-
-        <service
-            android:name=".ScreenService" >
-        </service>
+        <service android:name=".ScreenService" />
 
         <receiver
             android:name=".BootReceiver"
@@ -87,11 +56,19 @@
             </intent-filter>
         </receiver>
 
+        <receiver
+            android:name=".DeviceEventReceiver"
+            android:enabled="true"
+            android:exported="false"
+            android:label="Device Event Receiver" >
+            <intent-filter>
+                <action android:name="android.intent.action.DATE_CHANGED" />
+            </intent-filter>
+        </receiver>
+
         <receiver android:name=".AlarmStartReceiver" />
         <receiver android:name=".AlarmStopReceiver" />
-
         <receiver android:name=".AlertAlarmReceiver" />
-
         <receiver android:name=".BreakAlarmReceiver" />
         <receiver android:name=".StudyAlarmReceiver" />
 

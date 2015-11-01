@@ -34,18 +34,17 @@ public class AlarmStartReceiver extends BroadcastReceiver {
         alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         pref = context.getSharedPreferences("pref", Activity.MODE_PRIVATE);
         editor = pref.edit();
-        editor.putBoolean("alarmstate", true);
-        editor.putInt("state", 1);
-        editor.putInt("alert", 1);
-        editor.putInt("alertNum", pref.getInt("alertInitialNum", 1));
-        editor.putInt("alertTime", pref.getInt("alertInitialTime", 1));
+        editor.putBoolean("alarmstate", true); // 잠금시간 true, 아니면 false
+        editor.putInt("state", 1);  // 스터디모드 1, 휴식모드 0
         editor.commit();
+
+        mService = new ScreenService();
+        Calendar cal = Calendar.getInstance();
 
         Log.i(TAG, "|긴급모드 횟수 : " + pref.getInt("alertNum", 1));
         Log.i(TAG, "|긴급모드 시간 : " + pref.getInt("alertTime", 1));
         Log.i(TAG, "|휴식모드 공부 : " + pref.getInt("studyTime", 1));
         Log.i(TAG, "|휴식모드 휴식 : " + pref.getInt("breakTime", 1));
-
         Log.i(TAG, "|일 : " + week[Calendar.SUNDAY]);
         Log.i(TAG, "|월 : " + week[Calendar.MONDAY]);
         Log.i(TAG, "|화 : " + week[Calendar.TUESDAY]);
@@ -53,14 +52,11 @@ public class AlarmStartReceiver extends BroadcastReceiver {
         Log.i(TAG, "|목 : " + week[Calendar.THURSDAY]);
         Log.i(TAG, "|금 : " + week[Calendar.FRIDAY]);
         Log.i(TAG, "|토 : " + week[Calendar.SATURDAY]);
-
-        mService = new ScreenService();
-        Calendar cal = Calendar.getInstance();
         Log.i(TAG, "|매주 반복 : " + checkweek);
         Log.i(TAG, "|오늘 요일 : " + cal.get(Calendar.DAY_OF_WEEK));
 
         // 요일 체크 안했을 경우 당일만 알람 실행
-        for(int i=0; i<=7; i++) {
+        for(int i = 0; i <= 7; i++) {
             if(!week[i]) {
                 oneDay++;
             }

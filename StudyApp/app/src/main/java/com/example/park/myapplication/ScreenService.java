@@ -122,8 +122,8 @@ public class ScreenService extends Service {
                         isServiceRunningCheck().contains("calculator") |
                         isServiceRunningCheck().contains("clock") |
                         isServiceRunningCheck().contains("calendar"))) {
-                    Log.d(TAG, isServiceRunningCheck());
                     if(reservState) {
+                        Log.d(TAG, isServiceRunningCheck());
                         Intent intent1 = new Intent(getApplicationContext(), ScreenService.class);
                         startService(intent1);
                         Intent intent2 = new Intent(getApplicationContext(), LockScreenActivity.class);
@@ -185,7 +185,7 @@ public class ScreenService extends Service {
     // 긴급 모드
     public void goAlertMode(View v) {
         if(reservState == true) {
-            if(pref.getInt("alert", 0) == 0) {
+            if(pref.getInt("alert", 1) == 0) {
                 Toast.makeText(v.getContext(), "긴급모드를 모두 사용했습니다", Toast.LENGTH_SHORT).show();
             } else {
                 view.setVisibility(View.INVISIBLE);
