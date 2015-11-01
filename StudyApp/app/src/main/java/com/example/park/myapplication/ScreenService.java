@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.park.myapplication.Activities.PasswordActivity;
@@ -136,6 +137,18 @@ public class ScreenService extends Service {
         if(reservState) {
             mTimer.schedule(mTask, 1000, 2000);
         }
+
+
+        SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
+        String alertCount = pref.getString("alertNum", "1");
+        String alertCount2 = pref.getString("alertInitialNum", "1");
+        String alertTime = pref.getString("alertInitialTime", "10");
+        ((TextView)view.findViewById(R.id.alert_count)).setText(alertCount + "/" + alertCount2 + " ("+alertTime+"분)");
+
+        String studyTime = pref.getString("studyTime", "50");
+        String breakTime = pref.getString("breakTime", "10");
+
+        ((TextView)view.findViewById(R.id.break_count)).setText("공부 시간 : " + studyTime + " / 휴식 시간 : " + breakTime);
 
     }
 

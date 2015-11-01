@@ -61,8 +61,9 @@
         android:layout_above="@+id/apps_button"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="60dp"
-        android:layout_marginBottom="60dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="80dp"
+        android:id="@+id/tableLayout"
         android:background="@android:color/background_light" >
 
         <TableRow android:layout_height="wrap_content"
@@ -143,5 +144,22 @@
 
     </TableLayout>
 
+    <TextView
+        android:id="@+id/alert_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="긴급 모드"
+        android:layout_below="@+id/tableLayout"
+        android:layout_marginTop="-60dp"
+        />
+
+    <TextView
+        android:id="@+id/break_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="휴식 모드"
+        android:layout_below="@+id/tableLayout"
+        android:layout_marginTop="-40dp"
+        />
 
 </RelativeLayout>
