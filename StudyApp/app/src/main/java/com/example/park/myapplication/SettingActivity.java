@@ -57,6 +57,7 @@ public class SettingActivity extends PreferenceActivity implements Preference.On
     {
         if(preference.getKey().equals("keychangepassword")) {
             Intent intent = new Intent(this, PasswordActivity.class);
+            intent.putExtra("state", 0);
             startActivityForResult(intent, 0);
         } else if(preference.getKey().equals("keyfindpassword")) {
 

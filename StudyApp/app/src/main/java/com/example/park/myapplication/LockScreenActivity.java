@@ -126,13 +126,10 @@ public class LockScreenActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.v(TAG,"onRe");
-        if((!referenceMonitor.validate()) && referenceMonitor.getSTATE()==referenceMonitor.STUDYMODE) {
+        if(referenceMonitor.getSTATE()!=referenceMonitor.NORMALMODE) {
             referenceMonitor.setStudymode();
             Intent intent = new Intent(LockScreenActivity.this, ScreenService.class);
             startService(intent);
-        }else {
-            referenceMonitor.setNormalmode();
         }
     }
     //    @Override

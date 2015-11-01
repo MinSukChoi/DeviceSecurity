@@ -79,16 +79,17 @@ public class PasswordActivity extends Activity {
             /*error*/
         }else if(action<10) {
             /* number selected */
-
-            passwordBoxes[CURSOR++].setImageResource(R.drawable.icon_secret);
-            password += action;
-            if(CURSOR==4) {
-                try {
-                    inputCompleted();
-                } catch (InvalidKeySpecException e) {
-                    e.printStackTrace();
-                } catch (NoSuchAlgorithmException e) {
-                    e.printStackTrace();
+            if(CURSOR < 4){
+                passwordBoxes[CURSOR++].setImageResource(R.drawable.icon_secret);
+                password += action;
+                if (CURSOR == 4) {
+                    try {
+                        inputCompleted();
+                    } catch (InvalidKeySpecException e) {
+                        e.printStackTrace();
+                    } catch (NoSuchAlgorithmException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }else if(action==10) {
@@ -135,10 +136,12 @@ public class PasswordActivity extends Activity {
                 Intent intent = getIntent();
                 if(referenceMonitor.checkPassword(pref.getString("hash",""),password)) {
                     intent.putExtra("validation", 1);
-                    referenceMonitor.setPermission();
+                    //referenceMonitor.setPermission();
+                    if(referenceMonitor.getSTATE()==referenceMonitor.STUDYMODE) referenceMonitor.setNormalmode();
                 }else  {
                     intent.putExtra("validation", 0);
-                    referenceMonitor.unsetPermission();
+                    //referenceMonitor.unsetPermission();
+                    if(referenceMonitor.getSTATE()==referenceMonitor.STUDYMODE) referenceMonitor.setInvalidmode();
                 }
                 setResult(RESULT_OK, intent);
                 finish();

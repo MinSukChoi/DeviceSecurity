@@ -16,6 +16,7 @@ public class ReferenceMonitor {
     private static int STATE;
     public static final int STUDYMODE=0;
     public static final int NORMALMODE=1;
+    public static final int INVALIDMODE=2;
     private static boolean PERMISSION=true;
     private static PasswordModule passwordModule = PasswordModule.getInstance();
 
@@ -52,4 +53,5 @@ public class ReferenceMonitor {
     public static void setNormalmode() {
         STATE=NORMALMODE;
     }
+    public static void setInvalidmode() { STATE=INVALIDMODE;}
 }
