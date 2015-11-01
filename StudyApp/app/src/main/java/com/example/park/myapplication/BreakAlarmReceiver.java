@@ -39,7 +39,7 @@ public class BreakAlarmReceiver extends BroadcastReceiver {
             referenceMonitor.setBreaktimemode();
 
             Log.d(TAG, "BreakAlarmReceiver !!");
-            Toast.makeText(context, pref.getInt("breakTime", 1) + "분 동안 휴식모드를 실행합니다", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, pref.getInt("breakTime", 10) + "분 동안 휴식모드를 실행합니다", Toast.LENGTH_LONG).show();
 
             ScreenService mService = new ScreenService();
             mService.reservState = false;
@@ -51,7 +51,7 @@ public class BreakAlarmReceiver extends BroadcastReceiver {
             intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent1);
 
-            int time = pref.getInt("breakTime", 1);
+            int time = pref.getInt("breakTime", 10);
             Intent intentReceiver = new Intent(context, StudyAlarmReceiver.class);
             PendingIntent pIntent = PendingIntent.getBroadcast(context, position, intentReceiver, PendingIntent.FLAG_UPDATE_CURRENT);
             alarmManager.setExact(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + TimeUnit.MINUTES.toMillis(time), pIntent);

@@ -323,10 +323,10 @@ public class ScreenService extends Service {
         String title = pref.getString("currentTitle", "");
         String currentStart = pref.getString("currentStart", "");
         String currentEnd = pref.getString("currentEnd", "");
-        int alertCount = pref.getInt("alertNum", 1);
-        int alertTime = pref.getInt("alertTime", 1);
-        int studyTime = pref.getInt("studyTime", 1);
-        int breakTime = pref.getInt("breakTime", 1);
+        int alertCount = pref.getInt("alertNum", 3);
+        int alertTime = pref.getInt("alertTime", 15);
+        int studyTime = pref.getInt("studyTime", 50);
+        int breakTime = pref.getInt("breakTime", 10);
 
         ((TextView)view.findViewById(R.id.current_title)).setText("제목 : " + title);
         ((TextView)view.findViewById(R.id.current_time)).setText("예약 잠금 시간 : " + currentStart + " ~ " + currentEnd);
@@ -390,7 +390,7 @@ public class ScreenService extends Service {
 
     @Override
     public void onDestroy() {
-        Toast.makeText(this, "onDestroy", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "onDestroy", Toast.LENGTH_SHORT).show();
         mTimer.cancel();
 
         if (mReceiver != null) {

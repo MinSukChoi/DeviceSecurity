@@ -35,8 +35,8 @@ public class SettingActivity extends PreferenceActivity implements Preference.On
         Preference pBreakMode = (Preference)findPreference("keybreak");
         Preference pAppList = (Preference)findPreference("keyapplist");
         final SwitchPreference pBrowser = (SwitchPreference)findPreference("keybrowser");
-        Preference pHelp = (Preference)findPreference("keyhelp");
-        Preference pContact = (Preference)findPreference("keycontact");
+//        Preference pHelp = (Preference)findPreference("keyhelp");
+//        Preference pContact = (Preference)findPreference("keycontact");
 
         pChangePassword.setOnPreferenceClickListener(this);
         pLockReserv.setOnPreferenceClickListener(this);
@@ -63,8 +63,8 @@ public class SettingActivity extends PreferenceActivity implements Preference.On
             }
         });
 
-        pHelp.setOnPreferenceClickListener(this);
-        pContact.setOnPreferenceClickListener(this);
+//        pHelp.setOnPreferenceClickListener(this);
+//        pContact.setOnPreferenceClickListener(this);
 
     }
 
@@ -91,13 +91,13 @@ public class SettingActivity extends PreferenceActivity implements Preference.On
         } else if(preference.getKey().equals("keyapplist")) {
             Intent intent = new Intent(this, AppList.class);
             startActivityForResult(intent, 0);
-
-        } else if(preference.getKey().equals("keyhelp")) {
-
-
-        } else if(preference.getKey().equals("keycontact")) {
-
         }
+//        } else if(preference.getKey().equals("keyhelp")) {
+//
+//
+//        } else if(preference.getKey().equals("keycontact")) {
+//
+//        }
 
         return false;
     }

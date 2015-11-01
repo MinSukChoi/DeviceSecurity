@@ -33,8 +33,8 @@ public class SettingBreakActivity extends Activity {
         breakNumberPicker.setMaxValue(15);
         breakNumberPicker.setMinValue(1);
 
-        int studyTime = pref.getInt("studyTime", 1);
-        int breakTime = pref.getInt("breakTime", 1);
+        int studyTime = pref.getInt("studyTime", 50);
+        int breakTime = pref.getInt("breakTime", 10);
         studyNumberPicker.setValue(studyTime);
         breakNumberPicker.setValue(breakTime);
 

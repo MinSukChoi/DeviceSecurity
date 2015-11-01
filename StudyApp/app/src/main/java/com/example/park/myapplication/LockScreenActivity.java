@@ -112,7 +112,7 @@ public class LockScreenActivity extends Activity {
             case 2:
                 if(resultCode == RESULT_OK) {
                     if(intent.getExtras().getInt("validation") == 0) {
-                        Toast.makeText(this,"암호가 올바르지 않습니다.",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this,"암호가 올바르지 않습니다",Toast.LENGTH_SHORT).show();
                     }
                     if(intent.getExtras().getInt("validation") == 1) {
                         Intent newintent = new Intent(LockScreenActivity.this, SettingActivity.class);

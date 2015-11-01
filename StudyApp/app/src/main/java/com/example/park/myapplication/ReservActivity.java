@@ -481,11 +481,6 @@ public class ReservActivity extends Activity {
         currentCal.set(Calendar.SECOND, 0);
         long current = currentCal.getTimeInMillis();
 
-//        Log.d(TAG, String.valueOf(calendar1.getTime()));
-//        Log.d(TAG, String.valueOf(currentCal.getTime()));
-//        Log.d(TAG, String.valueOf(calendar1.getTimeInMillis()));
-//        Log.d(TAG, String.valueOf(current));
-
         // 만약 트리거 타임이 과거로 설정되어있다면, 알람은 즉시 트리거된다.
         // 알람이 트리거 될 때 펜딩 인텐트가 작동된다.
         // 같은 펜딩 인텐트를 사용하는 두 번째 알람을 셋팅하면, 그것은 첫번째 알람을 대체하게 된다.

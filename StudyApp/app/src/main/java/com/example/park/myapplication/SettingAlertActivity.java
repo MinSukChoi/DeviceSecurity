@@ -33,8 +33,8 @@ public class SettingAlertActivity extends Activity {
         timeNumberPicker.setMaxValue(15);
         timeNumberPicker.setMinValue(1);
 
-        int number = pref.getInt("alertNum", 1);
-        int time = pref.getInt("alertTime", 1);
+        int number = pref.getInt("alertNum", 3);
+        int time = pref.getInt("alertTime", 15);
         numNumberPicker.setValue(number);
         timeNumberPicker.setValue(time);
 

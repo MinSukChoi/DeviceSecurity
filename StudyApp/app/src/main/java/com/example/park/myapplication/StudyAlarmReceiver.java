@@ -43,7 +43,7 @@ public class StudyAlarmReceiver extends BroadcastReceiver {
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startService(i);
 
-            int time = pref.getInt("studyTime", 1);
+            int time = pref.getInt("studyTime", 50);
             Intent intentReceiver = new Intent(context, BreakAlarmReceiver.class);
             PendingIntent pIntent = PendingIntent.getBroadcast(context, position, intentReceiver, PendingIntent.FLAG_UPDATE_CURRENT);
             alarmManager.setExact(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + TimeUnit.MINUTES.toMillis(time), pIntent);
