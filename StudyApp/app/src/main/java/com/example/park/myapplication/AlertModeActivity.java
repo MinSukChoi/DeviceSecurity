@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
@@ -40,7 +41,7 @@ public class AlertModeActivity extends Activity {
                 .setPositiveButton("네", new DialogInterface.OnClickListener() {
                     // 확인 버튼 클릭시 설정
                     public void onClick(DialogInterface dialog, int whichButton) {
-                        if (pref.getInt("alertNum", 1) == 0){
+                        if (pref.getInt("alertNum", 3) == 0){
                             Toast.makeText(getApplicationContext(), "긴급모드를 모두 사용했습니다", Toast.LENGTH_SHORT).show();
                             editor = pref.edit();
                             editor.putInt("alert", 0);
@@ -74,16 +75,20 @@ public class AlertModeActivity extends Activity {
         this.stopService(i);
 
         editor = pref.edit();
-        editor.putInt("alertNum", pref.getInt("alertNum", 1) - 1);
+        editor.putInt("alertNum", pref.getInt("alertNum", 3) - 1);
         editor.commit();
 
-        int time = pref.getInt("alertTime", 1);
-        Log.d(TAG, String.valueOf(pref.getInt("alertNum", 1)));
-        Log.d(TAG, String.valueOf(pref.getInt("alertTime", 1)));
+        int time = pref.getInt("alertTime", 15);
+        Log.d(TAG, String.valueOf(pref.getInt("alertNum", 3)));
+        Log.d(TAG, String.valueOf(pref.getInt("alertTime", 15)));
 
         Intent intentReceiver = new Intent(this, AlertAlarmReceiver.class);
         PendingIntent pIntent = PendingIntent.getBroadcast(this, 0, intentReceiver, PendingIntent.FLAG_UPDATE_CURRENT);
-        alarmManager.setExact(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + TimeUnit.MINUTES.toMillis(time), pIntent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            alarmManager.setExact(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + TimeUnit.MINUTES.toMillis(time), pIntent);
+        } else {
+            alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + TimeUnit.MINUTES.toMillis(time), pIntent);
+        }
 
         Intent intent1 = new Intent(this, LockScreenActivity.class);
         startActivity(intent1);

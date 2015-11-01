@@ -285,7 +285,7 @@ public class ScreenService extends Service {
                 break;
             case R.id.calculator_app:
                 for(Object object : appNames) {
-                    if(object.toString().contains("calculator") ) {
+                    if(object.toString().contains("calculator")) {
                         startActivityForPackageName(object.toString());
                         break;
                     }
@@ -327,15 +327,15 @@ public class ScreenService extends Service {
         String title = pref.getString("currentTitle", "");
         String currentStart = pref.getString("currentStart", "");
         String currentEnd = pref.getString("currentEnd", "");
-        int alertCount = pref.getInt("alertNum", 1);
-        int alertTime = pref.getInt("alertTime", 1);
-        int studyTime = pref.getInt("studyTime", 1);
-        int breakTime = pref.getInt("breakTime", 1);
+        int alertCount = pref.getInt("alertNum", 3);
+        int alertTime = pref.getInt("alertTime", 15);
+        int studyTime = pref.getInt("studyTime", 50);
+        int breakTime = pref.getInt("breakTime", 10);
 
-        ((TextView)view.findViewById(R.id.current_title)).setText(title);
-        ((TextView)view.findViewById(R.id.current_time)).setText(currentStart + " ~ " + currentEnd);
-        ((TextView)view.findViewById(R.id.current_alert)).setText("긴급모드 횟수  " + alertCount + "회,  긴급모드 시간  " + alertTime + "분");
-        ((TextView)view.findViewById(R.id.current_break)).setText("공부 시간  " + studyTime + "분,  휴식 시간  " + breakTime + "분");
+        ((TextView)view.findViewById(R.id.current_title)).setText("제목 : " + title);
+        ((TextView)view.findViewById(R.id.current_time)).setText("시간 : " + currentStart + " ~ " + currentEnd);
+        ((TextView)view.findViewById(R.id.current_alert)).setText("긴급모드 횟수 : " + alertCount + "회,  긴급모드 시간 : " + alertTime + "분");
+        ((TextView)view.findViewById(R.id.current_break)).setText("공부 시간 : " + studyTime + "분,  휴식 시간 : " + breakTime + "분");
 
         if(reservState) {
             if(intent != null){

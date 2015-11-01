@@ -100,7 +100,7 @@
         android:layout_marginRight="20dp"
         android:layout_marginBottom="20dp"
         android:onClick="showApps"
-        android:background="@android:drawable/ic_menu_more" />
+        android:background="@drawable/apps_icon" />
 
     <TableLayout
         android:layout_width="match_parent"

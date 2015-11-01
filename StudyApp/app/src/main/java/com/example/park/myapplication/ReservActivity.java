@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -489,7 +490,11 @@ public class ReservActivity extends Activity {
             Log.d(TAG, String.valueOf(calendar1.getTime()));
             Log.d(TAG, String.valueOf(currentCal.getTime()));
             PendingIntent pIntent1 = PendingIntent.getBroadcast(this, position, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar1.getTimeInMillis(), pIntent1);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {      //api 19 이상
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar1.getTimeInMillis(), pIntent1);
+            } else {
+                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar1.getTimeInMillis(), pIntent1);
+            }
         }
 
         Intent intent2 = new Intent(this, AlarmStopReceiver.class);
@@ -507,7 +512,11 @@ public class ReservActivity extends Activity {
             Log.d(TAG, String.valueOf(calendar2.getTime()));
             Log.d(TAG, String.valueOf(currentCal.getTime()));
             PendingIntent pIntent2 = PendingIntent.getBroadcast(this, position, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(), pIntent2);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(), pIntent2);
+            } else {
+                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(), pIntent2);
+            }
         }
     }
 
