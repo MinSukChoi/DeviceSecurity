@@ -66,15 +66,15 @@ public class SettingActivity extends PreferenceActivity implements Preference.On
             Intent intent = new Intent(this, ReservActivity.class);
             startActivity(intent);
         } else if(preference.getKey().equals("keyemergency")) {
-            Intent intent = new Intent(this, SettingAlertActivity.class);
-            startActivity(intent);
-        } else if(preference.getKey().equals("keybreak")) {
             if(pref.getInt("alert", 1) == 1) {
-                Intent intent = new Intent(this, SettingBreakActivity.class);
+                Intent intent = new Intent(this, SettingAlertActivity.class);
                 startActivity(intent);
             } else {
                 Toast.makeText(this, "긴급모드를 모두 사용했습니다", Toast.LENGTH_SHORT).show();
             }
+        } else if(preference.getKey().equals("keybreak")) {
+            Intent intent = new Intent(this, SettingBreakActivity.class);
+            startActivity(intent);
         } else if(preference.getKey().equals("keyapplist")) {
             Intent intent = new Intent(this, AppList.class);
             startActivityForResult(intent, 0);

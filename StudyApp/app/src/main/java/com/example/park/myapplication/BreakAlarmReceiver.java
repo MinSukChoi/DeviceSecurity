@@ -42,6 +42,10 @@ public class BreakAlarmReceiver extends BroadcastReceiver {
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.stopService(i);
 
+            Intent intent1 = new Intent(context, LockScreenActivity.class);
+            intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent1);
+
             int time = pref.getInt("breakTime", 1);
             Intent intentReceiver = new Intent(context, StudyAlarmReceiver.class);
             PendingIntent pIntent = PendingIntent.getBroadcast(context, position, intentReceiver, PendingIntent.FLAG_UPDATE_CURRENT);

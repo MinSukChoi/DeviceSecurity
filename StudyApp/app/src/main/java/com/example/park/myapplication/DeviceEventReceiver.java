@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 /**
  * Created by PARK on 15. 11. 1..
@@ -26,6 +27,8 @@ public class DeviceEventReceiver extends BroadcastReceiver {
         editor.putInt("alertNum", pref.getInt("alertInitialNum", 1));
         editor.putInt("alertTime", pref.getInt("alertInitialTime", 1));
         editor.commit();
+
+        Log.d(TAG, "00:00 초기화");
 
         int size = pref.getInt("size", 0);
         if (Intent.ACTION_DATE_CHANGED.equals(action)) {
