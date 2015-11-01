@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.park.myapplication.Activities.PasswordActivity;
@@ -126,13 +125,10 @@ public class LockScreenActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        Log.v(TAG,"onRe");
-        if((!referenceMonitor.validate()) && referenceMonitor.getSTATE()==referenceMonitor.STUDYMODE) {
+        if(referenceMonitor.getSTATE()==referenceMonitor.STUDYMODE || referenceMonitor.getSTATE()==referenceMonitor.INVALIDMODE) {
             referenceMonitor.setStudymode();
             Intent intent = new Intent(LockScreenActivity.this, ScreenService.class);
             startService(intent);
-        }else {
-            referenceMonitor.setNormalmode();
         }
     }
     //    @Override

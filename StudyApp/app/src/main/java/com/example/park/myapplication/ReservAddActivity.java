@@ -152,6 +152,10 @@ public class ReservAddActivity extends Activity {
                 Boolean fri = toggleFri.isChecked();
                 Boolean sat = toggleSat.isChecked();
 
+                if (editText == "") {
+                    editText = " ";
+                }
+
                 editor.putString("title" + i, editText);
                 editor.putBoolean("checkweek" + i, checkBox);
                 editor.putBoolean("sun" + i, sun);

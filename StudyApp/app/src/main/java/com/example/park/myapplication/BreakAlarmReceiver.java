@@ -11,12 +11,15 @@ import android.os.SystemClock;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.park.myapplication.Elements.ReferenceMonitor;
+
 import java.util.concurrent.TimeUnit;
 
 /**
  * Created by PARK on 15. 10. 30..
  */
 public class BreakAlarmReceiver extends BroadcastReceiver {
+    private ReferenceMonitor referenceMonitor = ReferenceMonitor.getInstance();
     private static final String TAG = "Break";
     SharedPreferences pref;
     SharedPreferences.Editor editor;
@@ -33,6 +36,8 @@ public class BreakAlarmReceiver extends BroadcastReceiver {
             editor.commit();
             int position = intent.getIntExtra("position", 0);
 
+            referenceMonitor.setBreaktimemode();
+
             Log.d(TAG, "BreakAlarmReceiver !!");
             Toast.makeText(context, pref.getInt("breakTime", 1) + "분 동안 휴식모드를 실행합니다", Toast.LENGTH_LONG).show();
 
@@ -41,6 +46,10 @@ public class BreakAlarmReceiver extends BroadcastReceiver {
             Intent i = new Intent(context, ScreenService.class);
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.stopService(i);
+
+            Intent intent1 = new Intent(context, LockScreenActivity.class);
+            intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent1);
 
             int time = pref.getInt("breakTime", 1);
             Intent intentReceiver = new Intent(context, StudyAlarmReceiver.class);

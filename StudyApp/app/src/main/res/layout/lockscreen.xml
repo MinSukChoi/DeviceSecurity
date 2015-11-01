@@ -46,7 +46,44 @@
             android:onClick="nomalModeLauncher"
             android:background="@android:drawable/ic_menu_close_clear_cancel"
             android:layout_centerVertical="true" />
+
     </RelativeLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="100dp">
+
+        <TextView
+            android:id="@+id/current_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="제목"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/current_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="시간"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:id="@+id/current_alert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="긴급 모드"
+            android:textSize="15dp" />
+
+        <TextView
+            android:id="@+id/current_break"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="휴식 모드"
+            android:textSize="15dp" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/emergency_button"
@@ -162,23 +199,5 @@
         </TableRow>
 
     </TableLayout>
-
-    <TextView
-        android:id="@+id/alert_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="긴급 모드"
-        android:layout_below="@+id/tableLayout"
-        android:layout_marginTop="-60dp"
-        />
-
-    <TextView
-        android:id="@+id/break_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="휴식 모드"
-        android:layout_below="@+id/tableLayout"
-        android:layout_marginTop="-40dp"
-        />
 
 </RelativeLayout>

@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.park.myapplication.Activities.PasswordActivity;
+import com.example.park.myapplication.Elements.ReferenceMonitor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,7 @@ import java.util.TimerTask;
  */
 public class ScreenService extends Service {
     private static final String TAG = "Service";
+    private ReferenceMonitor referenceMonitor = ReferenceMonitor.getInstance();
     private BootReceiver mReceiver = null;
     public static View view;
     private static WindowManager mWindowManager;
@@ -123,34 +125,20 @@ public class ScreenService extends Service {
                         isServiceRunningCheck().contains("calculator") |
                         isServiceRunningCheck().contains("clock") |
                         isServiceRunningCheck().contains("calendar"))) {
-                    if(reservState) {
+//                    if(reservState) {
                         Log.d(TAG, isServiceRunningCheck());
                         Intent intent1 = new Intent(getApplicationContext(), ScreenService.class);
                         startService(intent1);
                         Intent intent2 = new Intent(getApplicationContext(), LockScreenActivity.class);
                         intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         startActivity(intent2);
-                    }
+//                    }
                 }
             }
         };
 
         mTimer = new Timer();
-        if(reservState) {
-            mTimer.schedule(mTask, 1000, 2000);
-        }
-
-
-        SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
-        String alertCount = pref.getString("alertNum", "1");
-        String alertCount2 = pref.getString("alertInitialNum", "1");
-        String alertTime = pref.getString("alertInitialTime", "10");
-        ((TextView)view.findViewById(R.id.alert_count)).setText(alertCount + "/" + alertCount2 + " ("+alertTime+"분)");
-
-        String studyTime = pref.getString("studyTime", "50");
-        String breakTime = pref.getString("breakTime", "10");
-
-        ((TextView)view.findViewById(R.id.break_count)).setText("공부 시간 : " + studyTime + " / 휴식 시간 : " + breakTime);
+        mTimer.schedule(mTask, 1000, 2000);
     }
 
     private PhoneStateListener phoneListener = new PhoneStateListener() {
@@ -186,7 +174,8 @@ public class ScreenService extends Service {
     // 스터디 모드 종료
     public void nomalModeLauncher(View v) {
         if(reservState == false) {
-            view.setVisibility(View.INVISIBLE);
+            //view.setVisibility(View.INVISIBLE);
+            stopSelf();
             Intent newintent = new Intent(getApplicationContext(), PasswordActivity.class);
             newintent.putExtra("state", 2);
             newintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -199,22 +188,24 @@ public class ScreenService extends Service {
 
     // 긴급 모드
     public void goAlertMode(View v) {
-        if(reservState == true) {
-            if(pref.getInt("alert", 1) == 0) {
-                Toast.makeText(v.getContext(), "긴급모드를 모두 사용했습니다", Toast.LENGTH_SHORT).show();
-            } else {
-                view.setVisibility(View.INVISIBLE);
-                Intent popupIntent = new Intent(getApplicationContext(), AlertModeActivity.class);
-                PendingIntent pie = PendingIntent.getActivity(getApplicationContext(), 0, popupIntent, PendingIntent.FLAG_ONE_SHOT);
-                try {
-                    pie.send();
-                } catch (PendingIntent.CanceledException e) {
-                    e.printStackTrace();
-                }
-            }
+//        if(reservState == true) {
+        if(pref.getInt("alert", 1) == 0) {
+            Toast.makeText(v.getContext(), "긴급모드를 모두 사용했습니다", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(v.getContext(), "지금은 긴급 모드를 사용할 수 없습니다", Toast.LENGTH_SHORT).show();
+            //view.setVisibility(View.INVISIBLE);
+            referenceMonitor.setAlertmode();
+            stopSelf();
+            Intent popupIntent = new Intent(getApplicationContext(), AlertModeActivity.class);
+            PendingIntent pie = PendingIntent.getActivity(getApplicationContext(), 0, popupIntent, PendingIntent.FLAG_ONE_SHOT);
+            try {
+                pie.send();
+            } catch (PendingIntent.CanceledException e) {
+                e.printStackTrace();
+            }
         }
+//        } else {
+//            Toast.makeText(v.getContext(), "지금은 긴급 모드를 사용할 수 없습니다", Toast.LENGTH_SHORT).show();
+//        }
     }
 
     // 기본 앱 실행
@@ -231,7 +222,6 @@ public class ScreenService extends Service {
             name = ri.activityInfo.packageName;
             appNames.add(name);
         }
-
 
         switch (v.getId()) {
             case R.id.call_app:
@@ -251,10 +241,17 @@ public class ScreenService extends Service {
                 }
                 break;
             case R.id.browser_app:
-                for(Object object : appNames) {
-                    if(object.toString().contains("browser") && object.toString().contains("android")) {
-                        startActivityForPackageName(object.toString());
-                        break;
+                if(pref.getBoolean("studybrowser",true)) {
+                    view.setVisibility(View.INVISIBLE);
+                    Intent intent = new Intent(getApplicationContext(),StudyBrowser.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                }else {
+                    for (Object object : appNames) {
+                        if (object.toString().contains("browser") && object.toString().contains("android")) {
+                            startActivityForPackageName(object.toString());
+                            break;
+                        }
                     }
                 }
                 break;
@@ -284,7 +281,7 @@ public class ScreenService extends Service {
                 break;
             case R.id.calculator_app:
                 for(Object object : appNames) {
-                    if(object.toString().contains("calculator") && object.toString().contains("android")) {
+                    if(object.toString().contains("calculator") ) {
                         startActivityForPackageName(object.toString());
                         break;
                     }
@@ -322,6 +319,19 @@ public class ScreenService extends Service {
 //        Toast.makeText(this, "onStartCommand", Toast.LENGTH_SHORT).show();
         super.onStartCommand(intent, flags, startId);
         view.setVisibility(View.VISIBLE);
+
+        String title = pref.getString("currentTitle", "");
+        String currentStart = pref.getString("currentStart", "");
+        String currentEnd = pref.getString("currentEnd", "");
+        int alertCount = pref.getInt("alertNum", 1);
+        int alertTime = pref.getInt("alertTime", 1);
+        int studyTime = pref.getInt("studyTime", 1);
+        int breakTime = pref.getInt("breakTime", 1);
+
+        ((TextView)view.findViewById(R.id.current_title)).setText(title);
+        ((TextView)view.findViewById(R.id.current_time)).setText(currentStart + " ~ " + currentEnd);
+        ((TextView)view.findViewById(R.id.current_alert)).setText("긴급모드 횟수  " + alertCount + "회,  긴급모드 시간  " + alertTime + "분");
+        ((TextView)view.findViewById(R.id.current_break)).setText("공부 시간  " + studyTime + "분,  휴식 시간  " + breakTime + "분");
 
         if(reservState) {
             if(intent != null){
