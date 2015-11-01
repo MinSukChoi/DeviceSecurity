@@ -21,17 +21,18 @@ public class DeviceEventReceiver extends BroadcastReceiver {
 
         reservActivity = new ReservActivity();
         pref = context.getSharedPreferences("pref", Activity.MODE_PRIVATE);
-        int size = pref.getInt("size", 0);
+        editor = pref.edit();
+        editor.putInt("alert", 1);
+        editor.putInt("alertNum", pref.getInt("alertInitialNum", 1));
+        editor.putInt("alertTime", pref.getInt("alertInitialTime", 1));
+        editor.commit();
 
+        int size = pref.getInt("size", 0);
         if (Intent.ACTION_DATE_CHANGED.equals(action)) {
             // 날짜가 변경된 경우 해야 될 작업을 한다.
             for(int i = 1; i <= size; i++) {
                 reservActivity.onRegist(i);
             }
         }
-        editor.commit();
-        editor.putInt("alert", 1);
-        editor.putInt("alertNum", pref.getInt("alertInitialNum", 1));
-        editor.putInt("alertTime", pref.getInt("alertInitialTime", 1));
     }
 }
