@@ -12,9 +12,11 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.park.myapplication.Activities.PasswordActivity;
+import com.example.park.myapplication.Elements.ReferenceMonitor;
 
 public class LockScreenActivity extends Activity {
     private static final String TAG = "LockScreen";
+    private ReferenceMonitor referenceMonitor = ReferenceMonitor.getInstance();
     SharedPreferences pref;
     SharedPreferences.Editor editor;
     ScreenService mScreenService;
@@ -80,6 +82,7 @@ public class LockScreenActivity extends Activity {
             lockButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    referenceMonitor.setStudymode();
                     Intent intent = new Intent(LockScreenActivity.this, ScreenService.class);
                     startService(intent);
                 }
@@ -118,7 +121,19 @@ public class LockScreenActivity extends Activity {
         }
     }
 
-//    @Override
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.v(TAG,"onRe");
+        if((!referenceMonitor.validate()) && referenceMonitor.getSTATE()==referenceMonitor.STUDYMODE) {
+            referenceMonitor.setStudymode();
+            Intent intent = new Intent(LockScreenActivity.this, ScreenService.class);
+            startService(intent);
+        }else {
+            referenceMonitor.setNormalmode();
+        }
+    }
+    //    @Override
 //    public void onBackPressed() {
 //        // Don't allow back to dismiss.
 //        return;

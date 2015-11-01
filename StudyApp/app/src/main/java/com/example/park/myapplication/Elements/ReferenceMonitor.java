@@ -13,7 +13,10 @@ import java.security.spec.InvalidKeySpecException;
  * Created by minseock on 2015-10-07.
  */
 public class ReferenceMonitor {
-    private static boolean PERMISSION=false;
+    private static int STATE;
+    public static final int STUDYMODE=0;
+    public static final int NORMALMODE=1;
+    private static boolean PERMISSION=true;
     private static PasswordModule passwordModule = PasswordModule.getInstance();
 
     private static ReferenceMonitor referenceMonitor = new ReferenceMonitor();
@@ -40,5 +43,13 @@ public class ReferenceMonitor {
     public static void unsetPermission() {
         PERMISSION=false;
     }
-
+    public static int getSTATE(){
+        return STATE;
+    }
+    public static void setStudymode() {
+        STATE=STUDYMODE;
+    }
+    public static void setNormalmode() {
+        STATE=NORMALMODE;
+    }
 }

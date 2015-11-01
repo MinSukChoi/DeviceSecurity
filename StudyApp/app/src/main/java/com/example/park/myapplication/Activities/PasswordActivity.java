@@ -133,7 +133,13 @@ public class PasswordActivity extends Activity {
             case 2:
                 /* 비밀번호 확인 */
                 Intent intent = getIntent();
-                intent.putExtra("validation", referenceMonitor.checkPassword(pref.getString("hash",""),password)?1:0);
+                if(referenceMonitor.checkPassword(pref.getString("hash",""),password)) {
+                    intent.putExtra("validation", 1);
+                    referenceMonitor.setPermission();
+                }else  {
+                    intent.putExtra("validation", 0);
+                    referenceMonitor.unsetPermission();
+                }
                 setResult(RESULT_OK, intent);
                 finish();
                 /*
