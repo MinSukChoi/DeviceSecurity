@@ -64,6 +64,7 @@ public class AppList extends Activity {
         public String appTitle;
         public Drawable appIcon;
         public String appCategory;
+        public String appPackage;
     }
 
     @Override
@@ -101,8 +102,9 @@ public class AppList extends Activity {
             AppInfo appInfo = new AppInfo();
             appInfo.appTitle = ri.loadLabel(manager).toString();
             appInfo.appIcon = ri.activityInfo.loadIcon(manager);
+            appInfo.appPackage = ri.activityInfo.packageName;
             //if(!appInfo.appTitle.contains("한시간의 의지")){
-                dictionary.put(ri.activityInfo.packageName, appInfo);
+            dictionary.put(ri.activityInfo.packageName, appInfo);
             //}
         }
 
@@ -176,7 +178,7 @@ public class AppList extends Activity {
                             mHandler.post(new Runnable() {
                                 @Override
                                 public void run() {
-                                    mAdapter.addItem(appInfo.appIcon, appInfo.appTitle, appInfo.appCategory);
+                                    mAdapter.addItem(appInfo.appIcon, appInfo.appTitle, appInfo.appCategory, appInfo.appPackage);
                                     mAdapter.notifyDataSetChanged();
                                 }
                             });
@@ -223,8 +225,8 @@ public class AppList extends Activity {
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
                 ListData mData = mAdapter.mListData.get(position);
 
-                if (availList.contains("'" + mData.mTitle + "'")) {
-                    availList = availList.replaceAll("'" + mData.mTitle + "'", "");
+                if (availList.contains("'" + mData.mPackage + "'")) {
+                    availList = availList.replaceAll("'" + mData.mPackage + "'", "");
                     mData.mColor = Color.rgb(255, 255, 255);
                     ((ViewHolder) v.getTag()).mLayout.setBackgroundColor(0xFFFFFFFF);
                     SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
@@ -233,7 +235,7 @@ public class AppList extends Activity {
                     editor.commit();
                 } else {
                     if (mData.mColor == Color.rgb(255, 255, 255)) {
-                        availList += "'" + mData.mTitle + "'";
+                        availList += "'" + mData.mPackage + "'";
                         mData.mColor = Color.rgb(0, 255, 0);
                         ((ViewHolder) v.getTag()).mLayout.setBackgroundColor(0xFF00FF00);
                     } else {
@@ -286,19 +288,21 @@ public class AppList extends Activity {
             return position;
         }
 
-        public void addItem(Drawable icon, String mTitle, String mDate){
+        public void addItem(Drawable icon, String mTitle, String mDate, String mPackage){
             ListData addInfo = null;
             addInfo = new ListData();
             addInfo.mIcon = icon;
             addInfo.mTitle = mTitle;
             addInfo.mDate = mDate;
+            addInfo.mPackage = mPackage;
+
             if(mDate.contains("Health") || mDate.contains("Education")){
                 addInfo.mColor = Color.rgb(255,255,255);
             }else{
                 addInfo.mColor = Color.rgb(255,200,200);
             }
 
-            if(availList.contains(mTitle)){
+            if(availList.contains(mPackage)){
                 addInfo.mColor = Color.rgb(0,255,0);
             }
 

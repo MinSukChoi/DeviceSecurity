@@ -114,6 +114,9 @@ public class ScreenService extends Service {
         mTask = new TimerTask() {
             @Override
             public void run() {
+                SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
+                String availList = pref.getString("appList", "");
+
                 if(!(isServiceRunningCheck().contains("myapplication") |
                         isServiceRunningCheck().contains("contact") |
                         isServiceRunningCheck().contains("mms") |
@@ -124,14 +127,15 @@ public class ScreenService extends Service {
                         isServiceRunningCheck().contains("note") |
                         isServiceRunningCheck().contains("calculator") |
                         isServiceRunningCheck().contains("clock") |
-                        isServiceRunningCheck().contains("calendar"))) {
+                        isServiceRunningCheck().contains("calendar") |
+                        availList.contains(isServiceRunningCheck()))) {
 //                    if(reservState) {
-                        Log.d(TAG, isServiceRunningCheck());
-                        Intent intent1 = new Intent(getApplicationContext(), ScreenService.class);
-                        startService(intent1);
-                        Intent intent2 = new Intent(getApplicationContext(), LockScreenActivity.class);
-                        intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent2);
+                    Log.d(TAG, isServiceRunningCheck());
+                    Intent intent1 = new Intent(getApplicationContext(), ScreenService.class);
+                    startService(intent1);
+                    Intent intent2 = new Intent(getApplicationContext(), LockScreenActivity.class);
+                    intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent2);
 //                    }
                 }
             }
@@ -323,15 +327,15 @@ public class ScreenService extends Service {
         String title = pref.getString("currentTitle", "");
         String currentStart = pref.getString("currentStart", "");
         String currentEnd = pref.getString("currentEnd", "");
-        int alertCount = pref.getInt("alertNum", 3);
-        int alertTime = pref.getInt("alertTime", 15);
-        int studyTime = pref.getInt("studyTime", 50);
-        int breakTime = pref.getInt("breakTime", 10);
+        int alertCount = pref.getInt("alertNum", 1);
+        int alertTime = pref.getInt("alertTime", 1);
+        int studyTime = pref.getInt("studyTime", 1);
+        int breakTime = pref.getInt("breakTime", 1);
 
-        ((TextView)view.findViewById(R.id.current_title)).setText("제목 : " + title);
-        ((TextView)view.findViewById(R.id.current_time)).setText("예약 잠금 시간 : " + currentStart + " ~ " + currentEnd);
-        ((TextView)view.findViewById(R.id.current_alert)).setText("남은 긴급모드 횟수 : " + alertCount + "회");
-        ((TextView)view.findViewById(R.id.current_break)).setText("공부 시간 : " + studyTime + "분 & 휴식 시간 : " + breakTime + "분");
+        ((TextView)view.findViewById(R.id.current_title)).setText(title);
+        ((TextView)view.findViewById(R.id.current_time)).setText(currentStart + " ~ " + currentEnd);
+        ((TextView)view.findViewById(R.id.current_alert)).setText("긴급모드 횟수  " + alertCount + "회,  긴급모드 시간  " + alertTime + "분");
+        ((TextView)view.findViewById(R.id.current_break)).setText("공부 시간  " + studyTime + "분,  휴식 시간  " + breakTime + "분");
 
         if(reservState) {
             if(intent != null){
@@ -390,7 +394,7 @@ public class ScreenService extends Service {
 
     @Override
     public void onDestroy() {
-        //Toast.makeText(this, "onDestroy", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "onDestroy", Toast.LENGTH_SHORT).show();
         mTimer.cancel();
 
         if (mReceiver != null) {
