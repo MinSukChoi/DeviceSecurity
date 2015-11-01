@@ -7,9 +7,6 @@
         <Preference
             android:key="keychangepassword"
             android:title="암호 변경" />
-        <Preference
-            android:key="keyfindpassword"
-            android:title="암호 찾기" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -31,11 +28,11 @@
         <SwitchPreference
             android:defaultValue="false"
             android:key="keybrowser"
-            android:summaryOn="인터넷 속도를 제한합니다"
-            android:summaryOff="인터넷 속도를 제한하지 않습니다"
+            android:summaryOn="스터디 브라우저를 사용합니다"
+            android:summaryOff="스터디 브라우저를 사용하지 않습니다"
             android:switchTextOff="OFF"
             android:switchTextOn="ON"
-            android:title="인터넷 속도 제한" />
+            android:title="스터디 브라우저 사용" />
     </PreferenceCategory>
 
     <PreferenceCategory
