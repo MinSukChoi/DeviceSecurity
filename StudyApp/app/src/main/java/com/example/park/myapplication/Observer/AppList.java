@@ -63,6 +63,7 @@ public class AppList extends Activity {
     public class AppInfo{
         public String appTitle;
         public Drawable appIcon;
+
     }
 
     @Override
@@ -71,6 +72,9 @@ public class AppList extends Activity {
         setContentView(R.layout.app_list);
 
         final Handler mHandler = new Handler();
+
+        SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
+        availList = pref.getString("appList", "");
 
 /*
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -185,25 +189,23 @@ public class AppList extends Activity {
 
                 if (availList.contains("'" + mData.mTitle + "'")) {
                     availList = availList.replaceAll("'" + mData.mTitle + "'", "");
-                    mData.mColor = Color.rgb(255,255,255);
-                    ((ViewHolder)v.getTag()).mLayout.setBackgroundColor(0xFFFFFFFF);
+                    mData.mColor = Color.rgb(200,255,200);
+                    ((ViewHolder)v.getTag()).mLayout.setBackgroundColor(0xFFC8FFC8);
                     SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
                     SharedPreferences.Editor editor = pref.edit();
                     editor.putString("appList", availList);
                     editor.commit();
                 }else{
-                    if(mData.mDate.contains("Adventure")){
+                    if(mData.mColor == Color.rgb(200,255,200)){
                         availList += "'"+mData.mTitle+"'";
                         mData.mColor = Color.rgb(0,255,0);
                         ((ViewHolder)v.getTag()).mLayout.setBackgroundColor(0xFF00FF00);
-                        SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
-                        SharedPreferences.Editor editor = pref.edit();
-                        editor.putString("appList", availList);
-                        editor.commit();
                     }else{
-                        //mData.mColor = Color.rgb(255,0,0);
-                        //((ViewHolder)v.getTag()).mLayout.setBackgroundColor(0xFFFF0000);
                     }
+                    SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
+                    SharedPreferences.Editor editor = pref.edit();
+                    editor.putString("appList", availList);
+                    editor.commit();
                 }
 
                 // preference save with encrypt
@@ -222,8 +224,11 @@ public class AppList extends Activity {
 
     private class ViewHolder {
         public ImageView mIcon;
+
         public TextView mText;
+
         public TextView mDate;
+
         public RelativeLayout mLayout;
     }
 
@@ -258,7 +263,15 @@ public class AppList extends Activity {
             addInfo.mIcon = icon;
             addInfo.mTitle = mTitle;
             addInfo.mDate = mDate;
-            addInfo.mColor = Color.rgb(255,255,255);
+            if(mTitle.contains("한시간의 의지")){
+                addInfo.mColor = Color.rgb(200,255,200);
+            }else{
+                addInfo.mColor = Color.rgb(255,200,200);
+            }
+
+            if(availList.contains(mTitle)){
+                addInfo.mColor = Color.rgb(0,255,0);
+            }
 
             mListData.add(addInfo);
         }
@@ -279,7 +292,7 @@ public class AppList extends Activity {
 
         public void onItemClick(AdapterView<?> arg0, View v, int position,
                                 long id) {
-                v.setBackgroundColor(Color.BLUE);
+            v.setBackgroundColor(Color.BLUE);
         }
 
         @Override
