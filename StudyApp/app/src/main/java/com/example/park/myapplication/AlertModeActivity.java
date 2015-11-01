@@ -70,6 +70,8 @@ public class AlertModeActivity extends Activity {
         ScreenService mService = new ScreenService();
         mService.reservState = false;
         //mService.view.setVisibility(View.INVISIBLE);
+        Intent i = new Intent(this, ScreenService.class);
+        this.stopService(i);
 
         editor = pref.edit();
         editor.putInt("alertNum", pref.getInt("alertNum", 1) - 1);
