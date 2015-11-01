@@ -11,6 +11,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import java.util.concurrent.TimeUnit;
@@ -69,9 +70,7 @@ public class AlertModeActivity extends Activity {
     private void onRegist() {
         ScreenService mService = new ScreenService();
         mService.reservState = false;
-
-        Intent intent = new Intent(this, ScreenService.class);
-        stopService(intent);
+        mService.view.setVisibility(View.INVISIBLE);
 
         editor = pref.edit();
         editor.putInt("alertNum", pref.getInt("alertNum", 1) - 1);
@@ -82,7 +81,10 @@ public class AlertModeActivity extends Activity {
         Log.d(TAG, String.valueOf(pref.getInt("alertTime", 1)));
 
         Intent intentReceiver = new Intent(this, AlertAlarmReceiver.class);
-        PendingIntent pIntent = PendingIntent.getBroadcast(this, 0, intentReceiver, PendingIntent.FLAG_ONE_SHOT);
-        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + TimeUnit.MINUTES.toMillis(time), pIntent);
+        PendingIntent pIntent = PendingIntent.getBroadcast(this, 0, intentReceiver, PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmManager.setExact(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + TimeUnit.MINUTES.toMillis(time), pIntent);
+
+        Intent intent1 = new Intent(this, LockScreenActivity.class);
+        startActivity(intent1);
     }
 }

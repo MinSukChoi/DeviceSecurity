@@ -8,7 +8,11 @@ public class ListData {
     public Boolean mCheck;
     // 제목
     public String mTitle;
+    // 시간
+    public String mTime;
     // 요일
     public String mWeek;
+    // 반복
+    public String mRepeat;
 
 }

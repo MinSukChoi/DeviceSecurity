@@ -26,7 +26,7 @@ public class LockScreenActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lockscreen);
-        //Toast.makeText(this, "onCreate", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Activity : onCreate", Toast.LENGTH_SHORT).show();
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
                 WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
@@ -53,7 +53,8 @@ public class LockScreenActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
-//        Toast.makeText(this, "onStart", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "Activity : onStart", Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "reservState : " + String.valueOf(mScreenService.reservState));
         // service intent 를 만들고, startService 메소드를 사용합니다.
         // 이 메소드를 통해서 우리가 만든 서비스가 동작하게 됩니다.
 
@@ -70,7 +71,7 @@ public class LockScreenActivity extends Activity {
                 @Override
                 public void onClick(View v) {
                     if (pref.getBoolean("alarmstate", false)) {
-                        Toast.makeText(LockScreenActivity.this, "예약 시간에는 설정할 수 없습니다.", Toast.LENGTH_LONG);
+                        Log.d(TAG, "예약 시간에는 설정 불가능!");
                     } else {
                         Intent newintent = new Intent(LockScreenActivity.this, PasswordActivity.class);
                         newintent.putExtra("state", 2);

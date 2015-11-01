@@ -1,10 +1,13 @@
 package com.example.park.myapplication;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.SwitchPreference;
+import android.widget.Toast;
 
 import com.example.park.myapplication.Activities.PasswordActivity;
 import com.example.park.myapplication.Observer.AppList;
@@ -14,9 +17,14 @@ import com.example.park.myapplication.Observer.AppList;
  */
 public class SettingActivity extends PreferenceActivity implements Preference.OnPreferenceClickListener {
     private static final String TAG = "Setting";
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
 
         addPreferencesFromResource(R.xml.setting_preference);
         //getActionBar().setTitle("설정");
@@ -60,8 +68,12 @@ public class SettingActivity extends PreferenceActivity implements Preference.On
             Intent intent = new Intent(this, SettingAlertActivity.class);
             startActivity(intent);
         } else if(preference.getKey().equals("keybreak")) {
-            Intent intent = new Intent(this, SettingBreakActivity.class);
-            startActivity(intent);
+            if(pref.getInt("alert", 1) == 1) {
+                Intent intent = new Intent(this, SettingBreakActivity.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(this, "긴급모드를 모두 사용했습니다", Toast.LENGTH_SHORT).show();
+            }
         } else if(preference.getKey().equals("keyapplist")) {
             Intent intent = new Intent(this, AppList.class);
             startActivityForResult(intent, 0);
