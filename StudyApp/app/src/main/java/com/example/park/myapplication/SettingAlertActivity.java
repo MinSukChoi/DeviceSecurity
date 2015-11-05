@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.NumberPicker;
-import android.widget.Toast;
 
 /**
  * Created by PARK on 15. 10. 28..
@@ -28,10 +27,14 @@ public class SettingAlertActivity extends Activity {
         final NumberPicker numNumberPicker = (NumberPicker) findViewById(R.id.alert_number_numberPicker);
         final NumberPicker timeNumberPicker = (NumberPicker) findViewById(R.id.alert_time_numberPicker);
 
-        numNumberPicker.setMaxValue(3);
+        numNumberPicker.setMaxValue(pref.getInt("alertNum", 3));
         numNumberPicker.setMinValue(1);
         timeNumberPicker.setMaxValue(15);
         timeNumberPicker.setMinValue(1);
+
+        editor.putInt("alertInitialNum", 3);
+        editor.putInt("alertInitialTime", 15);
+        editor.commit();
 
         int number = pref.getInt("alertNum", 3);
         int time = pref.getInt("alertTime", 15);
@@ -44,11 +47,9 @@ public class SettingAlertActivity extends Activity {
                 int number = numNumberPicker.getValue();
                 int time = timeNumberPicker.getValue();
 
-                Toast.makeText(SettingAlertActivity.this, "사용 횟수: "+String.valueOf(number), Toast.LENGTH_SHORT).show();
-                Toast.makeText(SettingAlertActivity.this, "사용 시간: "+String.valueOf(time), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(SettingAlertActivity.this, "사용 횟수: "+String.valueOf(number), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(SettingAlertActivity.this, "사용 시간: "+String.valueOf(time), Toast.LENGTH_SHORT).show();
 
-                editor.putInt("alertInitialNum", number);
-                editor.putInt("alertInitialTime", time);
                 editor.putInt("alertNum", number);
                 editor.putInt("alertTime", time);
                 editor.commit();

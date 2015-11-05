@@ -1,9 +1,5 @@
 package com.example.park.myapplication.Elements;
 
-import android.content.Context;
-import android.content.Intent;
-
-import com.example.park.myapplication.Activities.PasswordActivity;
 import com.example.park.myapplication.SecurityModules.PasswordModule;
 
 import java.security.NoSuchAlgorithmException;
@@ -47,7 +43,13 @@ public class ReferenceMonitor {
     public static void setNormalmode() {
         STATE=NORMALMODE;
     }
-    public static void setInvalidmode() { STATE=INVALIDMODE;}
-    public static void setAlertmode() { STATE=ALERTMODE; }
-    public static void setBreaktimemode() {STATE=BREAKTIMEMODE;}
+    public static void setInvalidmode() {
+        STATE=INVALIDMODE;
+    }
+    public static void setAlertmode() {
+        STATE=ALERTMODE;
+    }
+    public static void setBreaktimemode() {
+        STATE=BREAKTIMEMODE;
+    }
 }

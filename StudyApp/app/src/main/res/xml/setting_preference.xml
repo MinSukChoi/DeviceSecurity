@@ -24,15 +24,18 @@
         <Preference
             android:key="keyapplist"
             android:title="허용 가능 앱" />
-
-        <SwitchPreference
-            android:defaultValue="false"
+        <Preference
             android:key="keybrowser"
-            android:summaryOn="스터디 브라우저를 사용합니다"
-            android:summaryOff="스터디 브라우저를 사용하지 않습니다"
-            android:switchTextOff="OFF"
-            android:switchTextOn="ON"
-            android:title="스터디 브라우저 사용" />
+            android:title="스터디 브라우저" />
+
+        <!--<SwitchPreference-->
+            <!--android:defaultValue="false"-->
+            <!--android:key="keybrowser"-->
+            <!--android:summaryOn="스터디 브라우저를 사용합니다"-->
+            <!--android:summaryOff="스터디 브라우저를 사용하지 않습니다"-->
+            <!--android:switchTextOff="OFF"-->
+            <!--android:switchTextOn="ON"-->
+            <!--android:title="스터디 브라우저 사용" />-->
     </PreferenceCategory>
 
     <!--<PreferenceCategory-->

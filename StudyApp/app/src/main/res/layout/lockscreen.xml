@@ -51,7 +51,6 @@
             android:id="@+id/current_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="제목"
             android:textSize="20dp"
             android:textColor="@android:color/background_light" />
 
@@ -59,7 +58,6 @@
             android:id="@+id/current_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="시간"
             android:layout_marginTop="10dp"
             android:textColor="@android:color/darker_gray"
             android:textSize="15dp" />
@@ -68,7 +66,6 @@
             android:id="@+id/current_alert"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="긴급 모드"
             android:textSize="15dp"
             android:textColor="@android:color/darker_gray" />
 
@@ -76,7 +73,6 @@
             android:id="@+id/current_break"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="휴식 모드"
             android:textSize="15dp"
             android:textColor="@android:color/darker_gray" />
     </LinearLayout>

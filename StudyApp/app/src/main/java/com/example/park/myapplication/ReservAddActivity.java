@@ -23,7 +23,7 @@ public class ReservAddActivity extends Activity {
     private ToggleButton toggleSun, toggleMon, toggleTue, toggleWed, toggleThu, toggleFri, toggleSat;
     public static int i = 1;
     public boolean flag = true;
-    private static int pos = 0;
+    private static int position = 0;
     private static int startHour;
     private static int startMin;
     private static int endHour;
@@ -77,13 +77,13 @@ public class ReservAddActivity extends Activity {
         toggleSat = (ToggleButton) findViewById(R.id.toggle_sat);
         reservActivity = new ReservActivity();
 
-        pos = reservActivity.getPos();
-        Log.d("Modify : pos = ", String.valueOf(pos));
-        if(pref.getString("title" + pos, "").equals("")){
-            Log.d("Modify : title_pos = ", pref.getString("title" + pos, ""));
+        position = reservActivity.pos;
+        if(pref.getString("title" + position, "").equals("")){
+            Log.d("Add : pos = ", String.valueOf(position));
             flag = true;
         } else {
-            i = pos;
+            Log.d("Modify : pos = ", String.valueOf(position));
+            i = position;
             flag = false;
         }
 
@@ -100,7 +100,6 @@ public class ReservAddActivity extends Activity {
         int startm = pref.getInt("startMin" + i, calendar1.get(Calendar.MINUTE));
         int endh = pref.getInt("endHour" + i, calendar2.get(Calendar.HOUR_OF_DAY));
         int endm = pref.getInt("endMin" + i, calendar2.get(Calendar.MINUTE));
-
 
         reservTitle.setText(editText);
         dayOfTheWeek.setChecked(checkBox);
@@ -152,8 +151,8 @@ public class ReservAddActivity extends Activity {
                 Boolean fri = toggleFri.isChecked();
                 Boolean sat = toggleSat.isChecked();
 
-                if (editText == "") {
-                    editText = " ";
+                if (editText.equals("")) {
+                    editText = "제목 없음";
                 }
 
                 editor.putString("title" + i, editText);

@@ -37,8 +37,8 @@ import java.util.TimerTask;
  */
 public class ScreenService extends Service {
     private static final String TAG = "Service";
-    private ReferenceMonitor referenceMonitor = ReferenceMonitor.getInstance();
-    private BootReceiver mReceiver = null;
+    private BootReceiver mReceiver1 = null;
+    private DeviceEventReceiver mReceiver2 = null;
     public static View view;
     private static WindowManager mWindowManager;
     private TimerTask mTask;
@@ -47,11 +47,10 @@ public class ScreenService extends Service {
     private KeyguardManager km = null;
     private KeyguardManager.KeyguardLock keyLock = null;
     private TelephonyManager telephonyManager = null;
-    private boolean isPhoneIdle = true;
+    private ReferenceMonitor referenceMonitor = ReferenceMonitor.getInstance();
     SharedPreferences pref;
     SharedPreferences.Editor editor;
-    LockScreenActivity lockScreenActivity;
-    public static boolean reservState = false;
+    public static boolean reservState;
 
 //    NotificationManager notiManager;
 //    Notification noti;
@@ -67,8 +66,6 @@ public class ScreenService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-
-        lockScreenActivity = new LockScreenActivity();
         pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
 
         LayoutInflater inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -92,9 +89,12 @@ public class ScreenService extends Service {
         }
 
         if(reservState == true){
-            mReceiver = new BootReceiver();
-            IntentFilter filter = new IntentFilter(Intent.ACTION_BOOT_COMPLETED);
-            registerReceiver(mReceiver, filter);
+            mReceiver1 = new BootReceiver();
+            IntentFilter filter1 = new IntentFilter(Intent.ACTION_BOOT_COMPLETED);
+            registerReceiver(mReceiver1, filter1);
+            mReceiver2 = new DeviceEventReceiver();
+            IntentFilter filter2 = new IntentFilter(Intent.ACTION_DATE_CHANGED);
+            registerReceiver(mReceiver2, filter2);
         }
 
         if (km == null) {
@@ -118,6 +118,7 @@ public class ScreenService extends Service {
                 String availList = pref.getString("appList", "");
 
                 if(!(isServiceRunningCheck().contains("myapplication") |
+                        isServiceRunningCheck().contains("call") |
                         isServiceRunningCheck().contains("contact") |
                         isServiceRunningCheck().contains("mms") |
                         isServiceRunningCheck().contains("browser") |
@@ -129,14 +130,12 @@ public class ScreenService extends Service {
                         isServiceRunningCheck().contains("clock") |
                         isServiceRunningCheck().contains("calendar") |
                         availList.contains(isServiceRunningCheck()))) {
-//                    if(reservState) {
-                    Log.d(TAG, isServiceRunningCheck());
-                    Intent intent1 = new Intent(getApplicationContext(), ScreenService.class);
-                    startService(intent1);
-                    Intent intent2 = new Intent(getApplicationContext(), LockScreenActivity.class);
-                    intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    startActivity(intent2);
-//                    }
+                            Log.d(TAG, isServiceRunningCheck());
+                            Intent intent1 = new Intent(getApplicationContext(), ScreenService.class);
+                            startService(intent1);
+                            Intent intent2 = new Intent(getApplicationContext(), LockScreenActivity.class);
+                            intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(intent2);
                 }
             }
         };
@@ -150,16 +149,13 @@ public class ScreenService extends Service {
         public void onCallStateChanged(int state, String incomingNumber) {
             switch (state) {
                 case TelephonyManager.CALL_STATE_IDLE:
-                    isPhoneIdle = true; //정상상태
                     Log.d(TAG, "CALL_STATE_IDLE");
                     break;
                 case TelephonyManager.CALL_STATE_RINGING:
-                    isPhoneIdle = false;
                     view.setVisibility(View.INVISIBLE);
                     Log.d(TAG, "CALL_STATE_RINGING");
                     break;
                 case TelephonyManager.CALL_STATE_OFFHOOK:
-                    isPhoneIdle = false;
                     view.setVisibility(View.INVISIBLE);
                     Log.d(TAG, "CALL_STATE_OFFHOOK");
                     break;
@@ -170,46 +166,43 @@ public class ScreenService extends Service {
     // 앱 리스트
     public void showApps(View v) {
         view.setVisibility(View.INVISIBLE); // View를 감춘다. (공간차지 O)
-        Intent intent = new Intent(this, AppsListActivity.class);
+        Intent intent = new Intent(getApplicationContext(), AppsListActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);  //activity에서 startActivity하는게 아니기 때문에 넣어줘야 함
         startActivity(intent);
+        Log.v("TAG", "After");
     }
 
     // 스터디 모드 종료
     public void nomalModeLauncher(View v) {
         if(reservState == false) {
-            //view.setVisibility(View.INVISIBLE);
             stopSelf();
             Intent newintent = new Intent(getApplicationContext(), PasswordActivity.class);
             newintent.putExtra("state", 2);
             newintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(newintent);
-            Log.v("TAG", "After");
         } else {
-            Toast.makeText(this, "예약 잠금 시간입니다", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "공부 시간입니다", Toast.LENGTH_SHORT).show();
         }
     }
 
     // 긴급 모드
     public void goAlertMode(View v) {
-//        if(reservState == true) {
         if(pref.getInt("alert", 1) == 0) {
             Toast.makeText(v.getContext(), "긴급모드를 모두 사용했습니다", Toast.LENGTH_SHORT).show();
         } else {
-            //view.setVisibility(View.INVISIBLE);
-            referenceMonitor.setAlertmode();
-            stopSelf();
-            Intent popupIntent = new Intent(getApplicationContext(), AlertModeActivity.class);
-            PendingIntent pie = PendingIntent.getActivity(getApplicationContext(), 0, popupIntent, PendingIntent.FLAG_ONE_SHOT);
-            try {
-                pie.send();
-            } catch (PendingIntent.CanceledException e) {
-                e.printStackTrace();
+            if(pref.getInt("alertstate", 0) == 1) {
+                Toast.makeText(v.getContext(), "이미 긴급모드를 사용 중입니다 ", Toast.LENGTH_SHORT).show();
+            } else {
+                stopSelf();
+                Intent popupIntent = new Intent(getApplicationContext(), AlertModeActivity.class);
+                PendingIntent pie = PendingIntent.getActivity(getApplicationContext(), 0, popupIntent, PendingIntent.FLAG_ONE_SHOT);
+                try {
+                    pie.send();
+                } catch (PendingIntent.CanceledException e) {
+                    e.printStackTrace();
+                }
             }
         }
-//        } else {
-//            Toast.makeText(v.getContext(), "지금은 긴급 모드를 사용할 수 없습니다", Toast.LENGTH_SHORT).show();
-//        }
     }
 
     // 기본 앱 실행
@@ -320,7 +313,6 @@ public class ScreenService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-//        Toast.makeText(this, "onStartCommand", Toast.LENGTH_SHORT).show();
         super.onStartCommand(intent, flags, startId);
         view.setVisibility(View.VISIBLE);
 
@@ -335,14 +327,21 @@ public class ScreenService extends Service {
         ((TextView)view.findViewById(R.id.current_title)).setText("제목 : " + title);
         ((TextView)view.findViewById(R.id.current_time)).setText("시간 : " + currentStart + " ~ " + currentEnd);
         ((TextView)view.findViewById(R.id.current_alert)).setText("긴급모드 횟수 : " + alertCount + "회,  긴급모드 시간 : " + alertTime + "분");
-        ((TextView)view.findViewById(R.id.current_break)).setText("공부 시간 : " + studyTime + "분,  휴식 시간 : " + breakTime + "분");
+        if(pref.getBoolean("nowlock", false) == false) {
+            ((TextView)view.findViewById(R.id.current_break)).setText("공부 시간 : " + studyTime + "분,  휴식 시간 : " + breakTime + "분");
+        }
 
         if(reservState) {
             if(intent != null){
-                if(mReceiver == null){
-                    mReceiver = new BootReceiver();
+                if(mReceiver1 == null){
+                    mReceiver1 = new BootReceiver();
                     IntentFilter filter = new IntentFilter(Intent.ACTION_BOOT_COMPLETED);
-                    registerReceiver(mReceiver, filter);
+                    registerReceiver(mReceiver1, filter);
+                }
+                if(mReceiver2 == null){
+                    mReceiver2 = new DeviceEventReceiver();
+                    IntentFilter filter = new IntentFilter(Intent.ACTION_DATE_CHANGED);
+                    registerReceiver(mReceiver2, filter);
                 }
             }
         }
@@ -394,11 +393,14 @@ public class ScreenService extends Service {
 
     @Override
     public void onDestroy() {
-        Toast.makeText(this, "onDestroy", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, "onDestroy", Toast.LENGTH_SHORT).show();
         mTimer.cancel();
 
-        if (mReceiver != null) {
-            unregisterReceiver(mReceiver);
+        if (mReceiver1 != null) {
+            unregisterReceiver(mReceiver1);
+        }
+        if (mReceiver2 != null) {
+            unregisterReceiver(mReceiver2);
         }
 
         if(mWindowManager != null) {
