@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="@color/light">
 
     <TextView
         android:layout_width="match_parent"
@@ -10,7 +11,7 @@
         android:textSize="20dp"
         android:id="@+id/browser_title"
         android:textStyle="bold"
-        android:background="#008fff"
+        android:background="@color/dark"
         android:gravity="center_vertical"
         android:textColor="@android:color/background_light" />
 
@@ -19,6 +20,7 @@
         android:layout_height="wrap_content"
         android:text="스터디 브라우저란, 인터넷의 무분별한 사용을 막기 위해 인터넷 속도를 제한하는 기능입니다. 사용자가 웹 페이지를 이동할 때마다 페이지 로딩에 걸리는 시간이 늘어나고, 페이지 로딩 시간 동안 사용자에게 경각심을 일깨우는 문구를 보여줍니다. 스터디 브라우저를 사용하여 학업에 더욱 집중해보세요!"
         android:id="@+id/browser_text"
+        android:textColor="@color/dark"
         android:layout_below="@+id/browser_title"
         android:layout_margin="50dp" />
 
@@ -33,12 +35,14 @@
             android:id="@+id/radiobtn1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/dark"
             android:text=" 사용함" />
 
         <RadioButton
             android:id="@+id/radiobtn2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/dark"
             android:text=" 사용 안함" />
     </RadioGroup>
 
@@ -47,6 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="확인"
+        android:background="@color/dark"
         android:id="@+id/browser_ok_btn"
         android:layout_alignParentBottom="true" />
 

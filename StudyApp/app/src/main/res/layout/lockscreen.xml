@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="#e7f3b1">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/background"
         android:scaleType="fitXY"
-        android:src="@android:color/background_dark" />
+        android:src="#e7f3b1" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:gravity="center_vertical"
-        android:background="#008fff">
+        android:background="#008733">
 
         <TextView
             android:layout_width="wrap_content"
@@ -52,14 +53,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20dp"
-            android:textColor="@android:color/background_light" />
+            android:textColor="#008733" />
 
         <TextView
             android:id="@+id/current_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:textColor="@android:color/darker_gray"
+            android:textColor="#008733"
             android:textSize="15dp" />
 
         <TextView
@@ -67,14 +68,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="15dp"
-            android:textColor="@android:color/darker_gray" />
+            android:textColor="#008733" />
 
         <TextView
             android:id="@+id/current_break"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="15dp"
-            android:textColor="@android:color/darker_gray" />
+            android:textColor="#008733" />
     </LinearLayout>
 
     <Button

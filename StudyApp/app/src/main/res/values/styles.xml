@@ -3,6 +3,7 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="android:Theme.Light">
         <!-- Customize your theme here. -->
+        <item name="colorControlHighlight">#008733</item>
     </style>
 
     <style name="OverlayDialog" parent="@android:style/Theme.Dialog">
@@ -14,5 +15,7 @@
         <item name="android:backgroundDimEnabled">false</item>
 
     </style>
+    <color name="dark">#008733</color>
+    <color name="light">#e7f3b1</color>
 
 </resources>

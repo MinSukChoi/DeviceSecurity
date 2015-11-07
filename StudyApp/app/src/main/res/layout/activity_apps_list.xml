@@ -11,17 +11,17 @@
         android:textSize="20dp"
         android:id="@+id/apps_title"
         android:textStyle="bold"
-        android:background="#008fff"
+        android:background="#008733"
         android:gravity="center_vertical"
         android:textColor="@android:color/background_light" />
 
     <ListView
+        android:background="#e7f3b1"
         android:id="@+id/apps_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="#868787"
-        android:dividerHeight="1.5dp"
-        android:layout_marginTop="30dp">
+        android:divider="#008733"
+        android:dividerHeight="1.5dp">
     </ListView>
 
 </LinearLayout>
