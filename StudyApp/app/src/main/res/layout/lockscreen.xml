@@ -86,7 +86,7 @@
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="20dp"
         android:onClick="goAlertMode"
-        android:text="긴급 모드" />
+        android:background="@drawable/icon_alert"/>
 
     <Button
         android:id="@+id/apps_button"
@@ -97,7 +97,7 @@
         android:layout_marginRight="20dp"
         android:layout_marginBottom="20dp"
         android:onClick="showApps"
-        android:background="@drawable/apps_icon" />
+        android:background="@drawable/icon_applist" />
 
     <TableLayout
         android:layout_width="match_parent"
@@ -124,7 +124,7 @@
                     android:id="@+id/call_app"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/contacts"
+                    android:src="@drawable/icon_call"
                     android:onClick="executeApp" />
 
                 <TextView
@@ -132,6 +132,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="전화"
+                    android:textColor="#004c1d"
                     android:id="@+id/app_contacts" />
             </LinearLayout>
 
@@ -146,7 +147,7 @@
                     android:id="@+id/msg_app"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/mms"
+                    android:src="@drawable/icon_text"
                     android:onClick="executeApp" />
 
                 <TextView
@@ -154,6 +155,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="메시지"
+                    android:textColor="#004c1d"
                     android:id="@+id/app_mms" />
             </LinearLayout>
 
@@ -168,7 +170,7 @@
                     android:id="@+id/browser_app"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/browser"
+                    android:src="@drawable/icon_internet"
                     android:onClick="executeApp" />
 
                 <TextView
@@ -176,6 +178,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="인터넷"
+                    android:textColor="#004c1d"
                     android:id="@+id/app_browser" />
             </LinearLayout>
 
@@ -196,7 +199,7 @@
                     android:id="@+id/camera_app"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/camera"
+                    android:src="@drawable/icon_camera"
                     android:layout_weight="1"
                     android:onClick="executeApp" />
 
@@ -205,6 +208,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="카메라"
+                    android:textColor="#004c1d"
                     android:id="@+id/app_camera" />
             </LinearLayout>
 
@@ -219,7 +223,7 @@
                     android:id="@+id/gallery_app"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/gallery"
+                    android:src="@drawable/icon_gallery"
                     android:layout_weight="1"
                     android:onClick="executeApp" />
 
@@ -228,6 +232,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="갤러리"
+                    android:textColor="#004c1d"
                     android:id="@+id/app_gallery" />
             </LinearLayout>
 
@@ -242,7 +247,7 @@
                     android:id="@+id/memo_app"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/note"
+                    android:src="@drawable/icon_memo"
                     android:layout_weight="1"
                     android:onClick="executeApp" />
 
@@ -251,6 +256,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="메모"
+                    android:textColor="#004c1d"
                     android:id="@+id/app_memo" />
             </LinearLayout>
 
@@ -271,7 +277,7 @@
                     android:id="@+id/calculator_app"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/calculator"
+                    android:src="@drawable/icon_calc"
                     android:layout_weight="1"
                     android:onClick="executeApp" />
 
@@ -280,6 +286,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="계산기"
+                    android:textColor="#004c1d"
                     android:id="@+id/textView2" />
             </LinearLayout>
 
@@ -294,7 +301,7 @@
                     android:id="@+id/alarm_app"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/clock"
+                    android:src="@drawable/icon_alarm"
                     android:layout_weight="1"
                     android:onClick="executeApp" />
 
@@ -303,6 +310,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="알람/시계"
+                    android:textColor="#004c1d"
                     android:id="@+id/textView3" />
             </LinearLayout>
 
@@ -317,7 +325,7 @@
                     android:id="@+id/calendar_app"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:src="@drawable/calendar"
+                    android:src="@drawable/icon_calendar"
                     android:layout_weight="1"
                     android:onClick="executeApp" />
 
@@ -326,6 +334,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="캘린더"
+                    android:textColor="#004c1d"
                     android:id="@+id/textView4" />
             </LinearLayout>
 
