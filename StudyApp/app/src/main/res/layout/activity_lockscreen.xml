@@ -2,13 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/tree">
+    android:background="#e7f3b1">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:gravity="center_vertical"
-        android:background="#008fff"
+        android:background="#008733"
         android:id="@+id/relativeLayout">
 
         <TextView
@@ -44,19 +44,23 @@
         <!--android:text="시작하기" />-->
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/lock_textview"
-        android:layout_below="@+id/relativeLayout"
-        android:textStyle="bold"
-        android:textSize="15dp"
-        android:textColor="@android:color/background_light"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
+        android:layout_marginBottom="30dp"
+        android:textStyle="bold"
+        android:textSize="30dp"
+        android:textColor="#000000"
         android:gravity="center"
-        android:text="터치하면 한시간 동안 잠금을 시작합니다"
-        android:layout_margin="50dp" />
+        android:text="시작하기"
+        />
+
+    <ImageView
+        android:id="@+id/imageView_tree"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/tree"/>
 
 
 </RelativeLayout>

@@ -35,7 +35,8 @@
 
         <activity android:name=".AppsListActivity" />
         <activity android:name=".Activities.PasswordActivity" />
-        <activity android:name=".SettingActivity" />
+        <activity android:name=".SettingActivity"
+            android:theme="@style/Theme.AppCompat.Light"/>
         <activity android:name=".SettingAlertActivity" />
         <activity android:name=".SettingBreakActivity" />
         <activity android:name=".SettingBrowserActivity" />
