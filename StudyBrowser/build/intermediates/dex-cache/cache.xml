@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="D:\Users\minseock\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\23.0.1\support-annotations-23.0.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="1fce89a6428c51467090d7f424e4c9c3dbd55f7e">
+        <dex dex="D:\soma\DeviceSecurity\StudyBrowser\app\build\intermediates\pre-dexed\debug\support-annotations-23.0.1-643fd8034cb5d484da958001c97675c3e3c62684.jar" />
+    </item>
+    <item
+        jar="C:\Users\minseock\.gradle\caches\modules-2\files-2.1\com.jakewharton\butterknife\7.0.1\d5d13ea991eab0252e3710e5df3d6a9d4b21d461\butterknife-7.0.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="d5d13ea991eab0252e3710e5df3d6a9d4b21d461">
+        <dex dex="D:\soma\DeviceSecurity\StudyBrowser\app\build\intermediates\pre-dexed\debug\butterknife-7.0.1-aaed9d75d60d5646047e76e1cb0f44eae72e8036.jar" />
+    </item>
+    <item
+        jar="D:\soma\DeviceSecurity\StudyBrowser\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\libs\internal_impl-23.0.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="aa92916125166649d8ad4ba3940c3dd7515596d3">
+        <dex dex="D:\soma\DeviceSecurity\StudyBrowser\app\build\intermediates\pre-dexed\debug\internal_impl-23.0.1-3b4db0f755c8c588a299efe1f0ac939ad34b1640.jar" />
+    </item>
+    <item
+        jar="D:\soma\DeviceSecurity\StudyBrowser\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.1\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
+        <dex dex="D:\soma\DeviceSecurity\StudyBrowser\app\build\intermediates\pre-dexed\debug\classes-157cb5d4f337756ade127b815217658283982a70.jar" />
+    </item>
+    <item
+        jar="D:\soma\DeviceSecurity\StudyBrowser\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\23.0.1\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
+        <dex dex="D:\soma\DeviceSecurity\StudyBrowser\app\build\intermediates\pre-dexed\debug\classes-817462ef0c6c19321d70456c8dc60eca7dd131ae.jar" />
+    </item>
+
+</items>

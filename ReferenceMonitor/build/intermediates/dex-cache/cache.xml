@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="D:\soma\DeviceSecurity\ReferenceMonitor\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.0\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="1ee588ff2c4daf7b97c1cbf922a6c7f027285c2f">
+        <dex dex="D:\soma\DeviceSecurity\ReferenceMonitor\app\build\intermediates\pre-dexed\debug\classes-31f36ac37c3975acbd8c59cd301c48e1d4a426c7.jar" />
+    </item>
+    <item
+        jar="D:\soma\ChilkatSample_AndroidStudio\DeviceSecurity\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.0\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="1ee588ff2c4daf7b97c1cbf922a6c7f027285c2f">
+        <dex dex="D:\soma\ChilkatSample_AndroidStudio\DeviceSecurity\app\build\intermediates\pre-dexed\debug\classes-4aa1df2e3546dcd3cb9b7b49223abb1dd0e41165.jar" />
+    </item>
+    <item
+        jar="D:\soma\DeviceSecurity\ReferenceMonitor\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.0\jars\libs\internal_impl-22.2.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="57f2ab85c164ff1676ec64dee787981c046fab79">
+        <dex dex="D:\soma\DeviceSecurity\ReferenceMonitor\app\build\intermediates\pre-dexed\debug\internal_impl-22.2.0-5014b271d650e0efd1f9d3f98ceab5dc8130119b.jar" />
+    </item>
+    <item
+        jar="D:\soma\DeviceSecurity\ReferenceMonitor\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\22.2.0\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="73753982da6bde518f3a4c6b372749981d14d1a0">
+        <dex dex="D:\soma\DeviceSecurity\ReferenceMonitor\app\build\intermediates\pre-dexed\debug\classes-31e4a7f44a6589b87b7f0ba0d2eda5821f24b2e2.jar" />
+    </item>
+    <item
+        jar="D:\Users\minseock\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\22.2.0\support-annotations-22.2.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="66b42a1f3eb7676070b7ef7f14b603483aecbee1">
+        <dex dex="D:\soma\ChilkatSample_AndroidStudio\DeviceSecurity\app\build\intermediates\pre-dexed\debug\support-annotations-22.2.0-e417452f6f3f2106a89961ca226f53fea0d18fc3.jar" />
+    </item>
+    <item
+        jar="D:\soma\ChilkatSample_AndroidStudio\DeviceSecurity\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.0\jars\libs\internal_impl-22.2.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="57f2ab85c164ff1676ec64dee787981c046fab79">
+        <dex dex="D:\soma\ChilkatSample_AndroidStudio\DeviceSecurity\app\build\intermediates\pre-dexed\debug\internal_impl-22.2.0-0b1b064a709c4a1b6e1f7bdae25379c4d6c33830.jar" />
+    </item>
+    <item
+        jar="D:\soma\ChilkatSample_AndroidStudio\DeviceSecurity\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\22.2.0\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="73753982da6bde518f3a4c6b372749981d14d1a0">
+        <dex dex="D:\soma\ChilkatSample_AndroidStudio\DeviceSecurity\app\build\intermediates\pre-dexed\debug\classes-8a6e1ba3c6fcdb5e08d16aa1165381a53edcedc4.jar" />
+    </item>
+
+</items>
