@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.NumberPicker;
-import android.widget.Toast;
 
 /**
  * Created by PARK on 15. 10. 28..
@@ -44,8 +43,8 @@ public class SettingBreakActivity extends Activity {
                 int studyTime = studyNumberPicker.getValue();
                 int breakTime = breakNumberPicker.getValue();
 
-                Toast.makeText(SettingBreakActivity.this, "공부 시간: "+String.valueOf(studyTime), Toast.LENGTH_SHORT).show();
-                Toast.makeText(SettingBreakActivity.this, "휴식 시간: "+String.valueOf(breakTime), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(SettingBreakActivity.this, "공부 시간: "+String.valueOf(studyTime), Toast.LENGTH_SHORT).show();
+//                Toast.makeText(SettingBreakActivity.this, "휴식 시간: "+String.valueOf(breakTime), Toast.LENGTH_SHORT).show();
 
                 editor.putInt("studyTime", studyTime);
                 editor.putInt("breakTime", breakTime);

@@ -44,17 +44,18 @@ public class BreakAlarmReceiver extends BroadcastReceiver {
 
             ScreenService mService = new ScreenService();
             mService.reservState = false;
-            Intent i = new Intent(context, ScreenService.class);
-            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.stopService(i);
-
-            Intent intent1 = new Intent(context, LockScreenActivity.class);
+            Intent intent1 = new Intent(context, ScreenService.class);
             intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(intent1);
+            context.stopService(intent1);
+
+            Intent intent2 = new Intent(context, LockScreenActivity.class);
+            intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent2);
 
             int time = pref.getInt("breakTime", 10);
-            Intent intentReceiver = new Intent(context, StudyAlarmReceiver.class);
-            PendingIntent pIntent = PendingIntent.getBroadcast(context, position, intentReceiver, PendingIntent.FLAG_UPDATE_CURRENT);
+            Intent i = new Intent(context, StudyAlarmReceiver.class);
+            i.putExtra("position", position);
+            PendingIntent pIntent = PendingIntent.getBroadcast(context, position, i, PendingIntent.FLAG_UPDATE_CURRENT);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 alarmManager.setExact(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + TimeUnit.MINUTES.toMillis(time), pIntent);
             } else {
