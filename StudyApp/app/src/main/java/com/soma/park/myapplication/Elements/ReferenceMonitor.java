@@ -14,6 +14,7 @@ public class ReferenceMonitor {
     public static final int INVALIDMODE=2;
     public static final int ALERTMODE=3;
     public static final int BREAKTIMEMODE=4;
+    public static final int TEMPMODE=5;
 
     private static boolean PERMISSION=true;
     private static PasswordModule passwordModule = PasswordModule.getInstance();
@@ -36,6 +37,7 @@ public class ReferenceMonitor {
     public static int getSTATE(){
         return STATE;
     }
+    public static void setSTATE(final int state) {STATE=state;}
     public static void setStudymode() {
         STATE=STUDYMODE;
     }

@@ -66,7 +66,7 @@ public class LockScreenActivity extends Activity {
         // service intent 를 만들고, startService 메소드를 사용합니다.
         // 이 메소드를 통해서 우리가 만든 서비스가 동작하게 됩니다.
 
-        if(mScreenService.reservState) {
+        if(mScreenService.reservState && referenceMonitor.getSTATE()!=referenceMonitor.TEMPMODE && referenceMonitor.getSTATE()!=referenceMonitor.ALERTMODE) {
             Intent intent = new Intent(LockScreenActivity.this, ScreenService.class);
             startService(intent);
         }
@@ -164,11 +164,26 @@ public class LockScreenActivity extends Activity {
 
     @Override
     protected void onResume() {
+        Log.v(TAG, "onResume "+referenceMonitor.getSTATE());
         super.onResume();
         if(referenceMonitor.getSTATE()==referenceMonitor.STUDYMODE || referenceMonitor.getSTATE()==referenceMonitor.INVALIDMODE) {
             referenceMonitor.setStudymode();
             Intent intent = new Intent(LockScreenActivity.this, ScreenService.class);
             startService(intent);
+        }else if(referenceMonitor.getSTATE() == referenceMonitor.TEMPMODE) {
+            Log.v(TAG, "onAlert("+pref.getInt("alert", 1)+")");
+            if(pref.getInt("alert", 1) == 0) {
+                Toast.makeText(this, "긴급모드를 모두 사용했습니다", Toast.LENGTH_SHORT).show();
+            } else {
+                Intent popupIntent = new Intent(this, AlertModeActivity.class);
+                PendingIntent pie = PendingIntent.getActivity(this, 0, popupIntent, PendingIntent.FLAG_ONE_SHOT);
+                try {
+                    pie.send();
+                } catch (PendingIntent.CanceledException e) {
+                    e.printStackTrace();
+                }
+            }
         }
+        Log.v(TAG, "onResume end"+referenceMonitor.getSTATE());
     }
 }

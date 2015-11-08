@@ -187,6 +187,13 @@ public class ScreenService extends Service {
 
     // 긴급 모드
     public void goAlertMode(View v) {
+        referenceMonitor.setSTATE(referenceMonitor.TEMPMODE);
+        stopSelf();
+        Intent newintent = new Intent(getApplicationContext(), PasswordActivity.class);
+        newintent.putExtra("state", 3);
+        newintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(newintent);
+        /*
         if(pref.getInt("alert", 1) == 0) {
             Toast.makeText(v.getContext(), "긴급모드를 모두 사용했습니다", Toast.LENGTH_SHORT).show();
         } else {
@@ -199,6 +206,7 @@ public class ScreenService extends Service {
                 e.printStackTrace();
             }
         }
+        */
     }
 
     // 기본 앱 실행

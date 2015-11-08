@@ -151,6 +151,20 @@ public class PasswordActivity extends Activity {
                 }else referenceMonitor.unsetPermission();
                 */
                 break;
+            case 3:
+                /* 긴급모드 진입시 비밀번호 확인 */
+                Intent newintent = getIntent();
+                if(referenceMonitor.checkPassword(pref.getString("hash",""),password)) {
+                }else  {
+                   referenceMonitor.setInvalidmode();
+                }
+                finish();
+                /*
+                if(referenceMonitor.checkPassword(pref.getString("hash",""),password)) {
+                    referenceMonitor.setPermission();
+                }else referenceMonitor.unsetPermission();
+                */
+                break;
             default:
                 break;
         }
@@ -170,11 +184,9 @@ public class PasswordActivity extends Activity {
                 /* 비밀번호 재확인 */
                 passwordAlert.setText("한번 더 입력해주세요.");
                 break;
-            case 2:
+            default:
                 /* 비밀번호 확인 */
                 passwordAlert.setText("비밀번호를 입력하세요.");
-                break;
-            default:
                 break;
         }
 

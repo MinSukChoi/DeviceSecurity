@@ -38,11 +38,12 @@ public class AlertModeActivity extends Activity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         // 여기서 부터는 알림창의 속성 설정
         builder.setTitle("긴급 모드 대화 상자")
-                .setMessage("긴급 모드를 사용하시겠습니까?")
+                .setMessage("긴급 모드를 사용하시겠습니까?" + "(남은 횟수 : "+pref.getInt("alertNum", 3)+"회)")
                 .setCancelable(false)
                 .setPositiveButton("네", new DialogInterface.OnClickListener() {
                     // 확인 버튼 클릭시 설정
                     public void onClick(DialogInterface dialog, int whichButton) {
+                        referenceMonitor.setSTATE(referenceMonitor.ALERTMODE);
                         if (pref.getInt("alertNum", 3) == 0){
                             Toast.makeText(AlertModeActivity.this, "긴급모드를 모두 사용했습니다", Toast.LENGTH_SHORT).show();
                             editor = pref.edit();
@@ -60,6 +61,7 @@ public class AlertModeActivity extends Activity {
                 .setNegativeButton("아니요", new DialogInterface.OnClickListener() {
                     // 취소 버튼 클릭시 설정
                     public void onClick(DialogInterface dialog, int whichButton) {
+                        referenceMonitor.setSTATE(referenceMonitor.STUDYMODE);
                         dialog.cancel();
                         Intent intent = new Intent(AlertModeActivity.this, ScreenService.class);
                         startService(intent);
