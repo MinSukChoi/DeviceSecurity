@@ -43,7 +43,7 @@
         <activity android:name=".ReservAddActivity" />
         <activity android:name=".Observer.AppList" />
         <activity android:name=".StudyBrowser"
-            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+            android:theme="@style/AppTheme"/>
         <activity
             android:name="com.soma.park.myapplication.AlertModeActivity"
             android:theme="@android:style/Theme.Dialog">

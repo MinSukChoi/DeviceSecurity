@@ -33,8 +33,8 @@
         android:layout_below="@+id/alert_title"
         android:solidColor="@color/dark"
         android:layout_toRightOf="@id/alert_text"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="100dp" />
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="50dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -45,7 +45,7 @@
         android:id="@+id/alert_text2"
         android:layout_below="@+id/alert_text"
         android:layout_marginLeft="50dp"
-        android:layout_marginTop="150dp" />
+        android:layout_marginTop="200dp" />
 
     <NumberPicker
         android:layout_width="wrap_content"
@@ -54,7 +54,7 @@
         android:layout_below="@+id/alert_text"
         android:solidColor="@color/dark"
         android:layout_toRightOf="@id/alert_text2"
-        android:layout_marginLeft="50dp"
+        android:layout_marginLeft="100dp"
         android:layout_marginTop="150dp" />
 
     <Button

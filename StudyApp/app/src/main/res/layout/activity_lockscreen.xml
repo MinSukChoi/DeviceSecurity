@@ -32,6 +32,15 @@
             android:background="@drawable/icon_setting"
             android:layout_centerVertical="true" />
 
+        <!--<ImageButton-->
+            <!--android:layout_width="40dp"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:id="@+id/nowlock_button"-->
+            <!--android:layout_toLeftOf="@+id/setting_button"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:layout_centerVertical="true"-->
+            <!--android:src="@android:drawable/ic_lock_idle_lock" />-->
+
     </RelativeLayout>
 
     <!--<Button-->
