@@ -54,11 +54,11 @@ public class AppsListActivity extends Activity {
 
         List<ResolveInfo> availableActivities = manager.queryIntentActivities(i, 0);
         for(ResolveInfo ri:availableActivities){
-            AppDetail app = new AppDetail();
-            app.label = ri.loadLabel(manager);
-            app.name = ri.activityInfo.packageName;
-            app.icon = ri.activityInfo.loadIcon(manager);
-            if(availList.contains("'" + app.name + "'")){
+            if(availList.contains("'" + ri.activityInfo.packageName + "'")){
+                AppDetail app = new AppDetail();
+                app.name = ri.activityInfo.packageName;
+                app.label = ri.loadLabel(manager);
+                app.icon = ri.activityInfo.loadIcon(manager);
                 apps.add(app);
             }
         }
