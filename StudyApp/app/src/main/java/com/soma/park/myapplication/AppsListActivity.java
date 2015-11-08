@@ -1,6 +1,7 @@
 package com.soma.park.myapplication;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -40,6 +41,8 @@ public class AppsListActivity extends Activity {
         manager = getPackageManager();
         apps = new ArrayList<AppDetail>();
 
+        final ProgressDialog progressDialog = ProgressDialog.show(AppsListActivity.this, "", "로딩중입니다. 잠시만 기다려주세요.", true);
+
         Intent i = new Intent(Intent.ACTION_MAIN, null);
         i.addCategory(Intent.CATEGORY_LAUNCHER);
 
@@ -51,14 +54,19 @@ public class AppsListActivity extends Activity {
 
         List<ResolveInfo> availableActivities = manager.queryIntentActivities(i, 0);
         for(ResolveInfo ri:availableActivities){
-            AppDetail app = new AppDetail();
-            app.label = ri.loadLabel(manager);
-            app.name = ri.activityInfo.packageName;
-            app.icon = ri.activityInfo.loadIcon(manager);
-            if(availList.contains("'" + app.name + "'")){
+            if(availList.contains("'" + ri.activityInfo.packageName + "'")){
+                AppDetail app = new AppDetail();
+                app.name = ri.activityInfo.packageName;
+                app.label = ri.loadLabel(manager);
+                app.icon = ri.activityInfo.loadIcon(manager);
                 apps.add(app);
             }
         }
+
+        if(progressDialog!=null && progressDialog.isShowing()){
+            progressDialog.dismiss();
+        }
+
     }
 
     private void loadListView(){

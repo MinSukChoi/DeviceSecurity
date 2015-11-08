@@ -1,6 +1,7 @@
 package com.soma.park.myapplication.Observer;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -67,6 +68,8 @@ public class AppList extends Activity {
         setContentView(R.layout.app_list);
 
         final Handler mHandler = new Handler();
+
+        final ProgressDialog progressDialog = ProgressDialog.show(AppList.this, "", "로딩중입니다. 잠시만 기다려주세요.", true);
 
         SharedPreferences pref = getSharedPreferences("pref", MODE_PRIVATE);
         availList = pref.getString("appList", "");
@@ -168,7 +171,7 @@ public class AppList extends Activity {
                             final AppInfo appInfo = dictionary.get(appList.getJSONObject(idx).get("package").toString());
                             final String category = appList.getJSONObject(idx).get("category").toString();
                             appInfo.appCategory = category;
-                            if(category.contains("Health") || category.contains("Education")){
+                            if((category.contains("Health") || category.contains("Education")) && !appInfo.appTitle.contains("한시간의 의지")){
                                 appInfoListOK[cnt1++] = appInfo;
                             }else{
                                 appInfoListNO[cnt2++] = appInfo;
@@ -204,7 +207,9 @@ public class AppList extends Activity {
                             }
                         });
 
-                        Log.d("Test", "End");
+                        if(progressDialog!=null && progressDialog.isShowing()){
+                            progressDialog.dismiss();
+                        }
                     }
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
@@ -298,7 +303,7 @@ public class AppList extends Activity {
             addInfo.mDate = mDate;
             addInfo.mPackage = mPackage;
 
-            if(mDate.contains("Health") || mDate.contains("Education")){
+            if((mDate.contains("Health") || mDate.contains("Education")) && !mTitle.contains("한시간의 의지")){
                 addInfo.mColor = Color.rgb(255,255,255);
             }else{
                 addInfo.mColor = Color.rgb(255,200,200);
