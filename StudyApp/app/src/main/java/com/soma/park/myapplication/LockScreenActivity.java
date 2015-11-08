@@ -1,8 +1,12 @@
 package com.soma.park.myapplication;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -15,12 +19,15 @@ import android.widget.Toast;
 import com.soma.park.myapplication.Activities.PasswordActivity;
 import com.soma.park.myapplication.Elements.ReferenceMonitor;
 
+import java.util.Calendar;
+
 public class LockScreenActivity extends Activity {
     private static final String TAG = "LockScreen";
     private ReferenceMonitor referenceMonitor = ReferenceMonitor.getInstance();
     SharedPreferences pref;
     SharedPreferences.Editor editor;
     ScreenService mScreenService;
+    private AlarmManager alarmManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +43,7 @@ public class LockScreenActivity extends Activity {
         startActivity(new Intent(this, Splash.class));
 
         pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
+        alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         mScreenService = new ScreenService();
 
         if(pref.getInt("First", 0) != 1){
@@ -62,34 +70,55 @@ public class LockScreenActivity extends Activity {
             Intent intent = new Intent(LockScreenActivity.this, ScreenService.class);
             startService(intent);
         }
+        setContentView(R.layout.activity_lockscreen);
 
-        //if(pref.getInt("Agree", 0) == 1) {
-            setContentView(R.layout.activity_lockscreen);
-
-            Button settingButton = (Button) findViewById(R.id.setting_button);
-            settingButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (pref.getBoolean("alarmstate", false)) {
-                        Log.d(TAG, "예약 시간에는 설정 불가능!");
-                    } else {
-                        Intent newintent = new Intent(LockScreenActivity.this, PasswordActivity.class);
-                        newintent.putExtra("state", 2);
-                        startActivityForResult(newintent, 2);
-                    }
+        Button settingButton = (Button) findViewById(R.id.setting_button);
+        settingButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (pref.getBoolean("alarmstate", false)) {
+                    Log.d(TAG, "예약 시간에는 설정 불가능!");
+                } else {
+                    Intent newintent = new Intent(LockScreenActivity.this, PasswordActivity.class);
+                    newintent.putExtra("state", 2);
+                    startActivityForResult(newintent, 2);
                 }
-            });
+            }
+        });
 
-            TextView lockText = (TextView) findViewById(R.id.lock_textview);
-            lockText.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    referenceMonitor.setStudymode();
-                    Intent intent = new Intent(LockScreenActivity.this, ScreenService.class);
-                    startService(intent);
+        TextView lockText = (TextView) findViewById(R.id.lock_textview);
+        lockText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                referenceMonitor.setStudymode();
+                editor = pref.edit();
+                editor.putBoolean("nowlock", true);
+                editor.commit();
+
+                Intent intent1 = new Intent(LockScreenActivity.this, AlarmStartReceiver.class);
+                Calendar calendar1 = Calendar.getInstance();
+                calendar1.set(Calendar.SECOND, 0);
+                Log.d(TAG, String.valueOf(calendar1.getTime()));
+                PendingIntent pIntent1 = PendingIntent.getBroadcast(LockScreenActivity.this, 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {      //api 19 이상
+                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar1.getTimeInMillis(), pIntent1);
+                } else {
+                    alarmManager.set(AlarmManager.RTC_WAKEUP, calendar1.getTimeInMillis(), pIntent1);
                 }
-            });
-        //}
+
+                Intent intent2 = new Intent(LockScreenActivity.this, AlarmStopReceiver.class);
+                Calendar calendar2 = Calendar.getInstance();
+                calendar2.set(Calendar.MINUTE, (calendar2.get(Calendar.MINUTE)+1));
+                calendar2.set(Calendar.SECOND, 0);
+                Log.d(TAG, String.valueOf(calendar2.getTime()));
+                PendingIntent pIntent2 = PendingIntent.getBroadcast(LockScreenActivity.this, 0, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(), pIntent2);
+                } else {
+                    alarmManager.set(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(), pIntent2);
+                }
+            }
+        });
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {

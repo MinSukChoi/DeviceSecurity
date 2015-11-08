@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
-import android.preference.SwitchPreference;
 import android.widget.Toast;
 
 import com.soma.park.myapplication.Activities.PasswordActivity;
@@ -27,14 +26,13 @@ public class SettingActivity extends PreferenceActivity implements Preference.On
         pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
 
         addPreferencesFromResource(R.xml.setting_preference);
-        //getActionBar().setTitle("설정");
 
         Preference pChangePassword = (Preference)findPreference("keychangepassword");
         Preference pLockReserv = (Preference)findPreference("keylock");
         Preference pEmergencyMode = (Preference)findPreference("keyemergency");
         Preference pBreakMode = (Preference)findPreference("keybreak");
         Preference pAppList = (Preference)findPreference("keyapplist");
-        final SwitchPreference pBrowser = (SwitchPreference)findPreference("keybrowser");
+        Preference pBrowser = (Preference)findPreference("keybrowser");
 //        Preference pHelp = (Preference)findPreference("keyhelp");
 //        Preference pContact = (Preference)findPreference("keycontact");
 
@@ -43,26 +41,7 @@ public class SettingActivity extends PreferenceActivity implements Preference.On
         pEmergencyMode.setOnPreferenceClickListener(this);
         pBreakMode.setOnPreferenceClickListener(this);
         pAppList.setOnPreferenceClickListener(this);
-        pBrowser.setChecked(pref.getBoolean("studybrowser",true));
-        pBrowser.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                pBrowser.setChecked(!pBrowser.isChecked());
-                if (pBrowser.isChecked()) {
-                    editor = pref.edit();
-                    editor.putBoolean("studybrowser", true);
-                    editor.commit();
-
-                }else {
-                    editor = pref.edit();
-                    editor.putBoolean("studybrowser", false);
-                    editor.commit();
-
-                }
-                return false;
-            }
-        });
-
+        pBrowser.setOnPreferenceClickListener(this);
 //        pHelp.setOnPreferenceClickListener(this);
 //        pContact.setOnPreferenceClickListener(this);
 
@@ -91,6 +70,9 @@ public class SettingActivity extends PreferenceActivity implements Preference.On
         } else if(preference.getKey().equals("keyapplist")) {
             Intent intent = new Intent(this, AppList.class);
             startActivityForResult(intent, 0);
+        } else if(preference.getKey().equals("keybrowser")) {
+            Intent intent = new Intent(this, SettingBrowserActivity.class);
+            startActivity(intent);
         }
 //        } else if(preference.getKey().equals("keyhelp")) {
 //

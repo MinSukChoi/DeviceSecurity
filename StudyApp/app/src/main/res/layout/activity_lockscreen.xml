@@ -8,7 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:gravity="center_vertical"
-        android:background="#008fff">
+        android:background="#008fff"
+        android:id="@+id/relativeLayout">
 
         <TextView
             android:layout_width="wrap_content"
@@ -44,15 +45,18 @@
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="100dp"
-        android:text="터치해서 시작하세요"
+        android:layout_height="wrap_content"
         android:id="@+id/lock_textview"
+        android:layout_below="@+id/relativeLayout"
         android:textStyle="bold"
-        android:textSize="20dp"
+        android:textSize="15dp"
         android:textColor="@android:color/background_light"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
         android:gravity="center"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true" />
+        android:text="터치하면 한시간 동안 잠금을 시작합니다"
+        android:layout_margin="50dp" />
 
 
 </RelativeLayout>

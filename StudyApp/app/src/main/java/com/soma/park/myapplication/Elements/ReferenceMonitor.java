@@ -1,7 +1,6 @@
 package com.soma.park.myapplication.Elements;
 
 import com.soma.park.myapplication.SecurityModules.PasswordModule;
-
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 
@@ -43,7 +42,13 @@ public class ReferenceMonitor {
     public static void setNormalmode() {
         STATE=NORMALMODE;
     }
-    public static void setInvalidmode() { STATE=INVALIDMODE;}
-    public static void setAlertmode() { STATE=ALERTMODE; }
-    public static void setBreaktimemode() {STATE=BREAKTIMEMODE;}
+    public static void setInvalidmode() {
+        STATE=INVALIDMODE;
+    }
+    public static void setAlertmode() {
+        STATE=ALERTMODE;
+    }
+    public static void setBreaktimemode() {
+        STATE=BREAKTIMEMODE;
+    }
 }

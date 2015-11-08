@@ -14,8 +14,8 @@
         android:allowBackup="true"
         android:icon="@drawable/lock_icon"
         android:label="@string/app_name"
-        android:manageSpaceActivity="com.soma.park.myapplication.LockScreenActivity"
-        android:theme="@android:style/Theme.Black.NoTitleBar" >
+        android:manageSpaceActivity=".LockScreenActivity"
+        android:theme="@style/Theme.AppCompat.NoActionBar" >
 
         <activity android:name="com.soma.park.myapplication.Splash" />
         <activity android:name="com.soma.park.myapplication.AccessTerms" />
@@ -33,15 +33,17 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.soma.park.myapplication.AppsListActivity" />
-        <activity android:name="com.soma.park.myapplication.Activities.PasswordActivity" />
-        <activity android:name="com.soma.park.myapplication.SettingActivity" />
-        <activity android:name="com.soma.park.myapplication.SettingAlertActivity" />
-        <activity android:name="com.soma.park.myapplication.SettingBreakActivity" />
-        <activity android:name="com.soma.park.myapplication.ReservActivity" />
-        <activity android:name="com.soma.park.myapplication.ReservAddActivity" />
-        <activity android:name="com.soma.park.myapplication.Observer.AppList" />
-        <activity android:name="com.soma.park.myapplication.StudyBrowser"
+\
+        <activity android:name=".AppsListActivity" />
+        <activity android:name=".Activities.PasswordActivity" />
+        <activity android:name=".SettingActivity" />
+        <activity android:name=".SettingAlertActivity" />
+        <activity android:name=".SettingBreakActivity" />
+        <activity android:name=".SettingBrowserActivity" />
+        <activity android:name=".ReservActivity" />
+        <activity android:name=".ReservAddActivity" />
+        <activity android:name=".Observer.AppList" />
+        <activity android:name=".StudyBrowser"
             android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity
             android:name="com.soma.park.myapplication.AlertModeActivity"
@@ -51,7 +53,8 @@
         <service android:name="com.soma.park.myapplication.ScreenService" />
 
         <receiver
-            android:name="com.soma.park.myapplication.BootReceiver"
+            android:name=".BootReceiver"
+            android:enabled="true"
             android:exported="false" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -61,8 +64,7 @@
         <receiver
             android:name="com.soma.park.myapplication.DeviceEventReceiver"
             android:enabled="true"
-            android:exported="false"
-            android:label="Device Event Receiver" >
+            android:exported="false" >
             <intent-filter>
                 <action android:name="android.intent.action.DATE_CHANGED" />
             </intent-filter>

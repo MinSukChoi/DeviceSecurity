@@ -15,12 +15,12 @@
         android:textColor="@android:color/background_light"
         android:layout_marginBottom="20dp" />
 
-    <!--<Button-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="clear"-->
-        <!--android:id="@+id/reserv_clear_btn"-->
-        <!--android:layout_below="@+id/reserv_title" />-->
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="clear"
+        android:id="@+id/reserv_clear_btn"
+        android:layout_below="@+id/reserv_title" />
 
     <Button
         android:layout_width="wrap_content"

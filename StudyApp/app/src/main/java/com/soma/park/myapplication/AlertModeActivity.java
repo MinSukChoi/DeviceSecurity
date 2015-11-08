@@ -14,6 +14,8 @@ import android.os.SystemClock;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.soma.park.myapplication.Elements.ReferenceMonitor;
+
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -24,6 +26,7 @@ public class AlertModeActivity extends Activity {
     private AlarmManager alarmManager;
     SharedPreferences pref;
     SharedPreferences.Editor editor;
+    private ReferenceMonitor referenceMonitor = ReferenceMonitor.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +36,6 @@ public class AlertModeActivity extends Activity {
         pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
         // 여기서 부터는 알림창의 속성 설정
         builder.setTitle("긴급 모드 대화 상자")
                 .setMessage("긴급 모드를 사용하시겠습니까?")
@@ -42,15 +44,15 @@ public class AlertModeActivity extends Activity {
                     // 확인 버튼 클릭시 설정
                     public void onClick(DialogInterface dialog, int whichButton) {
                         if (pref.getInt("alertNum", 3) == 0){
-                            Toast.makeText(getApplicationContext(), "긴급모드를 모두 사용했습니다", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AlertModeActivity.this, "긴급모드를 모두 사용했습니다", Toast.LENGTH_SHORT).show();
                             editor = pref.edit();
                             editor.putInt("alert", 0);
                             editor.commit();
                             dialog.cancel();
-                            Intent intent = new Intent(getApplicationContext(), ScreenService.class);
+                            Intent intent = new Intent(AlertModeActivity.this, ScreenService.class);
                             startService(intent);
                         } else{
-                            Toast.makeText(getApplicationContext(), pref.getInt("alertTime", 1)+"분 동안 긴급모드를 실행합니다", Toast.LENGTH_LONG).show();
+                            Toast.makeText(AlertModeActivity.this, pref.getInt("alertTime", 15)+"분 동안 긴급모드를 실행합니다", Toast.LENGTH_LONG).show();
                             onRegist();
                         }
                     }
@@ -59,7 +61,7 @@ public class AlertModeActivity extends Activity {
                     // 취소 버튼 클릭시 설정
                     public void onClick(DialogInterface dialog, int whichButton) {
                         dialog.cancel();
-                        Intent intent = new Intent(getApplicationContext(), ScreenService.class);
+                        Intent intent = new Intent(AlertModeActivity.this, ScreenService.class);
                         startService(intent);
                     }
                 });
@@ -68,6 +70,7 @@ public class AlertModeActivity extends Activity {
     }
 
     private void onRegist() {
+        referenceMonitor.setAlertmode();
         ScreenService mService = new ScreenService();
         mService.reservState = false;
         //mService.view.setVisibility(View.INVISIBLE);
@@ -76,6 +79,7 @@ public class AlertModeActivity extends Activity {
 
         editor = pref.edit();
         editor.putInt("alertNum", pref.getInt("alertNum", 3) - 1);
+        editor.putInt("alertstate", 1); // 긴급모드 1, 아니면 0
         editor.commit();
 
         int time = pref.getInt("alertTime", 15);
