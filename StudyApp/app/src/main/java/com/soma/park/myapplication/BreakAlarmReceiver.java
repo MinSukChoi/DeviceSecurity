@@ -47,7 +47,6 @@ public class BreakAlarmReceiver extends BroadcastReceiver {
             Intent intent1 = new Intent(context, ScreenService.class);
             intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.stopService(intent1);
-
             Intent intent2 = new Intent(context, LockScreenActivity.class);
             intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent2);

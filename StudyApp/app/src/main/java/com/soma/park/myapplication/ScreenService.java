@@ -24,7 +24,6 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.soma.park.myapplication.Activities.PasswordActivity;
 import com.soma.park.myapplication.Elements.ReferenceMonitor;
 
 import java.util.ArrayList;
@@ -172,18 +171,18 @@ public class ScreenService extends Service {
         Log.v("TAG", "After");
     }
 
-    // 스터디 모드 종료
-    public void nomalModeLauncher(View v) {
-        if(reservState == false) {
-            stopSelf();
-            Intent newintent = new Intent(getApplicationContext(), PasswordActivity.class);
-            newintent.putExtra("state", 2);
-            newintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(newintent);
-        } else {
-            Toast.makeText(this, "공부 시간입니다", Toast.LENGTH_SHORT).show();
-        }
-    }
+    // 스터디 모드 종료(나가기 버튼)
+//    public void nomalModeLauncher(View v) {
+//        if(reservState == false) {
+//            stopSelf();
+//            Intent newintent = new Intent(getApplicationContext(), PasswordActivity.class);
+//            newintent.putExtra("state", 2);
+//            newintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//            startActivity(newintent);
+//        } else {
+//            Toast.makeText(this, "공부 시간입니다", Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
     // 긴급 모드
     public void goAlertMode(View v) {

@@ -29,16 +29,6 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp" />
 
-        <Button
-            android:id="@+id/back_button"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            android:onClick="nomalModeLauncher"
-            android:background="@android:drawable/ic_menu_close_clear_cancel"
-            android:layout_centerVertical="true" />
-
     </RelativeLayout>
 
     <LinearLayout

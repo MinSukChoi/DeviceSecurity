@@ -76,8 +76,8 @@ public class LockScreenActivity extends Activity {
         settingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (pref.getBoolean("alarmstate", false)) {
-                    Log.d(TAG, "예약 시간에는 설정 불가능!");
+                if (pref.getBoolean("alarmstate", false) | pref.getBoolean("nowlock", false)) {
+                    Log.d(TAG, "공부 시간에는 설정 불가능!");
                 } else {
                     Intent newintent = new Intent(LockScreenActivity.this, PasswordActivity.class);
                     newintent.putExtra("state", 2);
@@ -91,22 +91,24 @@ public class LockScreenActivity extends Activity {
         lockText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(pref.getInt("alertstate", 0) == 1) {
+                if(pref.getBoolean("alarmstate", false)) {
+                    Toast.makeText(v.getContext(), "지금은 예약 잠금 시간입니다", Toast.LENGTH_SHORT).show();
+                } else if(pref.getInt("alertstate", 0) == 1) {
                     Toast.makeText(v.getContext(), "지금은 긴급모드 사용 중입니다", Toast.LENGTH_SHORT).show();
                 } else {
                     editor = pref.edit();
                     editor.putBoolean("nowlock", true);
                     editor.putInt("nowlockhour", 0);
-                    editor.putInt("nowlockmin", 1);
+                    editor.putInt("nowlockmin", 2);
                     editor.commit();
-                    onRegist(0, 1);
+                    onRegist(0, 2);
                 }
             }
         });
     }
 
     private void onRegist(int hour, int min) {
-        Intent intent1 = new Intent(LockScreenActivity.this, AlarmStartReceiver.class);
+        Intent intent1 = new Intent(LockScreenActivity.this, NowStartReceiver.class);
         Calendar calendar1 = Calendar.getInstance();
         calendar1.set(Calendar.SECOND, 0);
         Log.d(TAG, String.valueOf(calendar1.getTime()));
@@ -117,7 +119,7 @@ public class LockScreenActivity extends Activity {
             alarmManager.set(AlarmManager.RTC_WAKEUP, calendar1.getTimeInMillis(), pIntent1);
         }
 
-        Intent intent2 = new Intent(LockScreenActivity.this, AlarmStopReceiver.class);
+        Intent intent2 = new Intent(LockScreenActivity.this, NowStopReceiver.class);
         Calendar calendar2 = Calendar.getInstance();
         calendar2.set(Calendar.HOUR_OF_DAY, (calendar2.get(Calendar.HOUR_OF_DAY)+hour));
         calendar2.set(Calendar.MINUTE, (calendar2.get(Calendar.MINUTE)+min));

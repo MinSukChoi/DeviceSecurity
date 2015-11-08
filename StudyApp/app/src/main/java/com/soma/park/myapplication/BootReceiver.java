@@ -30,8 +30,9 @@ public class BootReceiver extends BroadcastReceiver {
 
             Log.d(TAG, "핸드폰 부팅 완료");
             Log.d(TAG, "alarmstate: " + String.valueOf(pref.getBoolean("alarmstate", false)));
+            Log.d(TAG, "nowlock: " + String.valueOf(pref.getBoolean("nowlock", false)));
 
-            if(pref.getBoolean("alarmstate", false)) {
+            if(pref.getBoolean("alarmstate", false) | pref.getBoolean("nowlock", false)) {
                 mService.reservState = true;
                 Intent intent1 = new Intent(context, ScreenService.class);
                 intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
