@@ -43,7 +43,7 @@ public class AlarmStartReceiver extends BroadcastReceiver {
             editor.putInt("state", 1);  // 스터디모드 1, 휴식모드 0
             editor.putString("currentTitle", "바로 잠금");
             String currentStart = String.valueOf(hour + ":" + min);
-            String currentEnd = String.valueOf((hour+1) + ":" + min);
+            String currentEnd = String.valueOf((hour+pref.getInt("nowlockhour", 0)) + ":" + (min+pref.getInt("nowlockmin", 0)));
             editor.putString("currentStart", currentStart);
             editor.putString("currentEnd", currentEnd);
             editor.commit();

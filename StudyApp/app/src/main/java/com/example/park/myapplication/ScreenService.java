@@ -190,17 +190,13 @@ public class ScreenService extends Service {
         if(pref.getInt("alert", 1) == 0) {
             Toast.makeText(v.getContext(), "긴급모드를 모두 사용했습니다", Toast.LENGTH_SHORT).show();
         } else {
-            if(pref.getInt("alertstate", 0) == 1) {
-                Toast.makeText(v.getContext(), "이미 긴급모드를 사용 중입니다 ", Toast.LENGTH_SHORT).show();
-            } else {
-                stopSelf();
-                Intent popupIntent = new Intent(getApplicationContext(), AlertModeActivity.class);
-                PendingIntent pie = PendingIntent.getActivity(getApplicationContext(), 0, popupIntent, PendingIntent.FLAG_ONE_SHOT);
-                try {
-                    pie.send();
-                } catch (PendingIntent.CanceledException e) {
-                    e.printStackTrace();
-                }
+            stopSelf();
+            Intent popupIntent = new Intent(getApplicationContext(), AlertModeActivity.class);
+            PendingIntent pie = PendingIntent.getActivity(getApplicationContext(), 0, popupIntent, PendingIntent.FLAG_ONE_SHOT);
+            try {
+                pie.send();
+            } catch (PendingIntent.CanceledException e) {
+                e.printStackTrace();
             }
         }
     }

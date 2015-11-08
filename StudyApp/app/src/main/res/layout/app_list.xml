@@ -18,9 +18,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/appListTitle"
         android:id="@+id/listView"
-        android:layout_marginTop="30dp"
         android:divider="#868787"
-        android:dividerHeight="1.5dp" />
+        android:dividerHeight="1.5dp"
+        android:layout_marginTop="10dp" />
 
     <Button
         android:layout_width="match_parent"

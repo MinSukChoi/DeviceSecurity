@@ -86,39 +86,49 @@ public class LockScreenActivity extends Activity {
             }
         });
 
+        // 한시간 바로 잠금
         TextView lockText = (TextView) findViewById(R.id.lock_textview);
         lockText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                referenceMonitor.setStudymode();
-                editor = pref.edit();
-                editor.putBoolean("nowlock", true);
-                editor.commit();
-
-                Intent intent1 = new Intent(LockScreenActivity.this, AlarmStartReceiver.class);
-                Calendar calendar1 = Calendar.getInstance();
-                calendar1.set(Calendar.SECOND, 0);
-                Log.d(TAG, String.valueOf(calendar1.getTime()));
-                PendingIntent pIntent1 = PendingIntent.getBroadcast(LockScreenActivity.this, 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {      //api 19 이상
-                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar1.getTimeInMillis(), pIntent1);
+                if(pref.getInt("alertstate", 0) == 1) {
+                    Toast.makeText(v.getContext(), "지금은 긴급모드 사용 중입니다", Toast.LENGTH_SHORT).show();
                 } else {
-                    alarmManager.set(AlarmManager.RTC_WAKEUP, calendar1.getTimeInMillis(), pIntent1);
-                }
-
-                Intent intent2 = new Intent(LockScreenActivity.this, AlarmStopReceiver.class);
-                Calendar calendar2 = Calendar.getInstance();
-                calendar2.set(Calendar.MINUTE, (calendar2.get(Calendar.MINUTE)+1));
-                calendar2.set(Calendar.SECOND, 0);
-                Log.d(TAG, String.valueOf(calendar2.getTime()));
-                PendingIntent pIntent2 = PendingIntent.getBroadcast(LockScreenActivity.this, 0, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(), pIntent2);
-                } else {
-                    alarmManager.set(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(), pIntent2);
+                    editor = pref.edit();
+                    editor.putBoolean("nowlock", true);
+                    editor.putInt("nowlockhour", 0);
+                    editor.putInt("nowlockmin", 1);
+                    editor.commit();
+                    onRegist(0, 1);
                 }
             }
         });
+    }
+
+    private void onRegist(int hour, int min) {
+        Intent intent1 = new Intent(LockScreenActivity.this, AlarmStartReceiver.class);
+        Calendar calendar1 = Calendar.getInstance();
+        calendar1.set(Calendar.SECOND, 0);
+        Log.d(TAG, String.valueOf(calendar1.getTime()));
+        PendingIntent pIntent1 = PendingIntent.getBroadcast(LockScreenActivity.this, 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {      //api 19 이상
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar1.getTimeInMillis(), pIntent1);
+        } else {
+            alarmManager.set(AlarmManager.RTC_WAKEUP, calendar1.getTimeInMillis(), pIntent1);
+        }
+
+        Intent intent2 = new Intent(LockScreenActivity.this, AlarmStopReceiver.class);
+        Calendar calendar2 = Calendar.getInstance();
+        calendar2.set(Calendar.HOUR_OF_DAY, (calendar2.get(Calendar.HOUR_OF_DAY)+hour));
+        calendar2.set(Calendar.MINUTE, (calendar2.get(Calendar.MINUTE)+min));
+        calendar2.set(Calendar.SECOND, 0);
+        Log.d(TAG, String.valueOf(calendar2.getTime()));
+        PendingIntent pIntent2 = PendingIntent.getBroadcast(LockScreenActivity.this, 0, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(), pIntent2);
+        } else {
+            alarmManager.set(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(), pIntent2);
+        }
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
@@ -161,48 +171,4 @@ public class LockScreenActivity extends Activity {
             startService(intent);
         }
     }
-    //    @Override
-//    public void onBackPressed() {
-//        // Don't allow back to dismiss.
-//        return;
-//    }
-
-//    protected void onUserLeaveHint() {
-//        finish();
-//        Intent intent = new Intent(this, ScreenService.class);
-//        stopService(intent);
-//        super.onUserLeaveHint();
-//    }
-
-//    @Override
-//    public boolean onKeyDown(int keyCode, android.view.KeyEvent event) {
-//        if(keyCode == KeyEvent.KEYCODE_HOME) {
-//            return false;
-//        }
-//        return true;
-//    }
-
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        mHomeKeyLocker.unlock();
-//        mHomeKeyLocker = null;
-//    }
-
-//    protected void onWindowVisibilityChanged (int visibility) {
-//        mLauncher.onWindowVisibilityChanged(visibility);
-//    }
-
-//    public void onAttachedToWindow() {
-//        this.getWindow().setType(WindowManager.LayoutParams.TYPE_KEYGUARD_DIALOG|
-//                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-//        super.onAttachedToWindow();
-//    } // 옛날 버전에서만 가능. home key disable 어떻게 ?
-
-//    @Override
-//    public void onWindowFocusChanged(boolean hasFocus) {
-//        this.getWindow().setType(WindowManager.LayoutParams.TYPE_KEYGUARD_DIALOG);
-//        super.onWindowFocusChanged(hasFocus);
-//    }
-
 }

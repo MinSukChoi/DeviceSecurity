@@ -43,10 +43,10 @@
         <activity android:name=".ReservAddActivity" />
         <activity android:name=".Observer.AppList" />
         <activity android:name=".StudyBrowser"
-            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".AlertModeActivity"
-            android:theme="@android:style/Theme.Dialog">
+            android:theme="@style/Theme.AppCompat.NoActionBar" >
         </activity>
 
         <service android:name=".ScreenService" />
