@@ -20,15 +20,5 @@
         android:textColor="#008733"
         />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="App Name"
-        android:id="@+id/item_app_name"
-        android:layout_toRightOf="@id/item_app_icon"
-        android:layout_below="@+id/item_app_label"
-        android:textColor="#008733"
-        />
 
 </RelativeLayout>
