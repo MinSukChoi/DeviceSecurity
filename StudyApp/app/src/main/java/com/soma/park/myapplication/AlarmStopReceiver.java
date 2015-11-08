@@ -20,7 +20,6 @@ import java.util.Calendar;
 public class AlarmStopReceiver extends BroadcastReceiver {
     private static final String TAG = "AlarmStopReceiver";
     private ReferenceMonitor referenceMonitor = ReferenceMonitor.getInstance();
-    ScreenService mService;
     SharedPreferences pref;
     SharedPreferences.Editor editor;
     private AlarmManager alarmManager;
@@ -33,20 +32,9 @@ public class AlarmStopReceiver extends BroadcastReceiver {
         alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         pref = context.getSharedPreferences("pref", Activity.MODE_PRIVATE);
 
-        if(pref.getInt("alertstate", 0) == 1){
-            editor = pref.edit();
-            editor.putInt("alertstate", 0); // 긴급모드 1, 아니면 0
-            editor.commit();
-            Intent intentReceiver = new Intent(context, AlertAlarmReceiver.class);
-            PendingIntent pIntent = PendingIntent.getBroadcast(context, 0, intentReceiver, PendingIntent.FLAG_UPDATE_CURRENT);
-            alarmManager.cancel(pIntent);
-        }
-
         boolean[] week = intent.getBooleanArrayExtra("weekday");
         boolean checkweek = intent.getBooleanExtra("checkweek", false);
         int position = intent.getIntExtra("position", 0);
-
-        mService = new ScreenService();
         Calendar cal = Calendar.getInstance();
 
         Log.i(TAG, "|일 : " + week[Calendar.SUNDAY]);
@@ -81,20 +69,21 @@ public class AlarmStopReceiver extends BroadcastReceiver {
             return;
         } else {
             // 오늘 요일의 알람 재생이 true이면 서비스 정지
+            if(referenceMonitor.getSTATE() == referenceMonitor.ALERTMODE){
+                Intent intentReceiver = new Intent(context, AlertAlarmReceiver.class);
+                PendingIntent pIntent = PendingIntent.getBroadcast(context, 0, intentReceiver, PendingIntent.FLAG_UPDATE_CURRENT);
+                alarmManager.cancel(pIntent);
+            }
+
             referenceMonitor.setNormalmode();
 
             editor = pref.edit();
             editor.putBoolean("alarmstate", false);
-            editor.putBoolean("nowlock", false);
             editor.commit();
 
-            mService.reservState = false;
             Intent intent1 = new Intent(context, ScreenService.class);
             intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.stopService(intent1);
-//                Intent intent2 = new Intent(context, LockScreenActivity.class);
-//                intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//                context.startActivity(intent2);
 
             Toast.makeText(context, "예약 시간이 종료되었습니다^^", Toast.LENGTH_LONG).show();
 

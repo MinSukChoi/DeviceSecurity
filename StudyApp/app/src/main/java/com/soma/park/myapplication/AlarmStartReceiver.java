@@ -23,7 +23,6 @@ import java.util.concurrent.TimeUnit;
 public class AlarmStartReceiver extends BroadcastReceiver {
     private static final String TAG = "AlarmStartReceiver";
     private ReferenceMonitor referenceMonitor = ReferenceMonitor.getInstance();
-    ScreenService mService;
     SharedPreferences pref;
     SharedPreferences.Editor editor;
     private AlarmManager alarmManager;
@@ -37,8 +36,6 @@ public class AlarmStartReceiver extends BroadcastReceiver {
         boolean checkweek = intent.getBooleanExtra("checkweek", false); //매주 반복
         int position = intent.getIntExtra("position", 0);
         int oneDay = 0;
-
-        mService = new ScreenService();
         Calendar cal = Calendar.getInstance();
 
         Log.i(TAG, "|긴급모드 횟수 : " + pref.getInt("alertNum", 3));
@@ -83,8 +80,7 @@ public class AlarmStartReceiver extends BroadcastReceiver {
             }
 
             editor = pref.edit();
-            editor.putBoolean("alarmstate", true); // 잠금시간 true, 아니면 false
-            editor.putInt("state", 1);  // 스터디모드 1, 휴식모드 0
+            editor.putBoolean("alarmstate", true); // 예약 잠금 true, 아니면 false
             editor.putString("currentTitle", pref.getString("title" + position, ""));
             String currentStart = String.valueOf(pref.getInt("startHour"+position, 0)+":"+pref.getInt("startMin"+position, 0));
             String currentEnd = String.valueOf(pref.getInt("endHour" + position, 0) + ":" + pref.getInt("endMin" + position, 0));
@@ -92,13 +88,9 @@ public class AlarmStartReceiver extends BroadcastReceiver {
             editor.putString("currentEnd", currentEnd);
             editor.commit();
 
-            mService.reservState = true;
             Intent intent1 = new Intent(context, ScreenService.class);
             intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startService(intent1);
-            Intent intent2 = new Intent(context, LockScreenActivity.class);
-            intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(intent2);
 
             Toast.makeText(context, "예약 시간이 시작되었습니다 화이팅!", Toast.LENGTH_LONG).show();
         }

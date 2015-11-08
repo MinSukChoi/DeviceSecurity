@@ -32,24 +32,15 @@ public class BreakAlarmReceiver extends BroadcastReceiver {
         pref = context.getSharedPreferences("pref", Activity.MODE_PRIVATE);
 
         if(pref.getBoolean("alarmstate", false)) {
-            editor = pref.edit();
-            editor.putInt("state", 0);  // 휴식 모드 0
-            editor.commit();
             int position = intent.getIntExtra("position", 0);
 
             referenceMonitor.setBreaktimemode();
-
             Log.d(TAG, "BreakAlarmReceiver !!");
             Toast.makeText(context, pref.getInt("breakTime", 10) + "분 동안 휴식모드를 실행합니다", Toast.LENGTH_LONG).show();
 
-            ScreenService mService = new ScreenService();
-            mService.reservState = false;
             Intent intent1 = new Intent(context, ScreenService.class);
             intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.stopService(intent1);
-            Intent intent2 = new Intent(context, LockScreenActivity.class);
-            intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(intent2);
 
             int time = pref.getInt("breakTime", 10);
             Intent i = new Intent(context, StudyAlarmReceiver.class);

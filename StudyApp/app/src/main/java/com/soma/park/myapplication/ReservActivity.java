@@ -38,14 +38,12 @@ public class ReservActivity extends Activity {
     private ListViewAdapter mAdapter = null;
     public static int pos;
     private AlarmManager alarmManager;
-    ScreenService mService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setting_reservation);
 
-        mService = new ScreenService();
         pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
         editor = pref.edit();
 
@@ -66,7 +64,6 @@ public class ReservActivity extends Activity {
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                // ListData mData = mAdapter.mListData.get(position);
                 pos = position + 1;
                 onUnregist(pos);
 //                Toast.makeText(ReservActivity.this, String.valueOf(position), Toast.LENGTH_SHORT).show();

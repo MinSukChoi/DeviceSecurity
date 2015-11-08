@@ -3,7 +3,6 @@ package com.soma.park.myapplication;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.KeyguardManager;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Context;
@@ -24,6 +23,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.soma.park.myapplication.Activities.PasswordActivity;
 import com.soma.park.myapplication.Elements.ReferenceMonitor;
 
 import java.util.ArrayList;
@@ -49,13 +49,6 @@ public class ScreenService extends Service {
     private ReferenceMonitor referenceMonitor = ReferenceMonitor.getInstance();
     SharedPreferences pref;
     SharedPreferences.Editor editor;
-    public static boolean reservState;
-
-//    NotificationManager notiManager;
-//    Notification noti;
-
-//    PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
-//    boolean isScreenOn = pm.isScreenOn();
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -87,15 +80,6 @@ public class ScreenService extends Service {
             Log.d(TAG, "Exception message : " + e.getLocalizedMessage());
         }
 
-        if(reservState == true){
-            mReceiver1 = new BootReceiver();
-            IntentFilter filter1 = new IntentFilter(Intent.ACTION_BOOT_COMPLETED);
-            registerReceiver(mReceiver1, filter1);
-            mReceiver2 = new DeviceEventReceiver();
-            IntentFilter filter2 = new IntentFilter(Intent.ACTION_DATE_CHANGED);
-            registerReceiver(mReceiver2, filter2);
-        }
-
         if (km == null) {
             km = (KeyguardManager) getSystemService(Context.KEYGUARD_SERVICE);
         }
@@ -108,6 +92,13 @@ public class ScreenService extends Service {
             telephonyManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
             telephonyManager.listen(phoneListener, PhoneStateListener.LISTEN_CALL_STATE);
         }
+
+        mReceiver1 = new BootReceiver();
+        IntentFilter filter1 = new IntentFilter(Intent.ACTION_BOOT_COMPLETED);
+        registerReceiver(mReceiver1, filter1);
+        mReceiver2 = new DeviceEventReceiver();
+        IntentFilter filter2 = new IntentFilter(Intent.ACTION_DATE_CHANGED);
+        registerReceiver(mReceiver2, filter2);
 
         // mHandler = new Handler();
         mTask = new TimerTask() {
@@ -186,26 +177,16 @@ public class ScreenService extends Service {
 
     // 긴급 모드
     public void goAlertMode(View v) {
-        referenceMonitor.setSTATE(referenceMonitor.TEMPMODE);
-        stopSelf();
-        Intent newintent = new Intent(getApplicationContext(), PasswordActivity.class);
-        newintent.putExtra("state", 3);
-        newintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(newintent);
-        /*
         if(pref.getInt("alert", 1) == 0) {
             Toast.makeText(v.getContext(), "긴급모드를 모두 사용했습니다", Toast.LENGTH_SHORT).show();
         } else {
+            referenceMonitor.setSTATE(referenceMonitor.TEMPMODE);
             stopSelf();
-            Intent popupIntent = new Intent(getApplicationContext(), AlertModeActivity.class);
-            PendingIntent pie = PendingIntent.getActivity(getApplicationContext(), 0, popupIntent, PendingIntent.FLAG_ONE_SHOT);
-            try {
-                pie.send();
-            } catch (PendingIntent.CanceledException e) {
-                e.printStackTrace();
-            }
+            Intent newintent = new Intent(getApplicationContext(), PasswordActivity.class);
+            newintent.putExtra("state", 3);
+            newintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(newintent);
         }
-        */
     }
 
     // 기본 앱 실행
@@ -330,60 +311,26 @@ public class ScreenService extends Service {
         ((TextView)view.findViewById(R.id.current_title)).setText("제목 : " + title);
         ((TextView)view.findViewById(R.id.current_time)).setText("시간 : " + currentStart + " ~ " + currentEnd);
         ((TextView)view.findViewById(R.id.current_alert)).setText("긴급모드 횟수 : " + alertCount + "회,  긴급모드 시간 : " + alertTime + "분");
-        if(pref.getBoolean("nowlock", false) == false) {
+        if(pref.getBoolean("alarmstate", false)) {
             ((TextView)view.findViewById(R.id.current_break)).setText("공부 시간 : " + studyTime + "분,  휴식 시간 : " + breakTime + "분");
         }
 
-        if(reservState) {
-            if(intent != null){
-                if(mReceiver1 == null){
-                    mReceiver1 = new BootReceiver();
-                    IntentFilter filter = new IntentFilter(Intent.ACTION_BOOT_COMPLETED);
-                    registerReceiver(mReceiver1, filter);
-                }
-                if(mReceiver2 == null){
-                    mReceiver2 = new DeviceEventReceiver();
-                    IntentFilter filter = new IntentFilter(Intent.ACTION_DATE_CHANGED);
-                    registerReceiver(mReceiver2, filter);
-                }
+        if(intent != null){
+            if(mReceiver1 == null){
+                mReceiver1 = new BootReceiver();
+                IntentFilter filter = new IntentFilter(Intent.ACTION_BOOT_COMPLETED);
+                registerReceiver(mReceiver1, filter);
+            }
+            if(mReceiver2 == null){
+                mReceiver2 = new DeviceEventReceiver();
+                IntentFilter filter = new IntentFilter(Intent.ACTION_DATE_CHANGED);
+                registerReceiver(mReceiver2, filter);
             }
         }
-        //startForeground(int id, Notification notification);   //id: Noti~의 id
-        //noti~: 서비스가 foreground로 실행되는 동안 나타날 Noti~
 
-//        notiManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-//
-//        Notification.Builder builder = new Notification.Builder(ScreenService.this);
-//
-//        builder.setTicker("서비스 실행됨");
-//        builder.setContentTitle("Screen Service Notification");
-//        builder.setContentText("Foreground로 실행됨");
-//        builder.setSmallIcon(R.mipmap.ic_launcher);
-//        builder.build();
-//
-//        noti = builder.getNotification();
-//        notiManager.notify(11, noti);
-
-
-//        Notification notification = new Notification.Builder(getApplicationContext())
-//                .setContentTitle("Screen Service")
-//                .setContentText("Foreground로 실행됨")
-//                .setSmallIcon(R.mipmap.ic_launcher)
-//                .build();
-//
-//        startForeground(1, notification);
-
-        if(reservState) {
-            return START_REDELIVER_INTENT;
-        } else {
-            return START_NOT_STICKY;
-        }
-        // START_STICKY와
+        return START_NOT_STICKY;
+        // START_STICKY
         // START_REDELIVER_INTENT
-        // START_STICKY와 마찬가지로 Service가 종료되었을 경우 시스템이 다시 Service를 재시작
-        // intent 값을 그대로 유지
-        // 즉, startService() 호출 시 Intent value값을 사용한 경우라면 해당 Flag를 사용해서 리턴값 설정
-        // 반드시 실행되어야 하는 service에 해당됨
     }
 
     public String isServiceRunningCheck() {
@@ -396,7 +343,6 @@ public class ScreenService extends Service {
 
     @Override
     public void onDestroy() {
-        //Toast.makeText(this, "onDestroy", Toast.LENGTH_SHORT).show();
         mTimer.cancel();
 
         if (mReceiver1 != null) {
@@ -412,8 +358,7 @@ public class ScreenService extends Service {
                 mWindowManager = null;
             }
         }
-//      notiManager.cancel(11);
-//      mReceiver.reenableKeyguard();
+
         super.onDestroy();
     }
 }

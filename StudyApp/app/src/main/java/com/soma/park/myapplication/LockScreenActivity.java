@@ -26,14 +26,12 @@ public class LockScreenActivity extends Activity {
     private ReferenceMonitor referenceMonitor = ReferenceMonitor.getInstance();
     SharedPreferences pref;
     SharedPreferences.Editor editor;
-    ScreenService mScreenService;
     private AlarmManager alarmManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lockscreen);
-        //Toast.makeText(this, "Activity : onCreate", Toast.LENGTH_SHORT).show();
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED |
                 WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
@@ -44,7 +42,6 @@ public class LockScreenActivity extends Activity {
 
         pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
         alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        mScreenService = new ScreenService();
 
         if(pref.getInt("First", 0) != 1){
             Handler hd = new Handler();
@@ -61,28 +58,20 @@ public class LockScreenActivity extends Activity {
     @Override
     protected void onStart() {
         super.onStart();
-        //Toast.makeText(this, "Activity : onStart", Toast.LENGTH_SHORT).show();
-        Log.d(TAG, "reservState : " + String.valueOf(mScreenService.reservState));
-        // service intent 를 만들고, startService 메소드를 사용합니다.
-        // 이 메소드를 통해서 우리가 만든 서비스가 동작하게 됩니다.
 
-        if(mScreenService.reservState && referenceMonitor.getSTATE()!=referenceMonitor.TEMPMODE && referenceMonitor.getSTATE()!=referenceMonitor.ALERTMODE) {
-            Intent intent = new Intent(LockScreenActivity.this, ScreenService.class);
-            startService(intent);
-        }
+//        if(referenceMonitor.getSTATE()!=referenceMonitor.TEMPMODE && referenceMonitor.getSTATE()!=referenceMonitor.ALERTMODE) {
+//            Intent intent = new Intent(LockScreenActivity.this, ScreenService.class);
+//            startService(intent);
+//        }
         setContentView(R.layout.activity_lockscreen);
 
         Button settingButton = (Button) findViewById(R.id.setting_button);
         settingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (pref.getBoolean("alarmstate", false) | pref.getBoolean("nowlock", false)) {
-                    Log.d(TAG, "공부 시간에는 설정 불가능!");
-                } else {
-                    Intent newintent = new Intent(LockScreenActivity.this, PasswordActivity.class);
-                    newintent.putExtra("state", 2);
-                    startActivityForResult(newintent, 2);
-                }
+                Intent newintent = new Intent(LockScreenActivity.this, PasswordActivity.class);
+                newintent.putExtra("state", 2);
+                startActivityForResult(newintent, 2);
             }
         });
 
@@ -91,13 +80,12 @@ public class LockScreenActivity extends Activity {
         lockText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(pref.getBoolean("alarmstate", false)) {
+                if(referenceMonitor.getSTATE() == referenceMonitor.BREAKTIMEMODE) {
                     Toast.makeText(v.getContext(), "지금은 예약 잠금 시간입니다", Toast.LENGTH_SHORT).show();
-                } else if(pref.getInt("alertstate", 0) == 1) {
+                } else if(referenceMonitor.getSTATE() == referenceMonitor.ALERTMODE) {
                     Toast.makeText(v.getContext(), "지금은 긴급모드 사용 중입니다", Toast.LENGTH_SHORT).show();
                 } else {
                     editor = pref.edit();
-                    editor.putBoolean("nowlock", true);
                     editor.putInt("nowlockhour", 0);
                     editor.putInt("nowlockmin", 2);
                     editor.commit();
@@ -143,7 +131,6 @@ public class LockScreenActivity extends Activity {
                         finish();
                     }
                     if(intent.getExtras().getInt("agree") == 1) {
-
                         Intent newintent = new Intent(LockScreenActivity.this, PasswordActivity.class);
                         newintent.putExtra("state",0);
                         startActivity(newintent);
@@ -166,7 +153,7 @@ public class LockScreenActivity extends Activity {
 
     @Override
     protected void onResume() {
-        Log.v(TAG, "onResume "+referenceMonitor.getSTATE());
+        Log.v(TAG, "onResume " + referenceMonitor.getSTATE());
         super.onResume();
         if(referenceMonitor.getSTATE()==referenceMonitor.STUDYMODE || referenceMonitor.getSTATE()==referenceMonitor.INVALIDMODE) {
             referenceMonitor.setStudymode();
@@ -174,9 +161,9 @@ public class LockScreenActivity extends Activity {
             startService(intent);
         }else if(referenceMonitor.getSTATE() == referenceMonitor.TEMPMODE) {
             Log.v(TAG, "onAlert("+pref.getInt("alert", 1)+")");
-            if(pref.getInt("alert", 1) == 0) {
-                Toast.makeText(this, "긴급모드를 모두 사용했습니다", Toast.LENGTH_SHORT).show();
-            } else {
+//            if(pref.getInt("alert", 1) == 0) {
+//                Toast.makeText(this, "긴급모드를 모두 사용했습니다", Toast.LENGTH_SHORT).show();
+//            } else {
                 Intent popupIntent = new Intent(this, AlertModeActivity.class);
                 PendingIntent pie = PendingIntent.getActivity(this, 0, popupIntent, PendingIntent.FLAG_ONE_SHOT);
                 try {
@@ -184,7 +171,7 @@ public class LockScreenActivity extends Activity {
                 } catch (PendingIntent.CanceledException e) {
                     e.printStackTrace();
                 }
-            }
+//            }
         }
         Log.v(TAG, "onResume end"+referenceMonitor.getSTATE());
     }

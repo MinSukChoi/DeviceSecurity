@@ -42,10 +42,6 @@ public class SettingBreakActivity extends Activity {
             public void onClick(View v) {
                 int studyTime = studyNumberPicker.getValue();
                 int breakTime = breakNumberPicker.getValue();
-
-//                Toast.makeText(SettingBreakActivity.this, "공부 시간: "+String.valueOf(studyTime), Toast.LENGTH_SHORT).show();
-//                Toast.makeText(SettingBreakActivity.this, "휴식 시간: "+String.valueOf(breakTime), Toast.LENGTH_SHORT).show();
-
                 editor.putInt("studyTime", studyTime);
                 editor.putInt("breakTime", breakTime);
                 editor.commit();

@@ -44,8 +44,8 @@
         <activity android:name=".StudyBrowser"
             android:theme="@style/Theme.AppCompat"/>
         <activity
-            android:name="com.soma.park.myapplication.AlertModeActivity"
-            android:theme="@android:style/Theme.Dialog">
+            android:name=".AlertModeActivity"
+            android:theme="@style/OverlayDialog">
         </activity>
 
         <service android:name="com.soma.park.myapplication.ScreenService" />

@@ -46,10 +46,6 @@ public class SettingAlertActivity extends Activity {
             public void onClick(View v) {
                 int number = numNumberPicker.getValue();
                 int time = timeNumberPicker.getValue();
-
-//                Toast.makeText(SettingAlertActivity.this, "사용 횟수: "+String.valueOf(number), Toast.LENGTH_SHORT).show();
-//                Toast.makeText(SettingAlertActivity.this, "사용 시간: "+String.valueOf(time), Toast.LENGTH_SHORT).show();
-
                 editor.putInt("alertNum", number);
                 editor.putInt("alertTime", time);
                 editor.commit();

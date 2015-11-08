@@ -1,9 +1,7 @@
 <resources>
     <string name="app_name">한 시간의 의지</string>
-
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-
     <string name="title_activity_main">LockScreen</string>
     <string name="uninstall">ScreenLock Uninstaller</string>
     <string name="tryAdminInactive">Trying to disable device admin.."</string>

@@ -10,6 +10,8 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.util.Log;
 
+import com.soma.park.myapplication.Elements.ReferenceMonitor;
+
 import java.util.Calendar;
 
 /**
@@ -17,8 +19,8 @@ import java.util.Calendar;
  */
 public class BootReceiver extends BroadcastReceiver {
     private static final String TAG = "BootReceiver";
+    private ReferenceMonitor referenceMonitor = ReferenceMonitor.getInstance();
     SharedPreferences pref;
-    ScreenService mService = new ScreenService();
     private AlarmManager alarmManager;
 
     @Override
@@ -30,10 +32,8 @@ public class BootReceiver extends BroadcastReceiver {
 
             Log.d(TAG, "핸드폰 부팅 완료");
             Log.d(TAG, "alarmstate: " + String.valueOf(pref.getBoolean("alarmstate", false)));
-            Log.d(TAG, "nowlock: " + String.valueOf(pref.getBoolean("nowlock", false)));
 
-            if(pref.getBoolean("alarmstate", false) | pref.getBoolean("nowlock", false)) {
-                mService.reservState = true;
+            if(pref.getBoolean("alarmstate", false) | referenceMonitor.getSTATE() == referenceMonitor.STUDYMODE) {
                 Intent intent1 = new Intent(context, ScreenService.class);
                 intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startService(intent1);

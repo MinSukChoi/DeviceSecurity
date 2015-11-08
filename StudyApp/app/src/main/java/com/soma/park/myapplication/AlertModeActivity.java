@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
  * Created by PARK on 15. 10. 21..
  */
 public class AlertModeActivity extends Activity {
-    private static final String TAG = "Alert_Dialog";
+    private static final String TAG = "AlertModeActivity";
     private AlarmManager alarmManager;
     SharedPreferences pref;
     SharedPreferences.Editor editor;
@@ -38,7 +38,7 @@ public class AlertModeActivity extends Activity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         // 여기서 부터는 알림창의 속성 설정
         builder.setTitle("긴급 모드 대화 상자")
-                .setMessage("긴급 모드를 사용하시겠습니까?" + "(남은 횟수 : "+pref.getInt("alertNum", 3)+"회)")
+                .setMessage("긴급 모드를 사용하시겠습니까?" + " (남은 횟수 : "+pref.getInt("alertNum", 3)+"회)")
                 .setCancelable(false)
                 .setPositiveButton("네", new DialogInterface.OnClickListener() {
                     // 확인 버튼 클릭시 설정
@@ -49,7 +49,7 @@ public class AlertModeActivity extends Activity {
                             editor = pref.edit();
                             editor.putInt("alert", 0);
                             editor.commit();
-                            dialog.cancel();
+
                             Intent intent = new Intent(AlertModeActivity.this, ScreenService.class);
                             startService(intent);
                         } else{
@@ -62,9 +62,9 @@ public class AlertModeActivity extends Activity {
                     // 취소 버튼 클릭시 설정
                     public void onClick(DialogInterface dialog, int whichButton) {
                         referenceMonitor.setSTATE(referenceMonitor.STUDYMODE);
-                        dialog.cancel();
                         Intent intent = new Intent(AlertModeActivity.this, ScreenService.class);
                         startService(intent);
+                        finish();
                     }
                 });
         AlertDialog dialog = builder.create();    // 알림창 객체 생성
@@ -73,15 +73,13 @@ public class AlertModeActivity extends Activity {
 
     private void onRegist() {
         referenceMonitor.setAlertmode();
-        ScreenService mService = new ScreenService();
-        mService.reservState = false;
-        //mService.view.setVisibility(View.INVISIBLE);
         Intent i = new Intent(this, ScreenService.class);
         this.stopService(i);
+        Intent intent1 = new Intent(this, LockScreenActivity.class);
+        startActivity(intent1);
 
         editor = pref.edit();
         editor.putInt("alertNum", pref.getInt("alertNum", 3) - 1);
-        editor.putInt("alertstate", 1); // 긴급모드 1, 아니면 0
         editor.commit();
 
         int time = pref.getInt("alertTime", 15);
@@ -95,8 +93,5 @@ public class AlertModeActivity extends Activity {
         } else {
             alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, SystemClock.elapsedRealtime() + TimeUnit.MINUTES.toMillis(time), pIntent);
         }
-
-        Intent intent1 = new Intent(this, LockScreenActivity.class);
-        startActivity(intent1);
     }
 }
