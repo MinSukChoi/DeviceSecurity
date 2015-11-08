@@ -86,6 +86,9 @@ public class AlertModeActivity extends Activity {
         Log.d(TAG, String.valueOf(pref.getInt("alertNum", 3)));
         Log.d(TAG, String.valueOf(pref.getInt("alertTime", 15)));
 
+        AlertModePreventDelete alertModePreventDelete = AlertModePreventDelete.getInstance();
+        alertModePreventDelete.setOnPreventMode(this);
+
         Intent intentReceiver = new Intent(this, AlertAlarmReceiver.class);
         PendingIntent pIntent = PendingIntent.getBroadcast(this, 0, intentReceiver, PendingIntent.FLAG_UPDATE_CURRENT);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {

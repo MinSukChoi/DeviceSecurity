@@ -25,6 +25,8 @@ public class AlertAlarmReceiver extends BroadcastReceiver {
             Intent i = new Intent(context, ScreenService.class);
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startService(i);
+            AlertModePreventDelete alertModePreventDelete = AlertModePreventDelete.getInstance();
+            alertModePreventDelete.setOffPreventMode();
         }
     }
 }
