@@ -62,10 +62,6 @@ public class DeviceEventReceiver extends BroadcastReceiver {
                 currentCal.set(Calendar.SECOND, 0);
                 long current = currentCal.getTimeInMillis();
 
-                // 만약 트리거 타임이 과거로 설정되어있다면, 알람은 즉시 트리거된다.
-                // 알람이 트리거 될 때 펜딩 인텐트가 작동된다.
-                // 같은 펜딩 인텐트를 사용하는 두 번째 알람을 셋팅하면, 그것은 첫번째 알람을 대체하게 된다.
-
                 if(calendar1.getTimeInMillis() < current) {     // 현재 시간 이전이면 (즉, 내일부터이면)
                     int day = calendar1.get(Calendar.DATE);
                     calendar1.set(Calendar.DATE, day+1);

@@ -44,7 +44,6 @@ public class StudyAlarmReceiver extends BroadcastReceiver {
 
             ScreenService mService = new ScreenService();
             mService.reservState = true;
-
             Intent intent1 = new Intent(context, ScreenService.class);
             intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startService(intent1);

@@ -27,7 +27,6 @@ public class AlertAlarmReceiver extends BroadcastReceiver {
         editor.commit();
 
         // 긴급모드 끝날 때 휴식모드가 실행되면 휴식모드 무시되고 락스크린 뜸
-        // 긴급모드 끝날 때 공부모드면 종료. 휴식모드면 무시.
         if(pref.getBoolean("alarmstate", false)) {   // 예약시간이고 공부모드면
             if(pref.getInt("state", 1) == 1) {
                 mService.reservState = true;
@@ -37,9 +36,11 @@ public class AlertAlarmReceiver extends BroadcastReceiver {
                 Intent i = new Intent(context, ScreenService.class);
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startService(i);
-            }
-        } else {
-            referenceMonitor.setNormalmode();
+            }   // 휴식모드면 무시
+        }
+        if(pref.getBoolean("nowlock", false)) { // 한시간 잠금 시간이면
+            mService.reservState = true;
+            referenceMonitor.setStudymode();
             Toast.makeText(context, "긴급 모드가 종료되었습니다", Toast.LENGTH_LONG).show();
 
             Intent i = new Intent(context, ScreenService.class);

@@ -34,8 +34,7 @@
         </activity>
         <activity android:name=".AppsListActivity" />
         <activity android:name=".Activities.PasswordActivity" />
-        <activity android:name=".SettingActivity"
-            android:theme="@style/Theme.AppCompat.Light"/>
+        <activity android:name=".SettingActivity" />
         <activity android:name=".SettingAlertActivity" />
         <activity android:name=".SettingBreakActivity" />
         <activity android:name=".SettingBrowserActivity" />
@@ -43,7 +42,7 @@
         <activity android:name=".ReservAddActivity" />
         <activity android:name=".Observer.AppList" />
         <activity android:name=".StudyBrowser"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/Theme.AppCompat"/>
         <activity
             android:name="com.soma.park.myapplication.AlertModeActivity"
             android:theme="@android:style/Theme.Dialog">
@@ -74,6 +73,9 @@
         <receiver android:name="com.soma.park.myapplication.AlertAlarmReceiver" />
         <receiver android:name="com.soma.park.myapplication.BreakAlarmReceiver" />
         <receiver android:name="com.soma.park.myapplication.StudyAlarmReceiver" />
+        <receiver android:name="com.soma.park.myapplication.NowStartReceiver" />
+        <receiver android:name="com.soma.park.myapplication.NowStopReceiver" />
+
 
     </application>
 
