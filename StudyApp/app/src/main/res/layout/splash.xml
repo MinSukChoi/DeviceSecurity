@@ -2,22 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff">
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/lock_icon"
-        android:src="@drawable/lock_icon"
-        android:layout_above="@+id/study_text"
-        android:layout_centerHorizontal="true" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/study_text"
-        android:src="@drawable/app_name"
-        android:layout_centerInParent="true" />
+    android:background="@drawable/splash">
 
 
 </RelativeLayout>

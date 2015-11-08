@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:background="#e7f3b1">
 
     <TextView
         android:layout_width="match_parent"
@@ -10,23 +11,15 @@
         android:textSize="20dp"
         android:id="@+id/terms_title"
         android:textStyle="bold"
-        android:background="#008fff"
+        android:background="#008733"
         android:gravity="center_vertical"
         android:textColor="@android:color/background_light" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=" 이용약관"
-        android:id="@+id/terms_text3"
-        android:layout_marginTop="30dp"
-        android:layout_below="@+id/terms_title" />
-
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="320dp"
+        android:layout_height="match_parent"
         android:id="@+id/scrollView2"
-        android:layout_below="@+id/terms_text3">
+        android:layout_below="@+id/terms_title">
 
         <TextView
             android:layout_width="wrap_content"
@@ -196,7 +189,7 @@
 \n④ "회사"는 "이용자" 상호간 또는 "이용자"와 제3자 간에 "콘텐츠"를 매개로 하여 발생한 분쟁 등에 대하여 책임을 지지 않습니다.
 \n  제33조(분쟁의 해결) "회사"는 분쟁이 발생하였을 경우에 "이용자"가 제기하는 정당한 의견이나 불만을 반영하여 적절하고 신속한 조치를 취합니다. 다만, 신속한 처리가 곤란한 경우에 "회사"는 "이용자"에게 그 사유와 처리일정을 통보합니다.'
             android:id="@+id/terms_text4"
-            android:background="@android:color/darker_gray"
+            android:background="#e7f3b1"
             android:textColor="@android:color/black" />
     </ScrollView>
 
@@ -210,6 +203,7 @@
             android:layout_height="wrap_content"
             android:text="동의 안 함"
             android:id="@+id/disagree_btn"
+            android:background="#008733"
             android:layout_alignParentLeft="false" />
 
         <Button
@@ -217,6 +211,7 @@
             android:layout_height="wrap_content"
             android:text="동의함"
             android:id="@+id/agree_btn"
+            android:background="#008733"
             android:layout_alignParentEnd="false"
             android:layout_alignParentRight="true" />
     </RelativeLayout>

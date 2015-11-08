@@ -1,4 +1,4 @@
-package com.example.park.myapplication;
+package com.soma.park.myapplication;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
