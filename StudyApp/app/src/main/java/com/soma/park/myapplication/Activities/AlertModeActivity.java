@@ -14,6 +14,7 @@ import android.os.SystemClock;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.soma.park.myapplication.AlertModePreventDelete;
 import com.soma.park.myapplication.Elements.ReferenceMonitor;
 import com.soma.park.myapplication.Receivers.AlertAlarmReceiver;
 import com.soma.park.myapplication.Services.ScreenService;
