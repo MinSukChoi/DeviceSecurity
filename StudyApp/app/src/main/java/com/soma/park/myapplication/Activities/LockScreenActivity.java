@@ -89,10 +89,10 @@ public class LockScreenActivity extends Activity {
                     Toast.makeText(v.getContext(), "지금은 긴급모드 사용 중입니다", Toast.LENGTH_SHORT).show();
                 } else {
                     editor = pref.edit();
-                    editor.putInt("nowlockhour", 0);
-                    editor.putInt("nowlockmin", 2);
+                    editor.putInt("nowlockhour", 1);
+                    editor.putInt("nowlockmin", 0);
                     editor.commit();
-                    onRegist(0, 2); // 바로잠금 2분
+                    onRegist(1, 0); // 바로잠금 2분
                 }
             }
         });
