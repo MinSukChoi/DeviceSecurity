@@ -1,4 +1,4 @@
-package com.soma.park.myapplication;
+package com.soma.park.myapplication.Receivers;
 
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -10,31 +10,36 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.util.Log;
 
+import com.soma.park.myapplication.Elements.ReferenceMonitor;
+import com.soma.park.myapplication.Services.ScreenService;
+
 import java.util.Calendar;
 
 /**
- * Created by PARK on 15. 11. 1..
+ * Created by PARK on 15. 10. 19..
  */
-public class DeviceEventReceiver extends BroadcastReceiver {
-    private static final String TAG = "DeviceEventReceiver";
+public class BootReceiver extends BroadcastReceiver {
+    private static final String TAG = "BootReceiver";
+    private ReferenceMonitor referenceMonitor = ReferenceMonitor.getInstance();
     SharedPreferences pref;
-    SharedPreferences.Editor editor;
     private AlarmManager alarmManager;
 
     @Override
     public void onReceive(Context context, Intent intent) {
 
-        if (intent.getAction().equals(Intent.ACTION_DATE_CHANGED)) {
-            // 날짜가 변경된 경우 해야 될 작업을 한다.
+        if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
             pref = context.getSharedPreferences("pref", Activity.MODE_PRIVATE);
             alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-            Log.d(TAG, "00:00 초기화");
 
-            editor = pref.edit();
-            editor.putInt("alert", 1);
-            editor.putInt("alertNum", pref.getInt("alertInitialNum", 3));
-            editor.putInt("alertTime", pref.getInt("alertInitialTime", 15));
-            editor.commit();
+            Log.d(TAG, "핸드폰 부팅 완료");
+            Log.d(TAG, "alarmstate: " + String.valueOf(pref.getBoolean("alarmstate", false)));
+
+            if(pref.getBoolean("alarmstate", false)) {
+                referenceMonitor.setStudymode();
+                Intent intent1 = new Intent(context, ScreenService.class);
+                intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startService(intent1);
+            }
 
             int size = pref.getInt("size", 0);
             for(int position = 1; position <= size; position++) {

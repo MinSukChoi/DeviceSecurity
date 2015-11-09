@@ -1,4 +1,4 @@
-package com.soma.park.myapplication;
+package com.soma.park.myapplication.Receivers;
 
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.widget.Toast;
 
 import com.soma.park.myapplication.Elements.ReferenceMonitor;
+import com.soma.park.myapplication.Services.ScreenService;
 
 /**
  * Created by PARK on 15. 11. 8..

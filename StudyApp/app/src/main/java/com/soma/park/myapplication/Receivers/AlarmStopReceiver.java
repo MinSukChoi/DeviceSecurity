@@ -1,4 +1,4 @@
-package com.soma.park.myapplication;
+package com.soma.park.myapplication.Receivers;
 
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -11,6 +11,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.soma.park.myapplication.Elements.ReferenceMonitor;
+import com.soma.park.myapplication.Services.ScreenService;
 
 import java.util.Calendar;
 

@@ -1,4 +1,4 @@
-package com.soma.park.myapplication;
+package com.soma.park.myapplication.Services;
 
 import android.app.Activity;
 import android.app.ActivityManager;
@@ -23,8 +23,14 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.soma.park.myapplication.Activities.AppsListActivity;
+import com.soma.park.myapplication.Activities.LockScreenActivity;
 import com.soma.park.myapplication.Activities.PasswordActivity;
 import com.soma.park.myapplication.Elements.ReferenceMonitor;
+import com.soma.park.myapplication.R;
+import com.soma.park.myapplication.Receivers.BootReceiver;
+import com.soma.park.myapplication.Receivers.DeviceEventReceiver;
+import com.soma.park.myapplication.Activities.StudyBrowser;
 
 import java.util.ArrayList;
 import java.util.List;

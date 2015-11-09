@@ -14,14 +14,14 @@
         android:allowBackup="true"
         android:icon="@drawable/lock_icon"
         android:label="@string/app_name"
-        android:manageSpaceActivity=".LockScreenActivity"
+        android:manageSpaceActivity=".Activities.LockScreenActivity"
         android:theme="@style/Theme.AppCompat.NoActionBar" >
 
-        <activity android:name="com.soma.park.myapplication.Splash" />
-        <activity android:name="com.soma.park.myapplication.AccessTerms" />
+        <activity android:name=".Activities.Splash" />
+        <activity android:name=".Activities.AccessTerms" />
 
         <activity
-            android:name="com.soma.park.myapplication.LockScreenActivity"
+            android:name=".Activities.LockScreenActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:excludeFromRecents="true" >
@@ -32,26 +32,26 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".AppsListActivity" />
+        <activity android:name=".Activities.AppsListActivity" />
         <activity android:name=".Activities.PasswordActivity" />
-        <activity android:name=".SettingActivity" />
-        <activity android:name=".SettingAlertActivity" />
-        <activity android:name=".SettingBreakActivity" />
-        <activity android:name=".SettingBrowserActivity" />
-        <activity android:name=".ReservActivity" />
-        <activity android:name=".ReservAddActivity" />
+        <activity android:name=".Activities.SettingActivity" />
+        <activity android:name=".Activities.SettingAlertActivity" />
+        <activity android:name=".Activities.SettingBreakActivity" />
+        <activity android:name=".Activities.SettingBrowserActivity" />
+        <activity android:name=".Activities.ReservActivity" />
+        <activity android:name=".Activities.ReservAddActivity" />
         <activity android:name=".Observer.AppList" />
-        <activity android:name=".StudyBrowser"
+        <activity android:name=".Activities.StudyBrowser"
             android:theme="@style/Theme.AppCompat"/>
         <activity
-            android:name=".AlertModeActivity"
+            android:name=".Activities.AlertModeActivity"
             android:theme="@style/OverlayDialog">
         </activity>
 
-        <service android:name="com.soma.park.myapplication.ScreenService" />
+        <service android:name=".Services.ScreenService" />
 
         <receiver
-            android:name=".BootReceiver"
+            android:name=".Receivers.BootReceiver"
             android:enabled="true"
             android:exported="false" >
             <intent-filter>
@@ -60,7 +60,7 @@
         </receiver>
 
         <receiver
-            android:name="com.soma.park.myapplication.DeviceEventReceiver"
+            android:name=".Receivers.DeviceEventReceiver"
             android:enabled="true"
             android:exported="false" >
             <intent-filter>
@@ -68,13 +68,13 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name="com.soma.park.myapplication.AlarmStartReceiver" />
-        <receiver android:name="com.soma.park.myapplication.AlarmStopReceiver" />
-        <receiver android:name="com.soma.park.myapplication.AlertAlarmReceiver" />
-        <receiver android:name="com.soma.park.myapplication.BreakAlarmReceiver" />
-        <receiver android:name="com.soma.park.myapplication.StudyAlarmReceiver" />
-        <receiver android:name="com.soma.park.myapplication.NowStartReceiver" />
-        <receiver android:name="com.soma.park.myapplication.NowStopReceiver" />
+        <receiver android:name=".Receivers.AlarmStartReceiver" />
+        <receiver android:name=".Receivers.AlarmStopReceiver" />
+        <receiver android:name=".Receivers.AlertAlarmReceiver" />
+        <receiver android:name=".Receivers.BreakAlarmReceiver" />
+        <receiver android:name=".Receivers.StudyAlarmReceiver" />
+        <receiver android:name=".Receivers.NowStartReceiver" />
+        <receiver android:name=".Receivers.NowStopReceiver" />
 
 
     </application>

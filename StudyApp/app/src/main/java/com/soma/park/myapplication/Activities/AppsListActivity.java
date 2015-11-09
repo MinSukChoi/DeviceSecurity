@@ -1,4 +1,4 @@
-package com.soma.park.myapplication;
+package com.soma.park.myapplication.Activities;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -14,6 +14,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.soma.park.myapplication.Elements.AppDetail;
+import com.soma.park.myapplication.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,7 +102,6 @@ public class AppsListActivity extends Activity {
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> av, View v, int pos, long id) {
-                //flag = false;
                 Intent i = manager.getLaunchIntentForPackage(apps.get(pos).name.toString());
                 AppsListActivity.this.startActivity(i);
             }

@@ -1,8 +1,10 @@
-package com.soma.park.myapplication;
+package com.soma.park.myapplication.Activities;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Handler;
+
+import com.soma.park.myapplication.R;
 
 public class Splash extends Activity {
 

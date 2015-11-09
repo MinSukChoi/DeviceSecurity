@@ -1,4 +1,4 @@
-package com.soma.park.myapplication;
+package com.soma.park.myapplication.Activities;
 
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -22,6 +22,11 @@ import android.widget.CompoundButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.soma.park.myapplication.Elements.ListData;
+import com.soma.park.myapplication.R;
+import com.soma.park.myapplication.Receivers.AlarmStartReceiver;
+import com.soma.park.myapplication.Receivers.AlarmStopReceiver;
 
 import java.util.ArrayList;
 import java.util.Calendar;
