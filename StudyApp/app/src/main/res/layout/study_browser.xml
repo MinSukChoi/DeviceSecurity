@@ -11,24 +11,30 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:focusableInTouchMode="true"
+            android:descendantFocusability="beforeDescendants">
             <EditText
                 android:id="@+id/editText_address"
                 android:layout_width="0dp"
                 android:layout_weight="8"
+                android:text="http://www.naver.com"
                 android:layout_height="wrap_content" />
             <Button
                 android:id="@+id/button_move"
                 android:layout_width="0dp"
                 android:layout_weight="2"
                 android:layout_height="match_parent"
-                android:text="검색"/>
+                android:background="@color/dark"
+                android:text="이동"/>
 
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#ffff00">
+            android:background="#ffff00"
+            android:focusableInTouchMode="true"
+            android:descendantFocusability="beforeDescendants">
             <WebView
                 android:id="@+id/webView"
                 android:layout_width="match_parent"

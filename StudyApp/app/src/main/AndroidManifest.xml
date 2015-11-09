@@ -34,7 +34,8 @@
         </activity>
         <activity android:name=".Activities.AppsListActivity" />
         <activity android:name=".Activities.PasswordActivity" />
-        <activity android:name=".Activities.SettingActivity" />
+        <activity android:name=".Activities.SettingActivity"
+            android:theme="@style/PreferencesTheme"/>
         <activity android:name=".Activities.SettingAlertActivity" />
         <activity android:name=".Activities.SettingBreakActivity" />
         <activity android:name=".Activities.SettingBrowserActivity" />
@@ -42,7 +43,8 @@
         <activity android:name=".Activities.ReservAddActivity" />
         <activity android:name=".Observer.AppList" />
         <activity android:name=".Activities.StudyBrowser"
-            android:theme="@style/Theme.AppCompat"/>
+            android:windowSoftInputMode="adjustPan"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
             android:name=".Activities.AlertModeActivity"
             android:theme="@style/OverlayDialog">
