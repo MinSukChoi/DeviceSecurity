@@ -1,4 +1,4 @@
-package com.soma.park.myapplication;
+package com.soma.park.myapplication.Activities;
 
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -16,8 +16,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.soma.park.myapplication.Activities.PasswordActivity;
 import com.soma.park.myapplication.Elements.ReferenceMonitor;
+import com.soma.park.myapplication.R;
+import com.soma.park.myapplication.Receivers.NowStartReceiver;
+import com.soma.park.myapplication.Receivers.NowStopReceiver;
+import com.soma.park.myapplication.Services.ScreenService;
 
 import java.util.Calendar;
 
@@ -89,7 +92,7 @@ public class LockScreenActivity extends Activity {
                     editor.putInt("nowlockhour", 0);
                     editor.putInt("nowlockmin", 2);
                     editor.commit();
-                    onRegist(0, 2);
+                    onRegist(0, 2); // 바로잠금 2분
                 }
             }
         });

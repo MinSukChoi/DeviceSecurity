@@ -1,4 +1,4 @@
-package com.soma.park.myapplication;
+package com.soma.park.myapplication.Activities;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -8,8 +8,8 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.widget.Toast;
 
-import com.soma.park.myapplication.Activities.PasswordActivity;
 import com.soma.park.myapplication.Observer.AppList;
+import com.soma.park.myapplication.R;
 
 /**
  * Created by PARK on 15. 10. 20..

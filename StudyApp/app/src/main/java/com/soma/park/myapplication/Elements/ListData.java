@@ -1,4 +1,4 @@
-package com.soma.park.myapplication;
+package com.soma.park.myapplication.Elements;
 
 /**
  * Created by PARK on 15. 10. 25..
