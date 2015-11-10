@@ -13,40 +13,42 @@ import android.util.Log;
 import java.util.Calendar;
 
 /**
- * Created by PARK on 15. 11. 1..
+ * Created by PARK on 15. 11. 10..
  */
-public class DeviceEventReceiver extends BroadcastReceiver {
-    private static final String TAG = "DeviceEventReceiver";
+public class DailyReceiver extends BroadcastReceiver {
+    private static final String TAG = "DailyReceiver";
     SharedPreferences pref;
     SharedPreferences.Editor editor;
     private AlarmManager alarmManager;
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        Log.d(TAG, String.valueOf(calendar.getTime()));
 
-        if (intent.getAction().equals(Intent.ACTION_DATE_CHANGED)) {
-            // 날짜가 변경된 경우 해야 될 작업을 한다.
-            pref = context.getSharedPreferences("pref", Activity.MODE_PRIVATE);
-            alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
+        if(calendar.get(Calendar.HOUR_OF_DAY) == 0 && calendar.get(Calendar.MINUTE) == 0) {
             Log.d(TAG, "00:00 초기화");
 
+            pref = context.getSharedPreferences("pref", Activity.MODE_PRIVATE);
+            alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             editor = pref.edit();
             editor.putInt("alert", 1);
             editor.putInt("alertNum", pref.getInt("alertInitialNum", 3));
-            editor.putInt("alertTime", pref.getInt("alertInitialTime", 15));
+            //editor.putInt("alertTime", pref.getInt("alertInitialTime", 15));
             editor.commit();
 
             int size = pref.getInt("size", 0);
-            for(int position = 1; position <= size; position++) {
-                boolean[] week = { false, pref.getBoolean("sun"+position, false), pref.getBoolean("mon"+position, false),
+            for(int position = 1; position <= size; position++)
+
+            {
+                boolean[] week = {false, pref.getBoolean("sun" + position, false), pref.getBoolean("mon" + position, false),
                         pref.getBoolean("tue" + position, false), pref.getBoolean("wed" + position, false),
                         pref.getBoolean("thu" + position, false), pref.getBoolean("fri" + position, false),
-                        pref.getBoolean("sat" + position, false) };    // sunday=1 이라서 0의 자리에는 아무 값이나 넣었음
-                boolean checkweek = pref.getBoolean("checkweek"+position, false);
-                long oneday = 24 * 60 * 60 * 1000;  // 24시간
+                        pref.getBoolean("sat" + position, false)};    // sunday=1 이라서 0의 자리에는 아무 값이나 넣었음
+                boolean checkweek = pref.getBoolean("checkweek" + position, false);
 
-                Log.d(TAG, "position: " + String.valueOf(position-1));
+                Log.d(TAG, "position: " + String.valueOf(position - 1));
                 Log.d(TAG, "pref_position: " + String.valueOf(position));
 
                 Intent intent1 = new Intent(context, AlarmStartReceiver.class);
@@ -63,9 +65,9 @@ public class DeviceEventReceiver extends BroadcastReceiver {
                 currentCal.set(Calendar.SECOND, 0);
                 long current = currentCal.getTimeInMillis();
 
-                if(calendar1.getTimeInMillis() < current) {     // 현재 시간 이전이면 (즉, 내일부터이면)
+                if (calendar1.getTimeInMillis() < current) {     // 현재 시간 이전이면 (즉, 내일부터이면)
                     int day = calendar1.get(Calendar.DATE);
-                    calendar1.set(Calendar.DATE, day+1);
+                    calendar1.set(Calendar.DATE, day + 1);
                 }
                 Log.d(TAG, String.valueOf(calendar1.getTime()));
                 PendingIntent pIntent1 = PendingIntent.getBroadcast(context, position, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -85,9 +87,9 @@ public class DeviceEventReceiver extends BroadcastReceiver {
                 calendar2.set(Calendar.MINUTE, pref.getInt("endMin" + position, 0));
                 calendar2.set(Calendar.SECOND, 0);
 
-                if(calendar2.getTimeInMillis() < current) {    // 현재 시간 이전이면 (즉, 내일부터이면)
+                if (calendar2.getTimeInMillis() < current) {    // 현재 시간 이전이면 (즉, 내일부터이면)
                     int day = calendar2.get(Calendar.DATE);
-                    calendar2.set(Calendar.DATE, day+1);
+                    calendar2.set(Calendar.DATE, day + 1);
                 }
                 Log.d(TAG, String.valueOf(calendar2.getTime()));
                 PendingIntent pIntent2 = PendingIntent.getBroadcast(context, position, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
