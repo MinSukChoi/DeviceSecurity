@@ -36,6 +36,7 @@
         <activity android:name=".Activities.PasswordActivity" />
         <activity android:name=".Activities.SettingActivity"
             android:theme="@style/PreferencesTheme"/>
+        <activity android:name=".Activities.Setting" />
         <activity android:name=".Activities.SettingAlertActivity" />
         <activity android:name=".Activities.SettingBreakActivity" />
         <activity android:name=".Activities.SettingBrowserActivity" />
@@ -61,15 +62,6 @@
             </intent-filter>
         </receiver>
 
-        <receiver
-            android:name=".Receivers.DeviceEventReceiver"
-            android:enabled="true"
-            android:exported="false" >
-            <intent-filter>
-                <action android:name="android.intent.action.DATE_CHANGED" />
-            </intent-filter>
-        </receiver>
-
         <receiver android:name=".Receivers.AlarmStartReceiver" />
         <receiver android:name=".Receivers.AlarmStopReceiver" />
         <receiver android:name=".Receivers.AlertAlarmReceiver" />
@@ -77,7 +69,7 @@
         <receiver android:name=".Receivers.StudyAlarmReceiver" />
         <receiver android:name=".Receivers.NowStartReceiver" />
         <receiver android:name=".Receivers.NowStopReceiver" />
-
+        <receiver android:name=".Receivers.DailyReceiver" />
 
     </application>
 

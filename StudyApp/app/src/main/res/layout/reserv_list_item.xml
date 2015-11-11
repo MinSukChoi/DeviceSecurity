@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/item_reserv_checkbox"
         android:paddingLeft="10dp"
-        android:textColor="#cdcdcd"
+        android:textColor="#008733"
         android:textSize="15dp" />
 
     <TextView
@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/item_reserv_title"
         android:paddingLeft="10dp"
-        android:textColor="#cdcdcd"
+        android:textColor="#008733"
         android:textSize="15dp" />
 
     <TextView
@@ -37,7 +37,7 @@
         android:layout_below="@+id/item_reserv_title"
         android:layout_toRightOf="@+id/item_reserv_checkbox"
         android:paddingLeft="10dp"
-        android:textColor="#cdcdcd"
+        android:textColor="#008733"
         android:textSize="10dp" />
 
     <TextView
@@ -47,7 +47,7 @@
         android:layout_below="@+id/item_reserv_time"
         android:layout_toRightOf="@+id/item_reserv_week"
         android:paddingLeft="10dp"
-        android:textColor="#cdcdcd"
+        android:textColor="#008733"
         android:textSize="10dp" />
 
 

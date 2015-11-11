@@ -2,6 +2,7 @@ package com.soma.park.myapplication.Services;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.AlarmManager;
 import android.app.KeyguardManager;
 import android.app.Service;
 import android.content.ComponentName;
@@ -26,11 +27,10 @@ import android.widget.Toast;
 import com.soma.park.myapplication.Activities.AppsListActivity;
 import com.soma.park.myapplication.Activities.LockScreenActivity;
 import com.soma.park.myapplication.Activities.PasswordActivity;
+import com.soma.park.myapplication.Activities.StudyBrowser;
 import com.soma.park.myapplication.Elements.ReferenceMonitor;
 import com.soma.park.myapplication.R;
 import com.soma.park.myapplication.Receivers.BootReceiver;
-import com.soma.park.myapplication.Receivers.DeviceEventReceiver;
-import com.soma.park.myapplication.Activities.StudyBrowser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +43,6 @@ import java.util.TimerTask;
 public class ScreenService extends Service {
     private static final String TAG = "Service";
     private BootReceiver mReceiver1 = null;
-    private DeviceEventReceiver mReceiver2 = null;
     public static View view;
     private static WindowManager mWindowManager;
     private TimerTask mTask;
@@ -53,6 +52,7 @@ public class ScreenService extends Service {
     private KeyguardManager.KeyguardLock keyLock = null;
     private TelephonyManager telephonyManager = null;
     private ReferenceMonitor referenceMonitor = ReferenceMonitor.getInstance();
+    private AlarmManager am;
     SharedPreferences pref;
     SharedPreferences.Editor editor;
 
@@ -100,11 +100,9 @@ public class ScreenService extends Service {
         }
 
         mReceiver1 = new BootReceiver();
-        IntentFilter filter1 = new IntentFilter(Intent.ACTION_BOOT_COMPLETED);
+        IntentFilter filter1 = new IntentFilter();
+        filter1.addAction(Intent.ACTION_BOOT_COMPLETED);
         registerReceiver(mReceiver1, filter1);
-        mReceiver2 = new DeviceEventReceiver();
-        IntentFilter filter2 = new IntentFilter(Intent.ACTION_DATE_CHANGED);
-        registerReceiver(mReceiver2, filter2);
 
         // mHandler = new Handler();
         mTask = new TimerTask() {
@@ -167,19 +165,6 @@ public class ScreenService extends Service {
         startActivity(intent);
         Log.v("TAG", "After");
     }
-
-    // 스터디 모드 종료(나가기 버튼)
-//    public void nomalModeLauncher(View v) {
-//        if(reservState == false) {
-//            stopSelf();
-//            Intent newintent = new Intent(getApplicationContext(), PasswordActivity.class);
-//            newintent.putExtra("state", 2);
-//            newintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            startActivity(newintent);
-//        } else {
-//            Toast.makeText(this, "공부 시간입니다", Toast.LENGTH_SHORT).show();
-//        }
-//    }
 
     // 긴급 모드
     public void goAlertMode(View v) {
@@ -324,13 +309,9 @@ public class ScreenService extends Service {
         if(intent != null){
             if(mReceiver1 == null){
                 mReceiver1 = new BootReceiver();
-                IntentFilter filter = new IntentFilter(Intent.ACTION_BOOT_COMPLETED);
-                registerReceiver(mReceiver1, filter);
-            }
-            if(mReceiver2 == null){
-                mReceiver2 = new DeviceEventReceiver();
-                IntentFilter filter = new IntentFilter(Intent.ACTION_DATE_CHANGED);
-                registerReceiver(mReceiver2, filter);
+                IntentFilter filter1 = new IntentFilter();
+                filter1.addAction(Intent.ACTION_BOOT_COMPLETED);
+                registerReceiver(mReceiver1, filter1);
             }
         }
 
@@ -353,9 +334,6 @@ public class ScreenService extends Service {
 
         if (mReceiver1 != null) {
             unregisterReceiver(mReceiver1);
-        }
-        if (mReceiver2 != null) {
-            unregisterReceiver(mReceiver2);
         }
 
         if(mWindowManager != null) {

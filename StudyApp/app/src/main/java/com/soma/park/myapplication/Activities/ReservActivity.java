@@ -90,7 +90,7 @@ public class ReservActivity extends Activity {
                             // 확인 버튼 클릭시 설정
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 if (pref.getBoolean("checkValue" + (position + 1), false)) {
-                                    Toast.makeText(getApplicationContext(), "해당 알람이 삭제됩니다", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "예약이 삭제되었습니다", Toast.LENGTH_SHORT).show();
                                     onUnregist(position + 1);   //알람 삭제
                                 }
                                 mAdapter.remove(position);
@@ -384,8 +384,10 @@ public class ReservActivity extends Activity {
                     editor.commit();
                     Log.d(TAG, "isChecked: " + String.valueOf(isChecked));
                     if (isChecked) {
+                        Toast.makeText(getApplicationContext(), "예약이 설정되었습니다", Toast.LENGTH_SHORT).show();
                         onRegist(position + 1);
                     } else {
+                        Toast.makeText(getApplicationContext(), "예약이 해제되었습니다", Toast.LENGTH_SHORT).show();
                         onUnregist(position + 1);
                     }
                 }
