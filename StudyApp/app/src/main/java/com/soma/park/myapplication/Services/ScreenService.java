@@ -177,6 +177,9 @@ public class ScreenService extends Service {
         if(pref.getInt("alert", 1) == 0) {
             Toast.makeText(v.getContext(), "긴급모드를 모두 사용했습니다", Toast.LENGTH_SHORT).show();
         } else {
+
+
+
             referenceMonitor.setSTATE(referenceMonitor.TEMPMODE);
             stopSelf();
             Intent newintent = new Intent(getApplicationContext(), PasswordActivity.class);
