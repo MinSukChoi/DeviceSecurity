@@ -36,11 +36,13 @@
         <activity android:name=".Activities.PasswordActivity" />
         <activity android:name=".Activities.SettingActivity"
             android:theme="@style/PreferencesTheme"/>
+        <activity android:name=".Activities.Setting" />
         <activity android:name=".Activities.SettingAlertActivity" />
         <activity android:name=".Activities.SettingBreakActivity" />
         <activity android:name=".Activities.SettingBrowserActivity" />
         <activity android:name=".Activities.ReservActivity" />
         <activity android:name=".Activities.ReservAddActivity" />
+        <activity android:name=".DeviceAdmin.SetDeviceAdmin" />
         <activity android:name=".Observer.AppList" />
         <activity android:name=".Activities.StudyBrowser"
             android:windowSoftInputMode="adjustPan"
@@ -62,11 +64,13 @@
         </receiver>
 
         <receiver
-            android:name=".Receivers.DeviceEventReceiver"
-            android:enabled="true"
-            android:exported="false" >
+            android:name=".DeviceAdmin.PreventDeleteDeviceAdminReceiver"
+            android:label="Prevent Delete"
+            android:permission="android.permission.BIND_DEVICE_ADMIN">
+            <meta-data android:name="android.app.device_admin"
+                android:resource="@xml/prevent_delete_admin" />
             <intent-filter>
-                <action android:name="android.intent.action.DATE_CHANGED" />
+                <action android:name="android.app.action.DEVICE_ADMIN_ENABLED" />
             </intent-filter>
         </receiver>
 
@@ -77,7 +81,7 @@
         <receiver android:name=".Receivers.StudyAlarmReceiver" />
         <receiver android:name=".Receivers.NowStartReceiver" />
         <receiver android:name=".Receivers.NowStopReceiver" />
-
+        <receiver android:name=".Receivers.DailyReceiver" />
 
     </application>
 

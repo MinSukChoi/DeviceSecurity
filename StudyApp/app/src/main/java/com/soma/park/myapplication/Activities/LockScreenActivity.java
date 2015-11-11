@@ -2,8 +2,10 @@ package com.soma.park.myapplication.Activities;
 
 import android.app.Activity;
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -18,6 +20,7 @@ import android.widget.Toast;
 
 import com.soma.park.myapplication.Elements.ReferenceMonitor;
 import com.soma.park.myapplication.R;
+import com.soma.park.myapplication.Receivers.DailyReceiver;
 import com.soma.park.myapplication.Receivers.NowStartReceiver;
 import com.soma.park.myapplication.Receivers.NowStopReceiver;
 import com.soma.park.myapplication.Services.ScreenService;
@@ -45,6 +48,22 @@ public class LockScreenActivity extends Activity {
 
         pref = getSharedPreferences("pref", Activity.MODE_PRIVATE);
         alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+//        alarmManager.cancel(PendingIntent.getBroadcast(LockScreenActivity.this, 0,
+//                new Intent(LockScreenActivity.this, DailyReceiver.class), 0));
+//        alarmManager.cancel(PendingIntent.getBroadcast(LockScreenActivity.this, 0,
+//                new Intent(LockScreenActivity.this, DailyReceiver.class), PendingIntent.FLAG_UPDATE_CURRENT));
+
+        Intent intent = new Intent(LockScreenActivity.this, DailyReceiver.class);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND,0);
+        Log.d(TAG, String.valueOf(calendar.getTime()));
+        PendingIntent mAlarmSender = PendingIntent.getBroadcast(LockScreenActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), mAlarmSender);
 
         if(pref.getInt("First", 0) != 1){
             Handler hd = new Handler();
@@ -88,11 +107,20 @@ public class LockScreenActivity extends Activity {
                 } else if(referenceMonitor.getSTATE() == referenceMonitor.ALERTMODE) {
                     Toast.makeText(v.getContext(), "지금은 긴급모드 사용 중입니다", Toast.LENGTH_SHORT).show();
                 } else {
-                    editor = pref.edit();
-                    editor.putInt("nowlockhour", 1);
-                    editor.putInt("nowlockmin", 0);
-                    editor.commit();
-                    onRegist(1, 0); // 바로잠금 2분
+                    AlertDialog.Builder alert = new AlertDialog.Builder(LockScreenActivity.this);
+                    alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            editor = pref.edit();
+                            editor.putInt("nowlockhour", 0);
+                            editor.putInt("nowlockmin", 2);
+                            editor.commit();
+                            onRegist(0, 2); // 바로잠금 2분
+                            dialog.dismiss();     //닫기
+                        }
+                    });
+                    alert.setMessage("한 시간 잠금모드를 실행합니다");
+                    alert.show();
                 }
             }
         });
@@ -146,7 +174,7 @@ public class LockScreenActivity extends Activity {
                         Toast.makeText(this,"암호가 올바르지 않습니다",Toast.LENGTH_SHORT).show();
                     }
                     if(intent.getExtras().getInt("validation") == 1) {
-                        Intent newintent = new Intent(LockScreenActivity.this, SettingActivity.class);
+                        Intent newintent = new Intent(LockScreenActivity.this, Setting.class);
                         startActivity(newintent);
                     }
                 }

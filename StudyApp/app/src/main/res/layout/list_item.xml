@@ -17,8 +17,7 @@
         android:text="App Name"
         android:id="@+id/item_app_label"
         android:layout_toRightOf="@id/item_app_icon"
-        android:textColor="#008733"
-        />
+        android:textColor="#008733" />
 
 
 </RelativeLayout>

@@ -1,9 +1,323 @@
 <?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#e7f3b1">
+    <RelativeLayout
+        android:id="@+id/titlebar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:gravity="center_vertical"
+        android:background="#008733">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="STUDY MODE"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:textColor="@android:color/background_light"
+            android:layout_marginLeft="10dp" />
+
+        <Button
+            android:id="@+id/emergency_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginRight="10dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentRight="true"
+            android:onClick="goAlertMode"
+            android:background="@drawable/icon_alert"/>
+
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:gravity="center"
+        android:layout_marginBottom="20dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_marginTop="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="남은 공부시간"
+            android:textColor="#004c1d"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="80sp"
+            android:id="@+id/textView_leftTime"
+            android:text="50분"
+            android:textColor="#004c1d"/>
+    </LinearLayout>
+    <com.cjj.SnailBar
+        android:id="@+id/seekBar"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:thumb="@anim/snailanim"
+        android:layout_alignBottom="@+id/titlebar"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        android:layout_marginBottom="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_gravity="center"
+                android:layout_width="350dp"
+                android:layout_height="90dp"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="60dp"
+                    android:layout_height="80dp"
+                    android:layout_margin="5dp"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/call_app"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/icon_call"
+                        android:onClick="executeApp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:textSize="12sp"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="전화"
+                        android:textColor="#004c1d" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="60dp"
+                    android:layout_height="80dp"
+                    android:layout_margin="5dp"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/msg_app"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/icon_text"
+                        android:onClick="executeApp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="문자"
+                        android:textSize="12sp"
+                        android:textColor="#004c1d" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="60dp"
+                    android:layout_height="80dp"
+                    android:layout_margin="5dp"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/browser_app"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/icon_internet"
+                        android:onClick="executeApp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="인터넷"
+                        android:textSize="12sp"
+                        android:textColor="#004c1d" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="60dp"
+                    android:layout_height="80dp"
+                    android:layout_margin="5dp"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/gallery_app"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/icon_gallery"
+                        android:onClick="executeApp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="사진첩"
+                        android:textSize="12sp"
+                        android:textColor="#004c1d" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="60dp"
+                    android:layout_height="80dp"
+                    android:layout_margin="5dp"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/camera_app"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/icon_camera"
+                        android:onClick="executeApp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="카메라"
+                        android:textSize="12sp"
+                        android:textColor="#004c1d" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_gravity="center"
+                android:layout_width="350dp"
+                android:layout_height="90dp"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="60dp"
+                    android:layout_height="80dp"
+                    android:layout_margin="5dp"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/memo_app"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/icon_memo"
+                        android:onClick="executeApp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="메모"
+                        android:textSize="12sp"
+                        android:textColor="#004c1d" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="60dp"
+                    android:layout_height="80dp"
+                    android:layout_margin="5dp"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/calendar_app"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/icon_calendar"
+                        android:onClick="executeApp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="달력"
+                        android:textSize="12sp"
+                        android:textColor="#004c1d" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="60dp"
+                    android:layout_height="80dp"
+                    android:layout_margin="5dp"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/alarm_app"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/icon_alarm"
+                        android:onClick="executeApp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="알람/시계"
+                        android:textSize="12sp"
+                        android:textColor="#004c1d" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="60dp"
+                    android:layout_height="80dp"
+                    android:layout_margin="5dp"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/calculator_app"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:src="@drawable/icon_calc"
+                        android:onClick="executeApp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="계산기"
+                        android:textSize="12sp"
+                        android:textColor="#004c1d" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="60dp"
+                    android:layout_height="80dp"
+                    android:layout_margin="5dp"
+                    android:gravity="center">
+                    <Button
+                        android:id="@+id/apps_button"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:onClick="showApps"
+                        android:background="@drawable/icon_applist" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="기타 앱"
+                        android:textSize="12sp"
+                        android:textColor="#004c1d"
+                        android:id="@+id/app_contacts" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+</LinearLayout>
+<!--
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#e7f3b1">
-
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -12,6 +326,7 @@
         android:src="#e7f3b1" />
 
     <RelativeLayout
+        android:id="@+id/titlebar"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:gravity="center_vertical"
@@ -28,6 +343,15 @@
             android:gravity="center_vertical"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp" />
+
+        <Button
+            android:id="@+id/emergency_button"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentRight="true"
+            android:onClick="goAlertMode"
+            android:background="@drawable/icon_alert"/>
 
     </RelativeLayout>
 
@@ -67,16 +391,13 @@
             android:textSize="15dp"
             android:textColor="#008733" />
     </LinearLayout>
-
-    <Button
-        android:id="@+id/emergency_button"
-        android:layout_width="wrap_content"
+    <com.cjj.SnailBar
+        android:id="@+id/seekBar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp"
-        android:onClick="goAlertMode"
-        android:background="@drawable/icon_alert"/>
+        android:thumb="@anim/snailanim"
+        android:layout_alignBottom="@+id/titlebar"/>
+
 
     <Button
         android:id="@+id/apps_button"
@@ -333,3 +654,4 @@
     </TableLayout>
 
 </RelativeLayout>
+-->

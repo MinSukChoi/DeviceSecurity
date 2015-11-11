@@ -170,7 +170,7 @@ public class AppList extends Activity {
                             final AppInfo appInfo = dictionary.get(appList.getJSONObject(idx).get("package").toString());
                             final String category = appList.getJSONObject(idx).get("category").toString();
                             appInfo.appCategory = category;
-                            if((category.contains("Health") || category.contains("Education")) && !appInfo.appTitle.contains("한시간의 의지")){
+                            if((category.contains("Health") || category.contains("Education")) && !appInfo.appTitle.contains("한 시간의 의지")){
                                 appInfoListOK[cnt1++] = appInfo;
                             }else{
                                 appInfoListNO[cnt2++] = appInfo;
@@ -302,7 +302,7 @@ public class AppList extends Activity {
             addInfo.mDate = mDate;
             addInfo.mPackage = mPackage;
 
-            if((mDate.contains("Health") || mDate.contains("Education")) && !mTitle.contains("한시간의 의지")){
+            if((mDate.contains("Health") || mDate.contains("Education")) && !mTitle.contains("한 시간의 의지")){
                 addInfo.mColor = Color.rgb(255,255,255);
             }else{
                 addInfo.mColor = Color.rgb(255,200,200);

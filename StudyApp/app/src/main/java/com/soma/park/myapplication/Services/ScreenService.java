@@ -2,6 +2,7 @@ package com.soma.park.myapplication.Services;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.AlarmManager;
 import android.app.KeyguardManager;
 import android.app.Service;
 import android.content.ComponentName;
@@ -20,22 +21,25 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.soma.park.myapplication.Activities.AppsListActivity;
 import com.soma.park.myapplication.Activities.LockScreenActivity;
 import com.soma.park.myapplication.Activities.PasswordActivity;
+import com.soma.park.myapplication.Activities.StudyBrowser;
 import com.soma.park.myapplication.Elements.ReferenceMonitor;
 import com.soma.park.myapplication.R;
 import com.soma.park.myapplication.Receivers.BootReceiver;
-import com.soma.park.myapplication.Receivers.DeviceEventReceiver;
-import com.soma.park.myapplication.Activities.StudyBrowser;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+
+import butterknife.ButterKnife;
 
 /**
  * Created by PARK on 15. 10. 1..
@@ -43,16 +47,18 @@ import java.util.TimerTask;
 public class ScreenService extends Service {
     private static final String TAG = "Service";
     private BootReceiver mReceiver1 = null;
-    private DeviceEventReceiver mReceiver2 = null;
     public static View view;
     private static WindowManager mWindowManager;
     private TimerTask mTask;
     private Timer mTimer;
-    private Handler mHandler;
+    private Handler mHandler= new Handler();
     private KeyguardManager km = null;
     private KeyguardManager.KeyguardLock keyLock = null;
     private TelephonyManager telephonyManager = null;
     private ReferenceMonitor referenceMonitor = ReferenceMonitor.getInstance();
+    private AlarmManager am;
+    private SeekBar seekBar;
+    private TextView textView_leftTime;
     SharedPreferences pref;
     SharedPreferences.Editor editor;
 
@@ -100,11 +106,9 @@ public class ScreenService extends Service {
         }
 
         mReceiver1 = new BootReceiver();
-        IntentFilter filter1 = new IntentFilter(Intent.ACTION_BOOT_COMPLETED);
+        IntentFilter filter1 = new IntentFilter();
+        filter1.addAction(Intent.ACTION_BOOT_COMPLETED);
         registerReceiver(mReceiver1, filter1);
-        mReceiver2 = new DeviceEventReceiver();
-        IntentFilter filter2 = new IntentFilter(Intent.ACTION_DATE_CHANGED);
-        registerReceiver(mReceiver2, filter2);
 
         // mHandler = new Handler();
         mTask = new TimerTask() {
@@ -168,24 +172,14 @@ public class ScreenService extends Service {
         Log.v("TAG", "After");
     }
 
-    // 스터디 모드 종료(나가기 버튼)
-//    public void nomalModeLauncher(View v) {
-//        if(reservState == false) {
-//            stopSelf();
-//            Intent newintent = new Intent(getApplicationContext(), PasswordActivity.class);
-//            newintent.putExtra("state", 2);
-//            newintent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-//            startActivity(newintent);
-//        } else {
-//            Toast.makeText(this, "공부 시간입니다", Toast.LENGTH_SHORT).show();
-//        }
-//    }
-
     // 긴급 모드
     public void goAlertMode(View v) {
         if(pref.getInt("alert", 1) == 0) {
             Toast.makeText(v.getContext(), "긴급모드를 모두 사용했습니다", Toast.LENGTH_SHORT).show();
         } else {
+
+
+
             referenceMonitor.setSTATE(referenceMonitor.TEMPMODE);
             stopSelf();
             Intent newintent = new Intent(getApplicationContext(), PasswordActivity.class);
@@ -194,6 +188,7 @@ public class ScreenService extends Service {
             startActivity(newintent);
         }
     }
+
 
     // 기본 앱 실행
     public void executeApp(View v) {
@@ -301,6 +296,29 @@ public class ScreenService extends Service {
         this.startActivity(app);
     }
 
+    public void updateProgressBar() {
+        mHandler.postDelayed(mUpdateTimeTask, 100);
+    }
+    Runnable mUpdateTimeTask = new Runnable() {
+        public void run() {
+            Calendar calendar = Calendar.getInstance();
+            String currentEnd = pref.getString("currentEnd", "");
+            String currentStart = pref.getString("currentStart", "");
+            String[] endTimes = currentEnd.split(":");
+            String[] startTimes = currentStart.split(":");
+            int endMin = (60*Integer.parseInt(endTimes[0])+Integer.parseInt(endTimes[1]));
+            int startMin = (60*Integer.parseInt(startTimes[0])+Integer.parseInt(startTimes[1]));
+            int nowMin = 60*calendar.get(Calendar.HOUR_OF_DAY)+calendar.get(Calendar.MINUTE);
+            int whole = (endMin+1440-startMin)%1440;
+            int passed = (nowMin+1440-startMin)%1440;
+            seekBar.setProgress(100*passed/whole);
+            textView_leftTime.setText((whole-passed)+"분");
+            // Running this thread after 100 milliseconds
+            mHandler.postDelayed(this, 2000);
+        }
+    };
+
+
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
@@ -314,23 +332,26 @@ public class ScreenService extends Service {
         int studyTime = pref.getInt("studyTime", 50);
         int breakTime = pref.getInt("breakTime", 10);
 
+        seekBar = (SeekBar) view.findViewById(R.id.seekBar);
+        textView_leftTime = (TextView) view.findViewById(R.id.textView_leftTime);
+
+        updateProgressBar();
+
+        /*
         ((TextView)view.findViewById(R.id.current_title)).setText("제목 : " + title);
         ((TextView)view.findViewById(R.id.current_time)).setText("시간 : " + currentStart + " ~ " + currentEnd);
         ((TextView)view.findViewById(R.id.current_alert)).setText("긴급모드 횟수 : " + alertCount + "회,  긴급모드 시간 : " + alertTime + "분");
         if(pref.getBoolean("alarmstate", false)) {
             ((TextView)view.findViewById(R.id.current_break)).setText("공부 시간 : " + studyTime + "분,  휴식 시간 : " + breakTime + "분");
         }
+        */
 
         if(intent != null){
             if(mReceiver1 == null){
                 mReceiver1 = new BootReceiver();
-                IntentFilter filter = new IntentFilter(Intent.ACTION_BOOT_COMPLETED);
-                registerReceiver(mReceiver1, filter);
-            }
-            if(mReceiver2 == null){
-                mReceiver2 = new DeviceEventReceiver();
-                IntentFilter filter = new IntentFilter(Intent.ACTION_DATE_CHANGED);
-                registerReceiver(mReceiver2, filter);
+                IntentFilter filter1 = new IntentFilter();
+                filter1.addAction(Intent.ACTION_BOOT_COMPLETED);
+                registerReceiver(mReceiver1, filter1);
             }
         }
 
@@ -350,12 +371,10 @@ public class ScreenService extends Service {
     @Override
     public void onDestroy() {
         mTimer.cancel();
+        mHandler.removeCallbacks(mUpdateTimeTask);
 
         if (mReceiver1 != null) {
             unregisterReceiver(mReceiver1);
-        }
-        if (mReceiver2 != null) {
-            unregisterReceiver(mReceiver2);
         }
 
         if(mWindowManager != null) {
