@@ -16,17 +16,17 @@
             android:layout_height="wrap_content"
             android:text="STUDY MODE"
             android:textSize="20dp"
-            android:id="@+id/app_title"
             android:textStyle="bold"
-            android:textColor="@android:color/background_light"
-            android:gravity="center_vertical"
             android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:textColor="@android:color/background_light"
             android:layout_marginLeft="10dp" />
 
         <Button
             android:id="@+id/emergency_button"
             android:layout_width="40dp"
             android:layout_height="40dp"
+            android:layout_marginRight="10dp"
             android:layout_centerHorizontal="true"
             android:layout_alignParentRight="true"
             android:onClick="goAlertMode"
@@ -37,8 +37,10 @@
         android:layout_width="match_parent"
         android:layout_height="160dp"
         android:gravity="center"
+        android:layout_marginBottom="20dp"
         android:orientation="vertical">
         <TextView
+            android:layout_marginTop="20dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
@@ -48,6 +50,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="80sp"
+            android:id="@+id/textView_leftTime"
             android:text="50분"
             android:textColor="#004c1d"/>
     </LinearLayout>
@@ -61,7 +64,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="bottom">
+        android:gravity="bottom"
+        android:layout_marginBottom="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -89,6 +93,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="20dp"
+                        android:textSize="12sp"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="전화"
                         android:textColor="#004c1d" />
@@ -112,6 +117,7 @@
                         android:layout_height="20dp"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="문자"
+                        android:textSize="12sp"
                         android:textColor="#004c1d" />
                 </LinearLayout>
                 <LinearLayout
@@ -133,6 +139,7 @@
                         android:layout_height="20dp"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="인터넷"
+                        android:textSize="12sp"
                         android:textColor="#004c1d" />
                 </LinearLayout>
                 <LinearLayout
@@ -154,6 +161,7 @@
                         android:layout_height="20dp"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="사진첩"
+                        android:textSize="12sp"
                         android:textColor="#004c1d" />
                 </LinearLayout>
                 <LinearLayout
@@ -175,6 +183,7 @@
                         android:layout_height="20dp"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="카메라"
+                        android:textSize="12sp"
                         android:textColor="#004c1d" />
                 </LinearLayout>
 
@@ -204,6 +213,7 @@
                         android:layout_height="20dp"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="메모"
+                        android:textSize="12sp"
                         android:textColor="#004c1d" />
                 </LinearLayout>
                 <LinearLayout
@@ -225,6 +235,7 @@
                         android:layout_height="20dp"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="달력"
+                        android:textSize="12sp"
                         android:textColor="#004c1d" />
                 </LinearLayout>
                 <LinearLayout
@@ -246,6 +257,7 @@
                         android:layout_height="20dp"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="알람/시계"
+                        android:textSize="12sp"
                         android:textColor="#004c1d" />
                 </LinearLayout>
                 <LinearLayout
@@ -267,6 +279,7 @@
                         android:layout_height="20dp"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="계산기"
+                        android:textSize="12sp"
                         android:textColor="#004c1d" />
                 </LinearLayout>
                 <LinearLayout
@@ -287,6 +300,7 @@
                         android:layout_height="20dp"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="기타 앱"
+                        android:textSize="12sp"
                         android:textColor="#004c1d"
                         android:id="@+id/app_contacts" />
                 </LinearLayout>
