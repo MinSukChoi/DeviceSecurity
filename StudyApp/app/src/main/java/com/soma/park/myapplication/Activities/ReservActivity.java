@@ -384,10 +384,8 @@ public class ReservActivity extends Activity {
                     editor.commit();
                     Log.d(TAG, "isChecked: " + String.valueOf(isChecked));
                     if (isChecked) {
-                        Toast.makeText(getApplicationContext(), "예약이 설정되었습니다", Toast.LENGTH_SHORT).show();
                         onRegist(position + 1);
                     } else {
-                        Toast.makeText(getApplicationContext(), "예약이 해제되었습니다", Toast.LENGTH_SHORT).show();
                         onUnregist(position + 1);
                     }
                 }

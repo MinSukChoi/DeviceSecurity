@@ -18,6 +18,8 @@ public class AlertAlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        AlertModePreventDelete alertModePreventDelete = AlertModePreventDelete.getInstance();
+        alertModePreventDelete.setOffPreventMode();
         // 휴식모드면 무시
         if(referenceMonitor.getSTATE() == referenceMonitor.STUDYMODE |
                 referenceMonitor.getSTATE() == referenceMonitor.ALERTMODE) {
@@ -27,8 +29,6 @@ public class AlertAlarmReceiver extends BroadcastReceiver {
             Intent i = new Intent(context, ScreenService.class);
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startService(i);
-            AlertModePreventDelete alertModePreventDelete = AlertModePreventDelete.getInstance();
-            alertModePreventDelete.setOffPreventMode();
         }
     }
 }

@@ -14,11 +14,13 @@
         android:allowBackup="true"
         android:icon="@drawable/lock_icon"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:manageSpaceActivity=".Activities.LockScreenActivity"
         android:theme="@style/Theme.AppCompat.NoActionBar" >
 
         <activity android:name=".Activities.Splash" />
         <activity android:name=".Activities.AccessTerms" />
+        <activity android:name=".Activities.TutorialActivity" />
 
         <activity
             android:name=".Activities.LockScreenActivity"

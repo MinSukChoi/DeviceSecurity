@@ -56,14 +56,15 @@ public class LockScreenActivity extends Activity {
 
         Intent intent = new Intent(LockScreenActivity.this, DailyReceiver.class);
         Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
         calendar.set(Calendar.HOUR_OF_DAY, 0);
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND,0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        int day = calendar.get(Calendar.DATE);
+        calendar.set(Calendar.DATE, day+1);
         Log.d(TAG, String.valueOf(calendar.getTime()));
         PendingIntent mAlarmSender = PendingIntent.getBroadcast(LockScreenActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), mAlarmSender);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_HOUR, mAlarmSender);
 
         if(pref.getInt("First", 0) != 1){
             Handler hd = new Handler();
@@ -127,23 +128,22 @@ public class LockScreenActivity extends Activity {
     }
 
     private void onRegist(int hour, int min) {
-        Intent intent1 = new Intent(LockScreenActivity.this, NowStartReceiver.class);
         Calendar calendar1 = Calendar.getInstance();
-        calendar1.set(Calendar.SECOND, 0);
+        //calendar1.set(Calendar.SECOND, 0);
         Log.d(TAG, String.valueOf(calendar1.getTime()));
+        Intent intent1 = new Intent(LockScreenActivity.this, NowStartReceiver.class);
         PendingIntent pIntent1 = PendingIntent.getBroadcast(LockScreenActivity.this, 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {      //api 19 이상
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar1.getTimeInMillis(), pIntent1);
         } else {
             alarmManager.set(AlarmManager.RTC_WAKEUP, calendar1.getTimeInMillis(), pIntent1);
         }
-
-        Intent intent2 = new Intent(LockScreenActivity.this, NowStopReceiver.class);
         Calendar calendar2 = Calendar.getInstance();
         calendar2.set(Calendar.HOUR_OF_DAY, (calendar2.get(Calendar.HOUR_OF_DAY)+hour));
         calendar2.set(Calendar.MINUTE, (calendar2.get(Calendar.MINUTE)+min));
         calendar2.set(Calendar.SECOND, 0);
         Log.d(TAG, String.valueOf(calendar2.getTime()));
+        Intent intent2 = new Intent(LockScreenActivity.this, NowStopReceiver.class);
         PendingIntent pIntent2 = PendingIntent.getBroadcast(LockScreenActivity.this, 0, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar2.getTimeInMillis(), pIntent2);
@@ -164,7 +164,7 @@ public class LockScreenActivity extends Activity {
                     if(intent.getExtras().getInt("agree") == 1) {
                         Intent newintent = new Intent(LockScreenActivity.this, PasswordActivity.class);
                         newintent.putExtra("state",0);
-                        startActivity(newintent);
+                        startActivityForResult(newintent, 3);
                     }
                 }
                 break;
@@ -175,6 +175,14 @@ public class LockScreenActivity extends Activity {
                     }
                     if(intent.getExtras().getInt("validation") == 1) {
                         Intent newintent = new Intent(LockScreenActivity.this, Setting.class);
+                        startActivity(newintent);
+                    }
+                }
+                break;
+            case 3:
+                if(resultCode == RESULT_OK) {
+                    if(intent.getExtras().getInt("tutorial") == 1) {
+                        Intent newintent = new Intent(LockScreenActivity.this, TutorialActivity.class);
                         startActivity(newintent);
                     }
                 }
