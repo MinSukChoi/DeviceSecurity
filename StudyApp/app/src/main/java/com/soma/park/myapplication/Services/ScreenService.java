@@ -117,6 +117,7 @@ public class ScreenService extends Service {
 
                 if(!(isServiceRunningCheck().contains("myapplication") |
                         isServiceRunningCheck().contains("call") |
+                        isServiceRunningCheck().contains("dialer") |
                         isServiceRunningCheck().contains("contact") |
                         isServiceRunningCheck().contains("mms") |
                         isServiceRunningCheck().contains("browser") |
@@ -204,7 +205,7 @@ public class ScreenService extends Service {
         switch (v.getId()) {
             case R.id.call_app:
                 for(Object object : appNames) {
-                    if(object.toString().contains("contact") && object.toString().contains("android")) {
+                    if(object.toString().contains("contact") | object.toString().contains("dialer")) {
                         startActivityForPackageName(object.toString());
                         break;
                     }

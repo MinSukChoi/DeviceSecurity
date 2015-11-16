@@ -113,10 +113,10 @@ public class LockScreenActivity extends Activity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             editor = pref.edit();
-                            editor.putInt("nowlockhour", 1);
-                            editor.putInt("nowlockmin", 0);
+                            editor.putInt("nowlockhour", 0);
+                            editor.putInt("nowlockmin", 2);
                             editor.commit();
-                            onRegist(1, 0); // 바로잠금 2분
+                            onRegist(0, 2); // 바로잠금 2분
                             dialog.dismiss();     //닫기
                         }
                     });
