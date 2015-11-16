@@ -330,6 +330,7 @@ public class ScreenService extends Service {
         int breakTime = pref.getInt("breakTime", 10);
 
         seekBar = (SeekBar) view.findViewById(R.id.seekBar);
+        seekBar.setEnabled(false);
         textView_leftTime = (TextView) view.findViewById(R.id.textView_leftTime);
 
         updateProgressBar();

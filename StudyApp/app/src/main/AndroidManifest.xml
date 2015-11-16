@@ -26,6 +26,7 @@
             android:name=".Activities.LockScreenActivity"
             android:label="@string/app_name"
             android:launchMode="singleTask"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             android:excludeFromRecents="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,11 +35,13 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.AppsListActivity" />
+        <activity android:name=".Activities.AppsListActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity android:name=".Activities.PasswordActivity" />
         <activity android:name=".Activities.SettingActivity"
             android:theme="@style/PreferencesTheme"/>
-        <activity android:name=".Activities.Setting" />
+        <activity android:name=".Activities.Setting"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".Activities.SettingAlertActivity" />
         <activity android:name=".Activities.SettingBreakActivity" />
         <activity android:name=".Activities.SettingBrowserActivity" />
