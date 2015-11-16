@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,6 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,6 +35,7 @@ public class LockScreenActivity extends Activity {
     SharedPreferences pref;
     SharedPreferences.Editor editor;
     private AlarmManager alarmManager;
+    private ImageView imageView_tree;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +90,19 @@ public class LockScreenActivity extends Activity {
 //            startService(intent);
 //        }
         setContentView(R.layout.activity_lockscreen);
+
+        ImageView imageView_tree = (ImageView) findViewById(R.id.imageView_tree);
+        switch(pref.getInt("tree",0)) {
+            case 0:
+                imageView_tree.setImageResource(R.drawable.leaf);
+                break;
+            case 1:
+                imageView_tree.setImageResource(R.drawable.stem);
+                break;
+            default:
+                imageView_tree.setImageResource(R.drawable.tree);
+                break;
+        }
 
         Button settingButton = (Button) findViewById(R.id.setting_button);
         settingButton.setOnClickListener(new View.OnClickListener() {
@@ -194,6 +210,19 @@ public class LockScreenActivity extends Activity {
     protected void onResume() {
         Log.v(TAG, "onResume " + referenceMonitor.getSTATE());
         super.onResume();
+        if(imageView_tree != null) {
+            switch (pref.getInt("tree", 0)) {
+                case 0:
+                    imageView_tree.setImageResource(R.drawable.leaf);
+                    break;
+                case 1:
+                    imageView_tree.setImageResource(R.drawable.stem);
+                    break;
+                default:
+                    imageView_tree.setImageResource(R.drawable.tree);
+                    break;
+            }
+        }
         if(referenceMonitor.getSTATE()==referenceMonitor.STUDYMODE || referenceMonitor.getSTATE()==referenceMonitor.INVALIDMODE) {
             referenceMonitor.setStudymode();
             Intent intent = new Intent(LockScreenActivity.this, ScreenService.class);

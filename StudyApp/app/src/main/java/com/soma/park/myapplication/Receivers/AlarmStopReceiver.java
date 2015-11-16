@@ -82,8 +82,10 @@ public class AlarmStopReceiver extends BroadcastReceiver {
 
             referenceMonitor.setNormalmode();
 
+            int tree = pref.getInt("tree",0);
             editor = pref.edit();
             editor.putBoolean("alarmstate", false);
+            editor.putInt("tree",tree+1);
             editor.commit();
 
             Intent intent1 = new Intent(context, ScreenService.class);

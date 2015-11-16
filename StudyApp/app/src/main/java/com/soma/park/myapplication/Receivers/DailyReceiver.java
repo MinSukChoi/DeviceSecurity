@@ -33,6 +33,7 @@ public class DailyReceiver extends BroadcastReceiver {
             pref = context.getSharedPreferences("pref", Activity.MODE_PRIVATE);
             alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             editor = pref.edit();
+            editor.putInt("tree",0);
             editor.putInt("alert", 1);
             editor.putInt("alertNum", pref.getInt("alertInitialNum", 3));
             //editor.putInt("alertTime", pref.getInt("alertInitialTime", 15));

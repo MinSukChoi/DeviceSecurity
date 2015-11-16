@@ -44,8 +44,10 @@ public class NowStopReceiver extends BroadcastReceiver {
             intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.stopService(intent1);
 
+            int tree = pref.getInt("tree",0);
             editor = pref.edit();
             editor.putBoolean("lockstate", false);
+            editor.putInt("tree",tree+1);
             editor.commit();
 
             Toast.makeText(context, "한 시간의 공부 시간이 종료되었습니다^^", Toast.LENGTH_LONG).show();
