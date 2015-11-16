@@ -69,7 +69,7 @@ public class TutorialActivity extends Activity {
                         Intent intent = new Intent(TutorialActivity.this, LockScreenActivity.class);
                         startActivity(intent);
                     }
-                }, 3000);
+                }, 5000);
             }
 
             container.addView(layout);
