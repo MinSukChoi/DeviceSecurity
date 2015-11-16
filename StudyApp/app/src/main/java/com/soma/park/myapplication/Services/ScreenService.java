@@ -39,14 +39,12 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import butterknife.ButterKnife;
-
 /**
  * Created by PARK on 15. 10. 1..
  */
 public class ScreenService extends Service {
     private static final String TAG = "Service";
-    private BootReceiver mReceiver1 = null;
+    private BootReceiver mReceiver = null;
     public static View view;
     private static WindowManager mWindowManager;
     private TimerTask mTask;
@@ -105,10 +103,10 @@ public class ScreenService extends Service {
             telephonyManager.listen(phoneListener, PhoneStateListener.LISTEN_CALL_STATE);
         }
 
-        mReceiver1 = new BootReceiver();
+        mReceiver = new BootReceiver();
         IntentFilter filter1 = new IntentFilter();
         filter1.addAction(Intent.ACTION_BOOT_COMPLETED);
-        registerReceiver(mReceiver1, filter1);
+        registerReceiver(mReceiver, filter1);
 
         // mHandler = new Handler();
         mTask = new TimerTask() {
@@ -119,6 +117,7 @@ public class ScreenService extends Service {
 
                 if(!(isServiceRunningCheck().contains("myapplication") |
                         isServiceRunningCheck().contains("call") |
+                        isServiceRunningCheck().contains("dialer") |
                         isServiceRunningCheck().contains("contact") |
                         isServiceRunningCheck().contains("mms") |
                         isServiceRunningCheck().contains("browser") |
@@ -149,6 +148,7 @@ public class ScreenService extends Service {
         public void onCallStateChanged(int state, String incomingNumber) {
             switch (state) {
                 case TelephonyManager.CALL_STATE_IDLE:
+                    view.setVisibility(View.VISIBLE);
                     Log.d(TAG, "CALL_STATE_IDLE");
                     break;
                 case TelephonyManager.CALL_STATE_RINGING:
@@ -177,9 +177,6 @@ public class ScreenService extends Service {
         if(pref.getInt("alert", 1) == 0) {
             Toast.makeText(v.getContext(), "긴급모드를 모두 사용했습니다", Toast.LENGTH_SHORT).show();
         } else {
-
-
-
             referenceMonitor.setSTATE(referenceMonitor.TEMPMODE);
             stopSelf();
             Intent newintent = new Intent(getApplicationContext(), PasswordActivity.class);
@@ -208,7 +205,7 @@ public class ScreenService extends Service {
         switch (v.getId()) {
             case R.id.call_app:
                 for(Object object : appNames) {
-                    if(object.toString().contains("contact") && object.toString().contains("android")) {
+                    if(object.toString().contains("contact") | object.toString().contains("dialer")) {
                         startActivityForPackageName(object.toString());
                         break;
                     }
@@ -333,6 +330,7 @@ public class ScreenService extends Service {
         int breakTime = pref.getInt("breakTime", 10);
 
         seekBar = (SeekBar) view.findViewById(R.id.seekBar);
+        seekBar.setEnabled(false);
         textView_leftTime = (TextView) view.findViewById(R.id.textView_leftTime);
 
         updateProgressBar();
@@ -347,11 +345,11 @@ public class ScreenService extends Service {
         */
 
         if(intent != null){
-            if(mReceiver1 == null){
-                mReceiver1 = new BootReceiver();
+            if(mReceiver == null){
+                mReceiver = new BootReceiver();
                 IntentFilter filter1 = new IntentFilter();
                 filter1.addAction(Intent.ACTION_BOOT_COMPLETED);
-                registerReceiver(mReceiver1, filter1);
+                registerReceiver(mReceiver, filter1);
             }
         }
 
@@ -373,8 +371,8 @@ public class ScreenService extends Service {
         mTimer.cancel();
         mHandler.removeCallbacks(mUpdateTimeTask);
 
-        if (mReceiver1 != null) {
-            unregisterReceiver(mReceiver1);
+        if (mReceiver != null) {
+            unregisterReceiver(mReceiver);
         }
 
         if(mWindowManager != null) {

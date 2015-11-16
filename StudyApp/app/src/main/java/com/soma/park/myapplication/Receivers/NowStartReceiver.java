@@ -30,9 +30,12 @@ public class NowStartReceiver extends BroadcastReceiver {
         int min = cal.get(Calendar.MINUTE);
 
         editor = pref.edit();
+        editor.putBoolean("lockstate", true);
         editor.putString("currentTitle", "바로 잠금");
         String currentStart = String.valueOf(hour + ":" + min);
         String currentEnd = String.valueOf((hour + pref.getInt("nowlockhour", 0)) + ":" + (min + pref.getInt("nowlockmin", 0)));
+        editor.putInt("bootendhour", (hour+pref.getInt("nowlockhour", 0)));
+        editor.putInt("bootendmin", (min + pref.getInt("nowlockmin", 0)));
         editor.putString("currentStart", currentStart);
         editor.putString("currentEnd", currentEnd);
         editor.commit();

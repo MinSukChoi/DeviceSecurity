@@ -1,19 +1,15 @@
 package com.soma.park.myapplication;
 
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.admin.DevicePolicyManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
 import android.content.pm.ResolveInfo;
 import android.util.Log;
 
 import com.soma.park.myapplication.DeviceAdmin.PreventDeleteDeviceAdminReceiver;
 import com.soma.park.myapplication.DeviceAdmin.SetDeviceAdmin;
-import com.soma.park.myapplication.Services.ScreenService;
 
 import java.util.List;
 import java.util.Timer;
@@ -61,7 +57,7 @@ public class AlertModePreventDelete{
         };
 
         mTimer = new Timer();
-        mTimer.schedule(mTask, 500, 500);
+        mTimer.schedule(mTask, 500, 1000);
     }
 
     public void setOffPreventMode(){

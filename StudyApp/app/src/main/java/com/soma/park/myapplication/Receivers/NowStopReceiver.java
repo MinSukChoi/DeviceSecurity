@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.widget.Toast;
 
+import com.soma.park.myapplication.AlertModePreventDelete;
 import com.soma.park.myapplication.Elements.ReferenceMonitor;
 import com.soma.park.myapplication.Services.ScreenService;
 
@@ -30,6 +31,9 @@ public class NowStopReceiver extends BroadcastReceiver {
 
         if(pref.getBoolean("alarmstate", false) == false) {
             if(referenceMonitor.getSTATE() == referenceMonitor.ALERTMODE){
+                AlertModePreventDelete alertModePreventDelete = AlertModePreventDelete.getInstance();
+                alertModePreventDelete.setOffPreventMode();
+
                 Intent intentReceiver = new Intent(context, AlertAlarmReceiver.class);
                 PendingIntent pIntent = PendingIntent.getBroadcast(context, 0, intentReceiver, PendingIntent.FLAG_UPDATE_CURRENT);
                 alarmManager.cancel(pIntent);
@@ -39,6 +43,12 @@ public class NowStopReceiver extends BroadcastReceiver {
             Intent intent1 = new Intent(context, ScreenService.class);
             intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.stopService(intent1);
+
+            int tree = pref.getInt("tree",0);
+            editor = pref.edit();
+            editor.putBoolean("lockstate", false);
+            editor.putInt("tree",tree+1);
+            editor.commit();
 
             Toast.makeText(context, "한 시간의 공부 시간이 종료되었습니다^^", Toast.LENGTH_LONG).show();
         }

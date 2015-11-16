@@ -54,7 +54,7 @@ public class ReservActivity extends Activity {
 
         Button addButton = (Button) findViewById(R.id.reserv_add_btn);
         Button okButton = (Button) findViewById(R.id.reserv_ok_btn);
-        Button clearButton = (Button) findViewById(R.id.reserv_clear_btn);
+        //Button clearButton = (Button) findViewById(R.id.reserv_clear_btn);
 
         alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         mListView = (ListView) findViewById(R.id.reserv_list);
@@ -121,13 +121,14 @@ public class ReservActivity extends Activity {
             }
         });
 
-        clearButton.setOnClickListener(new Button.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editor.clear();
-                editor.commit();
-            }
-        });
+//        clearButton.setOnClickListener(new Button.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                editor.clear();
+//                editor.commit();
+//            }
+//        });
+
         okButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -384,10 +385,8 @@ public class ReservActivity extends Activity {
                     editor.commit();
                     Log.d(TAG, "isChecked: " + String.valueOf(isChecked));
                     if (isChecked) {
-                        Toast.makeText(getApplicationContext(), "예약이 설정되었습니다", Toast.LENGTH_SHORT).show();
                         onRegist(position + 1);
                     } else {
-                        Toast.makeText(getApplicationContext(), "예약이 해제되었습니다", Toast.LENGTH_SHORT).show();
                         onUnregist(position + 1);
                     }
                 }

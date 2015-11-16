@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.soma.park.myapplication.AlertModePreventDelete;
 import com.soma.park.myapplication.Elements.ReferenceMonitor;
 import com.soma.park.myapplication.Services.ScreenService;
 
@@ -71,6 +72,9 @@ public class AlarmStopReceiver extends BroadcastReceiver {
         } else {
             // 오늘 요일의 알람 재생이 true이면 서비스 정지
             if(referenceMonitor.getSTATE() == referenceMonitor.ALERTMODE){
+                AlertModePreventDelete alertModePreventDelete = AlertModePreventDelete.getInstance();
+                alertModePreventDelete.setOffPreventMode();
+
                 Intent intentReceiver = new Intent(context, AlertAlarmReceiver.class);
                 PendingIntent pIntent = PendingIntent.getBroadcast(context, 0, intentReceiver, PendingIntent.FLAG_UPDATE_CURRENT);
                 alarmManager.cancel(pIntent);
@@ -78,8 +82,10 @@ public class AlarmStopReceiver extends BroadcastReceiver {
 
             referenceMonitor.setNormalmode();
 
+            int tree = pref.getInt("tree",0);
             editor = pref.edit();
             editor.putBoolean("alarmstate", false);
+            editor.putInt("tree",tree+1);
             editor.commit();
 
             Intent intent1 = new Intent(context, ScreenService.class);
